@@ -1,0 +1,42 @@
+#dibbling
+#local.dibbling.tw
+version: "3"
+
+networks:
+  frontend:
+  backend:
+
+services:
+
+  # nginx
+  nginx:
+    container_name: nginx
+    networks:
+      - backend
+      - frontend
+    image: nginx:1.17
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - ./docker/log/nginx:/var/log/nginx
+      - ./docker/ssl:/etc/ssl
+      - ./docker/nginx/conf:/etc/nginx/conf.d
+      - ${DOCUMENT_ROOT}:/var/www/html/dibbling
+
+  # php
+  php:
+    container_name: php
+    networks:
+      - backend
+    image: php:7.3-fpm
+    expose:
+      - 9000
+    ports:
+      - "8000:8000"
+    tty: true
+    volumes:
+      - ./docker/conf/php/conf.d/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ./docker/conf/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ./docker/conf/php/php-fpm.d:/usr/local/etc/php-fpm.d
+      - ${DOCUMENT_ROOT}:/var/www/html/dibbling
