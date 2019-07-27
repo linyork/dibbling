@@ -40,3 +40,29 @@ services:
       - ./docker/conf/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
       - ./docker/conf/php/php-fpm.d:/usr/local/etc/php-fpm.d
       - ${DOCUMENT_ROOT}:/var/www/html/dibbling
+      
+  # mysql
+  mysql:
+    container_name: mysql
+    networks:
+      - backend
+    ports:
+      - "3306:3306"
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: dibbling
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb_use_native_aio=0
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+  
+  # redis
+  redis:
+    container_name: redis
+    networks:
+      - backend
+    image: redis:5
+    ports:
+      - "6379:6379"
