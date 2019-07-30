@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class cdpro2 extends Controller
+class dibbling extends Controller
 {
     public function index()
     {
-        return view('cdpro2');
+        return view('dibbling');
     }
 }

@@ -15,4 +15,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('cd-pro2', 'cdpro2@index');
+Route::get('dibbling', 'dibbling@index');
+Route::get('player', 'player@index');
