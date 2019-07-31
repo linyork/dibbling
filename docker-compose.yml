@@ -8,11 +8,10 @@ networks:
 
 services:
 
-  # nginx
-  nginx:
+  # web-server
+  web-server:
     container_name: nginx
     networks:
-      - backend
       - frontend
     image: nginx:1.17
     ports:
@@ -24,10 +23,11 @@ services:
       - ./docker/nginx/conf:/etc/nginx/conf.d
       - ${DOCUMENT_ROOT}:/var/www/html/dibbling
 
-  # php
-  php:
+  # php-fpm
+  php-fpm:
     container_name: php
     networks:
+      - frontend
       - backend
     image: php:7.3-fpm
     expose:
@@ -36,16 +36,17 @@ services:
       - "8000:8000"
     tty: true
     volumes:
-      - ./docker/conf/php/conf.d/custom.ini:/usr/local/etc/php/conf.d/custom.ini
-      - ./docker/conf/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
-      - ./docker/conf/php/php-fpm.d:/usr/local/etc/php-fpm.d
+      - ./docker/php/conf.d/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ./docker/php/php-fpm.d:/usr/local/etc/php-fpm.d
       - ${DOCUMENT_ROOT}:/var/www/html/dibbling
       
-  # mysql
-  mysql:
+  # database
+  database:
     container_name: mysql
     networks:
-      - backend
+      backend:
+        aliases: mysql
     ports:
       - "3306:3306"
     image: mysql:8
@@ -54,12 +55,12 @@ services:
       MYSQL_DATABASE: dibbling
       MYSQL_USER: test
       MYSQL_PASSWORD: test
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb_use_native_aio=0
     volumes:
+      - ./docker/mysql/local.cnf:/etc/mysql/conf.d/local.cnf
       - ./docker/mysql/data:/var/lib/mysql
   
-  # redis
-  redis:
+  # cache
+  cache:
     container_name: redis
     networks:
       - backend
