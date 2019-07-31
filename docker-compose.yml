@@ -3,8 +3,8 @@
 version: "3"
 
 networks:
-  frontend:
   backend:
+  frontend:
 
 services:
 
@@ -29,7 +29,7 @@ services:
     networks:
       - frontend
       - backend
-    image: php:7.3-fpm
+    image: coretechtw/php:7.3-fpm
     expose:
       - 9000
     ports:
@@ -45,8 +45,7 @@ services:
   database:
     container_name: mysql
     networks:
-      backend:
-        aliases: mysql
+      - backend
     ports:
       - "3306:3306"
     image: mysql:8
