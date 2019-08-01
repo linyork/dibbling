@@ -21,7 +21,7 @@ services:
       - ./docker/log/nginx:/var/log/nginx
       - ./docker/ssl:/etc/ssl
       - ./docker/nginx/conf:/etc/nginx/conf.d
-      - ${DOCUMENT_ROOT}:/var/www/html/dibbling
+      - ./:/var/www/html/dibbling
 
   # php-fpm
   php-fpm:
@@ -39,7 +39,7 @@ services:
       - ./docker/php/conf.d/custom.ini:/usr/local/etc/php/conf.d/custom.ini
       - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
       - ./docker/php/php-fpm.d:/usr/local/etc/php-fpm.d
-      - ${DOCUMENT_ROOT}:/var/www/html/dibbling
+      - ./:/var/www/html/dibbling
       
   # database
   database:
