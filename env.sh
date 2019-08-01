@@ -7,26 +7,26 @@ while :
 do
     echo "Choose the option you want:"
     echo "----------------------------------------"
-    echo "r. Start dibbling"
-    echo "c. Close all containers"
-    echo "l. List all containers"
-    echo "q. Exit"
+    echo -e "up.\tDibbling docker-compose up"
+    echo -e "c.\tClose all containers"
+    echo -e "l.\tList all containers"
+    echo -e "q.\tExit"
     read -p "Input:" input
 
     clear
 
     case $input in
-        r)
+        up)
             # 啟動
             docker-compose up -d
             ;;
         l)
             # 查看目前的 container
-            docker ps -a
+            docker ps -a --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}\t{{.ID}}"
             ;;
         c)
-            # 關閉透過 docker-compose 產生的 container
-            docker-compose down
+            # 關閉 container
+            docker rm -f $(docker ps -a -q) | awk '{print "移除 \""$1"\" Container"}'
             ;;
         *)
             # 離開程序
