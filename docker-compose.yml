@@ -29,7 +29,7 @@ services:
     networks:
       - frontend
       - backend
-    image: coretechtw/php:7.3-fpm
+    image: tinayork/php
     expose:
       - 9000
     ports:
