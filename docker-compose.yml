@@ -52,8 +52,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_DATABASE: dibbling
-      MYSQL_USER: test
-      MYSQL_PASSWORD: test
+      MYSQL_USER: dibblinguser
+      MYSQL_PASSWORD: dibblingpassword
     volumes:
       - ./docker/mysql/local.cnf:/etc/mysql/conf.d/local.cnf
       - ./docker/mysql/data:/var/lib/mysql
