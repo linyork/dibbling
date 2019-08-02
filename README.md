@@ -8,9 +8,9 @@ composer install
 
 ### .env 設定
 
-複製一個.env 重 .env.local
+複製一個.env 從 .env.local
 
-### hosts
+### hosts 設定
 
 ```
 # dibbling
