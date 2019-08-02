@@ -9,9 +9,6 @@ class dibbling extends Controller
 {
     public function index()
     {
-        $users = DB::select('select * from yorktest where id = ?', [1]);
-    
-        return $users;
-//        return view('dibbling');
+        return view('dibbling');
     }
 }
