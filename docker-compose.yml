@@ -15,7 +15,7 @@ services:
       - frontend
     image: nginx:1.17
     ports:
-      - "9501:9501"
+      - "9502:9502"
       - "443:443"
       - "80:80"
     volumes:

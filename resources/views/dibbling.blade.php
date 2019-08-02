@@ -1,7 +1,7 @@
 <html>
     <head>
         <script>
-            let ws = new WebSocket('ws://local.dibbling.tw:9501');
+            let ws = new WebSocket('ws://local.dibbling.tw:9502');
 
             //開啟後執行的動作，指定一個 function 會在連結 WebSocket 後執行
             ws.onopen = () => {

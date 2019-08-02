@@ -53,7 +53,7 @@ class SwooleServer extends Command
     public function start()
     {
         // 監聽WebSocket連結打開事件127.0.0.1
-        $ws = new \Swoole\WebSocket\Server("127.0.0.1", 9501);
+        $ws = new \swoole_websocket_server("0.0.0.0", 9501);
         
         // 監聽WebSocket連線打開事件
         $ws->on('open', function ($ws, $request)
