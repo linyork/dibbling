@@ -8,6 +8,7 @@ do
     echo "Choose the option you want:"
     echo "----------------------------------------"
     echo -e "a.\tStart all containers"
+    echo -e "r.\tRestart all containers"
     echo -e "l.\tList all containers"
     echo -e "c.\tClose all containers"
     echo -e "i.\tInto container"
@@ -19,6 +20,11 @@ do
     case $input in
         a)
             # 啟動
+            docker-compose up -d
+            ;;
+        r)
+            # 重啟
+            docker rm -f $(docker ps -a -q) | awk '{print "移除 \""$1"\" Container"}'
             docker-compose up -d
             ;;
         l)
