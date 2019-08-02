@@ -15,12 +15,13 @@ services:
       - frontend
     image: nginx:1.17
     ports:
+      - "9501:9501"
       - "443:443"
       - "80:80"
     volumes:
       - ./docker/log/nginx:/var/log/nginx
-      - ./docker/ssl:/etc/ssl
       - ./docker/nginx/conf:/etc/nginx/conf.d
+      - ./docker/ssl:/etc/ssl
       - ./:/var/www/html/dibbling
 
   # php-fpm
@@ -32,13 +33,26 @@ services:
     image: tinayork/php
     expose:
       - 9000
-    ports:
-      - "8000:8000"
     tty: true
     volumes:
       - ./docker/php/conf.d/custom.ini:/usr/local/etc/php/conf.d/custom.ini
       - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
       - ./docker/php/php-fpm.d:/usr/local/etc/php-fpm.d
+      - ./docker/ssl:/etc/ssl
+      - ./:/var/www/html/dibbling
+
+  swoole:
+    container_name: swoole
+    networks:
+      - frontend
+      - backend
+    image: tinayork/php
+    expose:
+      - 9501
+    tty: true
+    command: php /var/www/html/dibbling/artisan swoole
+    volumes:
+      - ./docker/ssl:/etc/ssl
       - ./:/var/www/html/dibbling
       
   # database
