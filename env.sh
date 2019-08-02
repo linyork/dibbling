@@ -7,7 +7,7 @@ while :
 do
     echo "Choose the option you want:"
     echo "----------------------------------------"
-    echo -e "up.\tDibbling docker-compose up"
+    echo -e "a.\tStart all containers"
     echo -e "c.\tClose all containers"
     echo -e "l.\tList all containers"
     echo -e "q.\tExit"
@@ -16,7 +16,7 @@ do
     clear
 
     case $input in
-        up)
+        a)
             # 啟動
             docker-compose up -d
             ;;
