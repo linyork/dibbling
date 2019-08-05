@@ -70,6 +70,8 @@ class dibbling extends Controller
             }
         }
         
+        if($title==='YouTube')return response()->json("點播失敗");
+        
         $dbResult = DB::table('list')->insert(
             [
                 'video_id' => $videoId,
@@ -79,6 +81,6 @@ class dibbling extends Controller
                 'updated_at' => now(),
             ]
         );
-        return response()->json($dbResult);
+        return response()->json("點播成功");
     }
 }

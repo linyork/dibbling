@@ -21,7 +21,6 @@
         $(document).on('click', '.btn-success', function(event){
             var vidoId = $("#video-id").val();
             dibbling(vidoId);
-            alert('點播成功');
             $("#video-id").val("");
         });
         function dibbling(id) {
@@ -35,10 +34,12 @@
         }
 
         function SuccessMethod(e) {
+            alert(e);
             console.log(e);
         }
 
         function FailMethod(e) {
+            alert(e);
             console.log(e);
         }
     </script>

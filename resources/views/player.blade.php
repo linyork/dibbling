@@ -40,7 +40,6 @@
 
 
 <script>
-    var tt;
     function onYouTubeIframeAPIReady() {
         var player;
         player = new YT.Player('YouTubeVideoPlayer', {
@@ -81,6 +80,7 @@
 
             promise_get_list.done(function(dblist){
                 // append video list
+                var onplay_id = dblist[0]['id'];
                 for (const [key, row] of Object.entries(dblist)) {
                     var id = row['id'];
                     var voideo_id = row['video_id'];
@@ -92,7 +92,9 @@
                 var onplay_video = dblist[0];
                 event.target.loadVideoById(onplay_video['video_id']);
                 videoData = event.target.getVideoData();
-                $('#'+onplay_video['video_id']).addClass('active');
+
+                // tag onplay
+                $('#'+onplay_id).addClass('active');
 
                 // delete first video
                 $.ajax({
@@ -101,16 +103,6 @@
                 });
             });
         }
-
-        // var promise_youtube = $.ajax({
-        //     type: 'GET',
-        //     url: 'https://www.youtube.com/watch?v=lz3sojQZdMo',
-        //     dataType: 'html',
-        // });
-        //
-        // promise_youtube.done(function(d){
-        //     console.log(d)
-        // });
     }
 </script>
 </body>

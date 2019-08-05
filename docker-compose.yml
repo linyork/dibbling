@@ -13,6 +13,7 @@ services:
     container_name: nginx
     networks:
       - frontend
+      - backend
     image: nginx:1.17
     ports:
       - "9502:9502"
@@ -28,7 +29,6 @@ services:
   php-fpm:
     container_name: php
     networks:
-      - frontend
       - backend
     image: tinayork/php
     expose:
@@ -41,10 +41,10 @@ services:
       - ./docker/ssl:/etc/ssl
       - ./:/var/www/html/dibbling
 
+  # swoole
   swoole:
     container_name: swoole
     networks:
-      - frontend
       - backend
     image: tinayork/php
     expose:
