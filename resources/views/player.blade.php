@@ -1,6 +1,8 @@
 <html>
 <head>
+    <link rel="stylesheet" href="{{ URL::asset('css/common/bootstrap.css') }}">
     <script src="{{ asset('js/common/jquery-3.4.1.js')}}"></script>
+    <script src="{{ asset('js/common/bootstrap.js')}}"></script>
     <script async src="http://www.youtube.com/iframe_api"></script>
     <script>
         let ws = new WebSocket('ws://local.dibbling.tw:9502');
@@ -18,14 +20,27 @@
     </script>
 </head>
 <body>
-<div id="YouTubeVideoPlayer"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 .col-md-12 .col-sm-12">
+            <div class="card" style="width: 560px;">
+                <div id="YouTubeVideoPlayer"></div>
+                <div class="card-body">
+                    <ul class="list-group" id="list">
+                        <li class="list-group-item active">Cras justo odio</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
     function onYouTubeIframeAPIReady() {
         var player;
-        var list = getList();
         player = new YT.Player('YouTubeVideoPlayer', {
-            videoId: list[0],     // YouTube 影片ID
+            videoId: 'H4vrIS2gc4k',     // YouTube 影片ID
             width: 560,                 // 播放器寬度 (px)
             height: 316,                // 播放器高度 (px)
             playerVars: {
@@ -46,11 +61,6 @@
         });
     }
 
-    function getList() {
-        // TODO: api get list
-        return ['0bl5jvaOlEw', 'oEeLSBVsrJA'];
-    }
-
     function onPlayerReady(event) {
         player_ref = event.target;
         event.target.playVideo();
@@ -58,16 +68,34 @@
 
     function onPlayerStateChange(event) {
         if (event.data === 0) {
-            // TODO: api get list
-            // TODO: get first video
-            // play video
-            var list = getList();
-            event.target.loadVideoById(list[1]);
-            // TODO: api delete first video
+
+            var promise = $.ajax({
+                url: '/player/list',
+                method: "GET"
+            });
+
+            promise.done(function(dblist){
+                var video = dblist[0];
+                event.target.loadVideoById(video['video_id']);
+                // TODO: api delete first video
+            });
 
         }
     }
+    $( document ).ready(function() {
 
+        var promise = $.ajax({
+            url: '/player/list',
+            method: "GET"
+        });
+
+        promise.done(function(dblist){
+            for (const [key, row] of Object.entries(dblist)) {
+                $("#list").append("<li class='list-group-item' id='"+row['video_id']+"'>"+row['video_id']+"</li>");
+            }
+        });
+
+    });
 </script>
 </body>
 </html>

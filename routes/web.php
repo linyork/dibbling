@@ -20,3 +20,4 @@ Route::get('player', 'player@index');
 
 // api
 Route::get('dibbling/{id}','dibbling@dibbling');
+Route::get('player/list', 'player@list');
