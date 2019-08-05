@@ -15,7 +15,13 @@ class dibbling extends Controller
     public function dibbling(string $videoId)
     {
         /* 取得 URL 頁面資料 */
-        // 初始化 CURL
+        // 初始化 CURL & Return Data
+        $returnJson = [
+            'status' => 0,
+            'msg' => '',
+            'id' => '',
+            'title' => '',
+        ];
         $ch = curl_init();
     
         // 設定 URL
@@ -33,7 +39,8 @@ class dibbling extends Controller
     
         // 檢查文件是否正確取得
         if (curl_errno($ch)){
-            return response()->json("無法取得 URL 資料");
+            $returnJson['msg'] = "無法取得 URL 資料";
+            return response()->json($returnJson);
             exit;
         }
     
@@ -44,7 +51,8 @@ class dibbling extends Controller
         // 解析 HTML 的 <head> 區段
         preg_match("/<head.*>(.*)<\/head>/smUi",$store, $htmlHeaders);
         if(!count($htmlHeaders)){
-            return response()->json("無法解析資料中的 <head> 區段");
+            $returnJson['msg'] = "無法解析資料中的 <head> 區段";
+            return response()->json($returnJson);
             exit;
         }
     
@@ -58,7 +66,8 @@ class dibbling extends Controller
         // 取得 <title> 中的文字
         if(preg_match("/<title>(.*)<\/title>/Ui",$htmlHeaders[1], $htmlTitles)){
             if(!count($htmlTitles)){
-                return response()->json("無法解析 <title> 的內容");
+                $returnJson['msg'] = "無法解析 <title> 的內容";
+                return response()->json($returnJson);
                 exit;
             }
         
@@ -70,7 +79,11 @@ class dibbling extends Controller
             }
         }
         
-        if($title==='YouTube')return response()->json("點播失敗");
+        if($title === 'YouTube')
+        {
+            $returnJson['msg'] = "無法解析ID點播失敗";
+            return response()->json($returnJson);
+        }
         
         $dbResult = DB::table('list')->insert(
             [
@@ -81,6 +94,12 @@ class dibbling extends Controller
                 'updated_at' => now(),
             ]
         );
-        return response()->json("點播成功");
+        
+        $returnJson['videoId'] = $videoId;
+        $returnJson['title'] = $title;
+        $returnJson['msg'] = "點播成功";
+        $returnJson['status'] = 1;
+        
+        return response()->json($returnJson);
     }
 }

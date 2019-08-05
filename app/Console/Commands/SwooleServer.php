@@ -52,6 +52,7 @@ class SwooleServer extends Command
     
     public function start()
     {
+        
         // 監聽WebSocket連結打開事件127.0.0.1
         $ws = new \swoole_websocket_server("0.0.0.0", 9501);
         
@@ -59,14 +60,22 @@ class SwooleServer extends Command
         $ws->on('open', function ($ws, $request)
         {
             // var_dump($request->fd, $request->get, $request->server);
-            $ws->push($request->fd, "hello, welcome\n");
+            // $ws->push($request->fd, "hello, welcome\n");
         });
         
         // 監聽WebSocket消息事件
         $ws->on('message', function ($ws, $frame)
         {
-            echo "Message: {$frame->data}\n";
-            $ws->push($frame->fd, "server: {$frame->data}");
+            if($frame->data === 'player')
+            {
+                $this->player = $frame->fd;
+                echo "I am player:".$this->player;
+            }
+            echo "I am:".$frame->fd;
+            echo "player:".$this->player;
+            echo "Message: {$frame->data}";
+            $ws->push($this->player, "I am:".$this->player);
+            $ws->push($frame->fd, $frame->data);
         });
         
         // 監聽WebSocket斷線事件
