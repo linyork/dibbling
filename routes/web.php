@@ -15,9 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// page
 Route::get('dibbling', 'dibbling@index');
 Route::get('player', 'player@index');
 
 // api
-Route::get('dibbling/{id}','dibbling@dibbling');
+Route::get('dibbling/{videoId}','dibbling@dibbling');
 Route::get('player/list', 'player@list');
+Route::get('player/delete/{id}', 'player@delete');

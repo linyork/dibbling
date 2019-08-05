@@ -19,4 +19,10 @@ class player extends Controller
             ->get();
         return response()->json($dbResult);
     }
+    
+    public function delete(string $id)
+    {
+        $dbResult = DB::table('list')->where('id', '=', $id)->delete();
+        return response()->json($dbResult);
+    }
 }

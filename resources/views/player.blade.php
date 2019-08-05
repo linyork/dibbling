@@ -74,12 +74,12 @@
         if (event.data === 0) {
             $("#list").empty();
 
-            var promise = $.ajax({
+            var promise_get_list = $.ajax({
                 url: '/player/list',
                 method: "GET"
             });
 
-            promise.done(function(dblist){
+            promise_get_list.done(function(dblist){
                 // append video list
                 for (const [key, row] of Object.entries(dblist)) {
                     var voideo_id = row['video_id'];
@@ -90,9 +90,13 @@
                 var onplay_video = dblist[0];
                 event.target.loadVideoById(onplay_video['video_id']);
                 videoData = event.target.getVideoData();
-                $('#'+onplay_video['video_id']).addClass('active')
+                $('#'+onplay_video['video_id']).addClass('active');
 
-                // TODO: api delete first video
+                // delete first video
+                $.ajax({
+                    url: '/player/delete/'+onplay_video['id'],
+                    method: "GET"
+                });
             });
         }
 
