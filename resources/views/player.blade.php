@@ -82,8 +82,10 @@
             promise_get_list.done(function(dblist){
                 // append video list
                 for (const [key, row] of Object.entries(dblist)) {
+                    var id = row['id'];
                     var voideo_id = row['video_id'];
-                    $("#list").append("<li class='list-group-item' id='"+voideo_id+"'>"+voideo_id+"</li>");
+                    var title = row['title'];
+                    $("#list").append("<li class='list-group-item' id='"+id+"' voideo_id='"+voideo_id+"'>"+title+"</li>");
                 }
 
                 // get onplay video

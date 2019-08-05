@@ -16,6 +16,7 @@ class CreateListTable extends Migration
         Schema::create('list', function (Blueprint $table) {
             $table->bigIncrements('id')->index();
             $table->string('video_id');
+            $table->string('title');
             $table->string('ip')->default('0.0.0.0');
             $table->boolean('played')->default(0);
             $table->timestamps();
