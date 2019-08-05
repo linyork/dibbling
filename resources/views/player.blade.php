@@ -22,12 +22,15 @@
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-sm-12 .col-md-12 .col-sm-12">
-            <div class="card" style="width: 560px;">
-                <div id="YouTubeVideoPlayer"></div>
+        <div class="col-sm-12 col-md-12 col-sm-12">
+            <h1>廣播系統</h1>
+            <span class="badge badge-primary">Interface</span>
+            <span class="badge badge-secondary">v1.0</span>
+            <div class="card">
+                <div style="width: auto;"id="YouTubeVideoPlayer"></div>
                 <div class="card-body">
                     <ul class="list-group" id="list">
-                        <li class="list-group-item active">Cras justo odio</li>
+                        <li class="list-group-item active">開機中</li>
                     </ul>
                 </div>
             </div>
@@ -37,12 +40,13 @@
 
 
 <script>
+    var tt;
     function onYouTubeIframeAPIReady() {
         var player;
         player = new YT.Player('YouTubeVideoPlayer', {
             videoId: 'H4vrIS2gc4k',     // YouTube 影片ID
-            width: 560,                 // 播放器寬度 (px)
-            height: 316,                // 播放器高度 (px)
+            // width: 560,                 // 播放器寬度 (px)
+            // height: 316,                // 播放器高度 (px)
             playerVars: {
                 autoplay: 1,            // 在讀取時自動播放影片
                 controls: 1,            // 在播放器顯示暫停／播放按鈕
@@ -68,6 +72,7 @@
 
     function onPlayerStateChange(event) {
         if (event.data === 0) {
+            $("#list").empty();
 
             var promise = $.ajax({
                 url: '/player/list',
@@ -75,27 +80,32 @@
             });
 
             promise.done(function(dblist){
-                var video = dblist[0];
-                event.target.loadVideoById(video['video_id']);
+                // append video list
+                for (const [key, row] of Object.entries(dblist)) {
+                    var voideo_id = row['video_id'];
+                    $("#list").append("<li class='list-group-item' id='"+voideo_id+"'>"+voideo_id+"</li>");
+                }
+
+                // get onplay video
+                var onplay_video = dblist[0];
+                event.target.loadVideoById(onplay_video['video_id']);
+                videoData = event.target.getVideoData();
+                $('#'+onplay_video['video_id']).addClass('active')
+
                 // TODO: api delete first video
             });
-
         }
+
+        // var promise_youtube = $.ajax({
+        //     type: 'GET',
+        //     url: 'https://www.youtube.com/watch?v=lz3sojQZdMo',
+        //     dataType: 'html',
+        // });
+        //
+        // promise_youtube.done(function(d){
+        //     console.log(d)
+        // });
     }
-    $( document ).ready(function() {
-
-        var promise = $.ajax({
-            url: '/player/list',
-            method: "GET"
-        });
-
-        promise.done(function(dblist){
-            for (const [key, row] of Object.entries(dblist)) {
-                $("#list").append("<li class='list-group-item' id='"+row['video_id']+"'>"+row['video_id']+"</li>");
-            }
-        });
-
-    });
 </script>
 </body>
 </html>
