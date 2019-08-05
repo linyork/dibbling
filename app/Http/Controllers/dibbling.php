@@ -11,4 +11,17 @@ class dibbling extends Controller
     {
         return view('dibbling');
     }
+    
+    public function dibbling(string $videoId)
+    {
+        $dbResult = DB::table('list')->insert(
+            [
+                'video_id' => $videoId,
+                'ip'    => request()->ip(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
+        return response()->json($dbResult);
+    }
 }

@@ -17,3 +17,6 @@ Route::get('/', function () {
 
 Route::get('dibbling', 'dibbling@index');
 Route::get('player', 'player@index');
+
+// api
+Route::get('dibbling/{id}','dibbling@dibbling');

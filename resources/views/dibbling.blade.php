@@ -1,50 +1,59 @@
 <html>
-    <head>
-        <script src="{{ asset('js/common/jquery-3.4.1.js')}}"></script>
-        <script>
-            let ws = new WebSocket('ws://local.dibbling.tw:9502');
-
-            //開啟後執行的動作，指定一個 function 會在連結 WebSocket 後執行
-            ws.onopen = () => {
-                console.log('open connection')
-            };
-
-            //關閉後執行的動作，指定一個 function 會在連結中斷後執行
-            ws.onclose = () => {
-                console.log('close connection')
-            };
-
-        </script>
-    </head>
-    <body>
-    <div id="YouTubeVideoPlayer"></div>
-    <script async src="http://www.youtube.com/iframe_api"></script>
+<head>
+    <link rel="stylesheet" href="{{ URL::asset('css/common/bootstrap.css') }}">
+    <script src="{{ asset('js/common/jquery-3.4.1.js')}}"></script>
+    <script src="{{ asset('js/common/bootstrap.js')}}"></script>
     <script>
-        function onYouTubeIframeAPIReady() {
-            var player;
-            player = new YT.Player('YouTubeVideoPlayer', {
-                videoId: 'oEeLSBVsrJA',     // YouTube 影片ID
-                width: 560,                 // 播放器寬度 (px)
-                height: 316,                // 播放器高度 (px)
-                playerVars: {
-                    autoplay: 1,            // 在讀取時自動播放影片
-                    controls: 1,            // 在播放器顯示暫停／播放按鈕
-                    showinfo: 0,            // 隱藏影片標題
-                    modestbranding: 1,      // 隱藏YouTube Logo
-                    loop: 0,                // 讓影片循環播放
-                    fs: 0,                  // 隱藏全螢幕按鈕
-                    cc_load_policty: 0,     // 隱藏字幕
-                    iv_load_policy: 3,      // 隱藏影片註解
-                    autohide: 0             // 當播放影片時隱藏影片控制列
-                },
-                events: {
-                    'onReady': function(e) {
-                        console.log(e);
-                        e.target.playVideo();
-                    }
-                }
+        let ws = new WebSocket('ws://local.dibbling.tw:9502');
+
+        //開啟後執行的動作，指定一個 function 會在連結 WebSocket 後執行
+        ws.onopen = () => {
+            console.log('WebSocket open connection')
+        };
+
+        //關閉後執行的動作，指定一個 function 會在連結中斷後執行
+        ws.onclose = () => {
+            console.log('WebSocket close connection')
+        };
+
+    </script>
+    <script>
+        $(document).on('click', '.btn-success', function(event){
+            var vidoId = $("#video-id").val();
+            dibbling(vidoId);
+            alert('點播成功');
+            $("#video-id").val("");
+        });
+        function dibbling(id) {
+            var promise = $.ajax({
+                url: '/dibbling/' + id,
+                method: "GET"
             });
+
+            promise.done(SuccessMethod);
+            promise.fail(FailMethod);
+        }
+
+        function SuccessMethod(e) {
+            console.log(e);
+        }
+
+        function FailMethod(e) {
+            console.log(e);
         }
     </script>
-    </body>
+</head>
+<body>
+
+<div class="col-5 col-md-5 col-xl-5 py-md-3 pl-md-5 bd-content">
+    <h1>點播系統</h1>
+    <span class="badge badge-primary">Client</span>
+    <span class="badge badge-secondary">v1.0</span>
+    <div class="form-group">
+        <input class="form-control" id="video-id">
+        <small id="emailHelp" class="form-text text-muted">請輸入 youtube 影片代碼</small>
+        <button type="button" class="btn btn-success">點播</button>
+    </div>
+</div>
+</body>
 </html>
