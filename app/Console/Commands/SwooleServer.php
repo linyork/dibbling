@@ -68,20 +68,23 @@ class SwooleServer extends Command
         {
             if($frame->data === 'player')
             {
-                $this->player = $frame->fd;
-                echo "I am player:".$this->player;
+                // TODO: 寫入 DB 紀錄 player 我是player
             }
-            echo "I am:".$frame->fd;
-            echo "player:".$this->player;
-            echo "Message: {$frame->data}";
-            $ws->push($this->player, "I am:".$this->player);
+            else
+            {
+                // TODO: 從 DB 取得 player 是誰
+            }
+            
             $ws->push($frame->fd, $frame->data);
         });
         
         // 監聽WebSocket斷線事件
         $ws->on('close', function ($ws, $fd)
         {
-            echo "client-{$fd} is closed\n";
+            if($fd === 'player')
+            {
+                // TODO: 寫入 DB 紀錄 player 我不是player了
+            }
         });
         
         $ws->start();
