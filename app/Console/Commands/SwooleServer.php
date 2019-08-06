@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use DB;
 use Illuminate\Console\Command;
 
 class SwooleServer extends Command
@@ -66,14 +67,20 @@ class SwooleServer extends Command
         // 監聽WebSocket消息事件
         $ws->on('message', function ($ws, $frame)
         {
-            if($frame->data === 'player')
-            {
-                // TODO: 寫入 DB 紀錄 player 我是player
-            }
-            else
-            {
-                // TODO: 從 DB 取得 player 是誰
-            }
+//            if($frame->data === 'player')
+//            {
+//                // TODO: 寫入 DB 紀錄 player 我是player
+//                DB::table('player')->insert(
+//                    [
+//                        'id' => $frame->fd,
+//                        'ip'    => request()->ip(),
+//                    ]
+//                );
+//            }
+//            else
+//            {
+//                // TODO: 從 DB 取得 player 是誰
+//            }
             
             $ws->push($frame->fd, $frame->data);
         });
@@ -81,10 +88,10 @@ class SwooleServer extends Command
         // 監聽WebSocket斷線事件
         $ws->on('close', function ($ws, $fd)
         {
-            if($fd === 'player')
-            {
-                // TODO: 寫入 DB 紀錄 player 我不是player了
-            }
+//            if($fd === 'player')
+//            {
+//                // TODO: 寫入 DB 紀錄 player 我不是player了
+//            }
         });
         
         $ws->start();

@@ -68,29 +68,35 @@ function onPlayerStateChange(event) {
         });
 
         promise_get_list.done(function(dblist){
-            // append video list
-            var onplay_id = dblist[0]['id'];
-            $("#list").empty();
-            for (const [key, row] of Object.entries(dblist)) {
-                var id = row['id'];
-                var video_id = row['video_id'];
-                var title = row['title'];
-                $("#list").append("<li class='list-group-item' id='"+id+"' video_id='"+video_id+"'>"+title+"</li>");
+            if(dblist.length > 0) {
+                // append video list
+                var onplay_id = dblist[0]['id'];
+
+                $("#list").empty();
+                for (const [key, row] of Object.entries(dblist)) {
+                    var id = row['id'];
+                    var video_id = row['video_id'];
+                    var title = row['title'];
+                    $("#list").append("<li class='list-group-item' id='"+id+"' video_id='"+video_id+"'>"+title+"</li>");
+                }
+
+                // get onplay video
+                var onplay_video = dblist[0];
+                event.target.loadVideoById(onplay_video['video_id']);
+                videoData = event.target.getVideoData();
+
+                // tag onplay
+                $('#'+onplay_id).addClass('active');
+
+                // delete first video
+                $.ajax({
+                    url: '/player/delete/'+onplay_video['id'],
+                    method: "GET"
+                });
+            } else {
+                event.target.loadVideoById('H4vrIS2gc4k');
             }
 
-            // get onplay video
-            var onplay_video = dblist[0];
-            event.target.loadVideoById(onplay_video['video_id']);
-            videoData = event.target.getVideoData();
-
-            // tag onplay
-            $('#'+onplay_id).addClass('active');
-
-            // delete first video
-            // video$.ajax({
-            //     url: '/player/delete/'+onplay_video['id'],
-            //     method: "GET"
-            // });
         });
     }
 }
