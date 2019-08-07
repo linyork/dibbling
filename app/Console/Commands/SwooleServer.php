@@ -61,37 +61,40 @@ class SwooleServer extends Command
         $ws->on('open', function ($ws, $request)
         {
             // var_dump($request->fd, $request->get, $request->server);
-            // $ws->push($request->fd, "hello, welcome\n");
+            $ws->push($request->fd, "I am" . $request->fd);
         });
         
         // 監聽WebSocket消息事件
         $ws->on('message', function ($ws, $frame)
         {
-//            if($frame->data === 'player')
-//            {
-//                // TODO: 寫入 DB 紀錄 player 我是player
-//                DB::table('player')->insert(
-//                    [
-//                        'id' => $frame->fd,
-//                        'ip'    => request()->ip(),
-//                    ]
-//                );
-//            }
-//            else
-//            {
-//                // TODO: 從 DB 取得 player 是誰
-//            }
+            if($frame->data === 'player')
+            {
+                // 清空 player DB
+                DB::table('player')->delete();
+                
+                // 寫入 DB 紀錄 player
+                DB::table('player')->insert(
+                    [
+                        'id' => $frame->fd,
+                        'ip'    => request()->ip(),
+                    ]
+                );
+            }
+            // 從 DB 取得 player 是誰
+            $player = \App\PlayerTable::first();
             
-            $ws->push($frame->fd, $frame->data);
+            $ws->push($player['id'], $frame->data);
         });
         
         // 監聽WebSocket斷線事件
         $ws->on('close', function ($ws, $fd)
         {
-//            if($fd === 'player')
-//            {
-//                // TODO: 寫入 DB 紀錄 player 我不是player了
-//            }
+            if($fd === 'player')
+            {
+                // 刪除 DB 紀錄 player
+                $player = \App\PlayerTable::find($fd);
+                $player->delete();
+            }
         });
         
         $ws->start();

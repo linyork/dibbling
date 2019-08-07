@@ -13,7 +13,7 @@ ws.onclose = () => {
 
 // onmessage  監聽
 ws.onmessage = (evt) => {
-    console.log(evt.data);
+    console.log(evt);
 };
 // ws.onmessage = (evt) => {
 //     console.log(evt);
@@ -88,11 +88,11 @@ function onPlayerStateChange(event) {
                 // tag onplay
                 $('#'+onplay_id).addClass('active');
 
-                // delete first video
-                $.ajax({
-                    url: '/player/delete/'+onplay_video['id'],
-                    method: "GET"
-                });
+                // // delete first video
+                // $.ajax({
+                //     url: '/player/delete/'+onplay_video['id'],
+                //     method: "GET"
+                // });
             } else {
                 event.target.loadVideoById('H4vrIS2gc4k');
             }
