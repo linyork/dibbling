@@ -41,20 +41,20 @@ services:
       - ./docker/ssl:/etc/ssl
       - ./:/var/www/html/dibbling
 
-  # swoole
-  swoole:
-    container_name: swoole
-    networks:
-      - backend
-    image: tinayork/php
-    expose:
-      - 9501
-    tty: true
-    command: php /var/www/html/dibbling/artisan swoole
-    volumes:
-      - ./docker/ssl:/etc/ssl
-      - ./:/var/www/html/dibbling
-      
+#  # swoole
+#  swoole:
+#    container_name: swoole
+#    networks:
+#      - backend
+#    image: tinayork/php
+#    expose:
+#      - 9501
+#    tty: true
+#    command: php /var/www/html/dibbling/artisan swoole
+#    volumes:
+#      - ./docker/ssl:/etc/ssl
+#      - ./:/var/www/html/dibbling
+  
   # database
   database:
     container_name: mysql
@@ -72,11 +72,11 @@ services:
       - ./docker/mysql/local.cnf:/etc/mysql/conf.d/local.cnf
       - ./docker/mysql/data:/var/lib/mysql
   
-  # cache
-  cache:
-    container_name: redis
-    networks:
-      - backend
-    image: redis:5
-    ports:
-      - "6379:6379"
+#  # cache
+#  cache:
+#    container_name: redis
+#    networks:
+#      - backend
+#    image: redis:5
+#    ports:
+#      - "6379:6379"
