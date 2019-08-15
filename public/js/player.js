@@ -88,13 +88,16 @@ function onPlayerStateChange(event) {
                 // tag onplay
                 $('#'+onplay_id).addClass('active');
 
-                // // delete first video
-                // $.ajax({
-                //     url: '/player/delete/'+onplay_video['id'],
-                //     method: "GET"
-                // });
+                // delete first video
+                $.ajax({
+                    url: '/player/delete/'+onplay_video['id'],
+                    method: "GET"
+                });
             } else {
-                event.target.loadVideoById('H4vrIS2gc4k');
+                // no video list
+                $("#list").empty();
+                $("#list").append("<li class='list-group-item'>無點播清單</li>");
+                event.target.loadVideoById('hKRUPYrAQoE');
             }
 
         });
