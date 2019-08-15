@@ -36,7 +36,7 @@ function dibbling(id) {
 function SuccessMethod(e) {
     if(e['status'] == 1) {
         console.log('send');
-        ws.send("{id:"+e['videoId']+",title:"+e['title']+"}");
+        // ws.send("{id:"+e['videoId']+",title:"+e['title']+"}");
     }
     alert(e['msg']);
     console.log(e);
