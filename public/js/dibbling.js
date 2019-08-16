@@ -21,7 +21,6 @@ $(document).on('click', '.btn-success', function(event){
     var vidoId = $("#video-id").val();
     dibbling(vidoId);
     $("#video-id").val("");
-    refreshList();
 });
 
 // refresh list
@@ -69,7 +68,9 @@ function SuccessMethod(e) {
         // ws.send("{id:"+e['videoId']+",title:"+e['title']+"}");
     }
     alert(e['msg']);
+    refreshList();
     console.log(e);
+
 }
 
 function FailMethod(e) {
