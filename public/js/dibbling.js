@@ -23,6 +23,11 @@ $(document).on('click', '.btn-success', function(event){
     $("#video-id").val("");
 });
 
+//refresh
+$(document).on('click', '.btn-info', function(event){
+    refreshList();
+});
+
 // refresh list
 refreshList();
 function refreshList(){

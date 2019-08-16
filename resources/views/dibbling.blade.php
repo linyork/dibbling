@@ -12,12 +12,12 @@
         <span class="badge badge-primary">Client</span>
         <span class="badge badge-secondary">v1.1</span>
         <div class="form-group">
-            <input class="form-control" id="video-id">
+            <input id="video-id" class="form-control">
             <small class="form-text text-muted">請輸入 youtube 影片代碼</small>
-            <button type="button" class="btn btn-success">點播</button>
+            <buttontype="button" class="btn btn-success">點播</button>
         </div>
         <div class="card">
-            <button type="button" class="btn btn-info">重新整理</button>
+            <button id="refresh" type="button" class="btn btn-info">重新整理</button>
             <div class="card-body">
                 <ul class="list-group" id="list">
                 </ul>
