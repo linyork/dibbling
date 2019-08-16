@@ -21,7 +21,37 @@ $(document).on('click', '.btn-success', function(event){
     var vidoId = $("#video-id").val();
     dibbling(vidoId);
     $("#video-id").val("");
+    refreshList();
 });
+
+// refresh list
+refreshList();
+function refreshList(){
+    $("#list").empty();
+    var promise_get_list = $.ajax({
+        url: '/player/list',
+        method: "GET"
+    });
+
+    promise_get_list.done(function(dblist){
+        if(dblist.length > 0) {
+            // append video list
+            $("#list").empty();
+            for (const [key, row] of Object.entries(dblist)) {
+                var id = row['id'];
+                var video_id = row['video_id'];
+                var title = row['title'];
+                $("#list").append("<li class='list-group-item' id='"+id+"' video_id='"+video_id+"'>"+title+"</li>");
+            }
+        } else {
+            // no video list
+            $("#list").empty();
+            $("#list").append("<li class='list-group-item'>無點播清單</li>");
+        }
+
+    });
+}
+
 function dibbling(id) {
     var promise = $.ajax({
         url: '/dibbling/' + id,

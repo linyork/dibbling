@@ -12,7 +12,7 @@
         <div class="col-sm-12 col-md-12 col-sm-12">
             <h1>廣播系統</h1>
             <span class="badge badge-primary">Interface</span>
-            <span class="badge badge-secondary">v1.0</span>
+            <span class="badge badge-secondary">v1.1</span>
             <div class="card">
                 <div style="width: auto;"id="YouTubeVideoPlayer"></div>
                 <div class="card-body">
