@@ -47,8 +47,7 @@ function onYouTubeIframeAPIReady() {
         events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange,
-            'onError': onPlayerStateChange,
-            'onApiChange': onPlayerStateChange,
+            'onError': onError,
         }
     });
 }
@@ -62,7 +61,6 @@ function onPlayerReady(event) {
 // YT Player change state
 function onPlayerStateChange(event) {
     if (event.data == 0) {
-
         var promise_get_list = $.ajax({
             url: '/player/list',
             method: "GET"
@@ -103,4 +101,46 @@ function onPlayerStateChange(event) {
 
         });
     }
+}
+
+function onError(event) {
+    var promise_get_list = $.ajax({
+        url: '/player/list',
+        method: "GET"
+    });
+
+    promise_get_list.done(function(dblist){
+        if(dblist.length > 0) {
+            // append video list
+            var onplay_id = dblist[0]['id'];
+
+            $("#list").empty();
+            for (const [key, row] of Object.entries(dblist)) {
+                var id = row['id'];
+                var video_id = row['video_id'];
+                var title = row['title'];
+                $("#list").append("<li class='list-group-item' id='"+id+"' video_id='"+video_id+"'>"+title+"</li>");
+            }
+
+            // get onplay video
+            var onplay_video = dblist[0];
+            event.target.loadVideoById(onplay_video['video_id']);
+            videoData = event.target.getVideoData();
+
+            // tag onplay
+            $('#'+onplay_id).addClass('active');
+
+            // delete first video
+            $.ajax({
+                url: '/player/delete/'+onplay_video['id'],
+                method: "GET"
+            });
+        } else {
+            // no video list
+            $("#list").empty();
+            $("#list").append("<li class='list-group-item'>無點播清單</li>");
+            event.target.loadVideoById('hKRUPYrAQoE');
+        }
+
+    });
 }
