@@ -1,3 +1,11 @@
+# Dibbling
+
+### 安裝所需
+- php7.2^
+- composer
+- docker
+- docker-compose
+
 ### composer
 
 安裝composer
@@ -17,4 +25,14 @@ composer install
 127.0.0.1	local.dibbling.tw mysql
 ```
 
-### 待續...
+### laravel
+
+```
+php artisan mmigrate
+```
+
+### 啟動
+
+```
+bash env.sh
+```
