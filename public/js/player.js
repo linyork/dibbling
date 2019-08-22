@@ -25,7 +25,6 @@
 //     });
 //     $("#list").append("<li class='list-group-item' id='"+id+"'>"+title+"</li>");
 // };
-
 // init YT Player
 function onYouTubeIframeAPIReady() {
     var player;
@@ -47,7 +46,7 @@ function onYouTubeIframeAPIReady() {
         events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange,
-            'onError': onError,
+            'onError': onPlayerStateChange,
         }
     });
 }
@@ -92,55 +91,44 @@ function onPlayerStateChange(event) {
                     url: '/player/delete/'+onplay_video['id'],
                     method: "GET"
                 });
+
+                // add playing
+                $.ajax({
+                    url: '/player/playing/'+onplay_video['id'],
+                    method: "GET"
+                });
             } else {
                 // no video list
                 $("#list").empty();
                 $("#list").append("<li class='list-group-item'>無點播清單</li>");
-                event.target.loadVideoById('hKRUPYrAQoE');
-            }
+                var promise_get_random = $.ajax({
+                    url: '/player/random',
+                    method: "GET"
+                });
+                promise_get_random.done(function(data){
+                    if(data.id) {
+                        var id = data['id'];
+                        var video_id = data['video_id'];
+                        var title = data['title'];
+                        event.target.loadVideoById(video_id);
+                        // add playing
+                        $.ajax({
+                            url: '/player/playing/'+id,
+                            method: "GET"
+                        });
+                    } else {
+                        // todo
+                        console.log(1);
+                        event.target.loadVideoById('hKRUPYrAQoE');
+                    }
+                    console.log(data);
+                });
 
+                promise_get_random.fail(function(d){
+                    // todo
+                    event.target.loadVideoById('hKRUPYrAQoE');
+                })
+            }
         });
     }
-}
-
-function onError(event) {
-    var promise_get_list = $.ajax({
-        url: '/player/list',
-        method: "GET"
-    });
-
-    promise_get_list.done(function(dblist){
-        if(dblist.length > 0) {
-            // append video list
-            var onplay_id = dblist[0]['id'];
-
-            $("#list").empty();
-            for (const [key, row] of Object.entries(dblist)) {
-                var id = row['id'];
-                var video_id = row['video_id'];
-                var title = row['title'];
-                $("#list").append("<li class='list-group-item' id='"+id+"' video_id='"+video_id+"'>"+title+"</li>");
-            }
-
-            // get onplay video
-            var onplay_video = dblist[0];
-            event.target.loadVideoById(onplay_video['video_id']);
-            videoData = event.target.getVideoData();
-
-            // tag onplay
-            $('#'+onplay_id).addClass('active');
-
-            // delete first video
-            $.ajax({
-                url: '/player/delete/'+onplay_video['id'],
-                method: "GET"
-            });
-        } else {
-            // no video list
-            $("#list").empty();
-            $("#list").append("<li class='list-group-item'>無點播清單</li>");
-            event.target.loadVideoById('hKRUPYrAQoE');
-        }
-
-    });
 }

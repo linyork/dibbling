@@ -22,15 +22,46 @@ $(document).on('click', '.btn-success', function(event){
     dibbling(vidoId);
     $("#video-id").val("");
 });
+$(document).on('click', '.btn-primary', function(event){
+    var vidoId = $(this).attr('video_id');
+    dibbling(vidoId);
+});
 
 //refresh
 $(document).on('click', '.btn-info', function(event){
+    refreshPlaying();
     refreshList();
+    refreshPlayedList();
 });
 
-// refresh list
+// refresh playing & list & play list
+refreshPlaying();
 refreshList();
+refreshPlayedList();
+
+function refreshPlaying(){
+    var promise_get_playing = $.ajax({
+        url: '/player/playing-id',
+        method: "GET"
+    });
+
+    promise_get_playing.done(function(data){
+        if(data.length > 0) {
+            var id = data[0]['id'];
+            var video_id = data[0]['video_id'];
+            var title = data[0]['title'];
+            // have playing
+            $('#playing').text(title);
+        } else {
+            // no playing
+            $('#playing').text('Two Steps From Hell - Victory - YouTube');
+        }
+        console.log(data);
+    });
+}
+
 function refreshList(){
+
     $("#list").empty();
     var promise_get_list = $.ajax({
         url: '/player/list',
@@ -45,12 +76,38 @@ function refreshList(){
                 var id = row['id'];
                 var video_id = row['video_id'];
                 var title = row['title'];
-                $("#list").append("<li class='list-group-item' id='"+id+"' video_id='"+video_id+"'>"+title+"</li>");
+                $("#list").append("<li class='list-group-item' id='"+id+"' video_id='"+video_id+"'>"+ title+"</li>");
             }
         } else {
             // no video list
             $("#list").empty();
             $("#list").append("<li class='list-group-item'>無點播清單</li>");
+        }
+
+    });
+}
+
+function refreshPlayedList(){
+    $("#played-list").empty();
+    var promise_get_list = $.ajax({
+        url: '/player/played-list',
+        method: "GET"
+    });
+
+    promise_get_list.done(function(dblist){
+        if(dblist.length > 0) {
+            // append video list
+            $("#played-list").empty();
+            for (const [key, row] of Object.entries(dblist)) {
+                var id = row['id'];
+                var video_id = row['video_id'];
+                var title = row['title'];
+                $("#played-list").append("<li class='list-group-item' id='"+id+"' video_id='"+video_id+"'><a href='#' class='btn btn-primary' video_id='"+video_id+"'>再點播</a>"+title+"</li>");
+            }
+        } else {
+            // no video list
+            $("#played-list").empty();
+            $("#played-list").append("<li class='list-group-item'>無已播清單</li>");
         }
 
     });
@@ -72,8 +129,8 @@ function SuccessMethod(e) {
         console.log('send');
         // ws.send("{id:"+e['videoId']+",title:"+e['title']+"}");
     }
-    alert(e['msg']);
     refreshList();
+    refreshPlayedList();
     console.log(e);
 
 }

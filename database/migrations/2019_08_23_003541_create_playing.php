@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateListTable extends Migration
+class CreatePlaying extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateListTable extends Migration
      */
     public function up()
     {
-        Schema::create('list', function (Blueprint $table) {
-            $table->bigIncrements('id')->index();
+        Schema::create('playing', function (Blueprint $table) {
+            $table->integer('id');
             $table->string('video_id');
-            $table->string('title');
-            $table->string('ip')->default('0.0.0.0');
-            $table->softDeletes();
-            $table->timestamps();
         });
     }
 
@@ -30,6 +26,6 @@ class CreateListTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('list');
+        Schema::dropIfExists('playing');
     }
 }

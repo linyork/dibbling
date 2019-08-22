@@ -21,5 +21,9 @@ Route::get('player', 'player@index');
 
 // api
 Route::get('dibbling/{videoId}','dibbling@dibbling');
+Route::get('player/playing-id', 'player@playing_id');
+Route::get('player/playing/{id}', 'player@playing');
 Route::get('player/list', 'player@list');
+Route::get('player/played-list', 'player@play_list');
 Route::get('player/delete/{id}', 'player@delete');
+Route::get('player/random/', 'player@random');
