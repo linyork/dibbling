@@ -11,11 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 // page
+Route::get('/', 'dibbling@index');
 Route::get('dibbling', 'dibbling@index');
 Route::get('player', 'player@index');
 
