@@ -113,15 +113,20 @@ function refreshPlayedList(){
     });
 }
 
-function dibbling(id) {
-    var promise = $.ajax({
-        url: '/dibbling/' + id,
-        method: "GET",
+function dibbling(videoId) {
+    var promise_post_list = $.ajax({
+        url: 'v1/list',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        method: "POST",
         dataType: "json",
+        data: {
+            'videoId': videoId,
+        },
     });
-
-    promise.done(SuccessMethod);
-    promise.fail(FailMethod);
+    promise_post_list.done(SuccessMethod);
+    promise_post_list.fail(FailMethod);
 }
 
 function SuccessMethod(e) {
@@ -132,7 +137,6 @@ function SuccessMethod(e) {
     refreshList();
     refreshPlayedList();
     console.log(e);
-
 }
 
 function FailMethod(e) {

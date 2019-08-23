@@ -1,5 +1,6 @@
 <html>
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ URL::asset('css/common/bootstrap.css') }}">
     <script src="{{ asset('js/common/jquery-3.4.1.js')}}"></script>
     <script src="{{ asset('js/common/bootstrap.js')}}"></script>

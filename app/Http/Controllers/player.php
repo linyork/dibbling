@@ -7,7 +7,7 @@ use App\Model\PlayingTable;
 use DB;
 use Illuminate\Http\Request;
 
-class player extends Controller
+class Player extends Controller
 {
     public function index()
     {
@@ -50,20 +50,6 @@ class player extends Controller
     {
         $dbResult = ListTable::onlyTrashed()->get();
         return response()->json($dbResult);
-    }
-    
-    public function delete(string $id)
-    {
-        $list = ListTable::find($id);
-        $list->delete();
-        if ( $list->trashed() )
-        {
-            return response()->json('Soft delete success.');
-        }
-        else
-        {
-            return response()->json('Soft delete error.');
-        }
     }
     
     public function random()

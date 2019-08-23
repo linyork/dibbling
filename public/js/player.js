@@ -87,10 +87,7 @@ function onPlayerStateChange(event) {
                 $('#'+onplay_id).addClass('active');
 
                 // delete first video
-                $.ajax({
-                    url: '/player/delete/'+onplay_video['id'],
-                    method: "GET"
-                });
+                remove(onplay_video['id']);
 
                 // add playing
                 $.ajax({
@@ -131,4 +128,15 @@ function onPlayerStateChange(event) {
             }
         });
     }
+}
+
+function remove(id){
+    $.ajax({
+        url: 'v1/list/'+id,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: "DELETE",
+        dataType: "json",
+    });
 }

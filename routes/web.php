@@ -12,15 +12,22 @@
 */
 
 // page
-Route::get('/', 'dibbling@index');
-Route::get('dibbling', 'dibbling@index');
+Route::get('/', 'Dibbling@index');
+Route::get('dibbling', 'Dibbling@index');
 Route::get('player', 'player@index');
 
 // api
-Route::get('dibbling/{videoId}','dibbling@dibbling');
-Route::get('player/playing-id', 'player@playing_id');
-Route::get('player/playing/{id}', 'player@playing');
-Route::get('player/list', 'player@list');
-Route::get('player/played-list', 'player@play_list');
-Route::get('player/delete/{id}', 'player@delete');
-Route::get('player/random/', 'player@random');
+Route::group(['prefix' => 'player'], function () {
+    Route::get('playing-id', 'Player@playing_id');
+    Route::get('playing/{id}', 'Player@playing');
+    Route::get('list', 'Player@list');
+    Route::get('played-list', 'Player@play_list');
+    Route::get('random', 'Player@random');
+});
+
+// api
+Route::group(['prefix' => 'v1'], function () {
+    Route::post('list','v1\ListController@store');
+    Route::delete('list/{id}', 'v1\ListController@destroy');
+    
+});
