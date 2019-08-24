@@ -28,20 +28,13 @@
         <div class="col-sm">
             <div class="card">
                 <h5 class="card-header">點播歌曲</h5>
-                <ul class="list-group list-group-flush" id="list">
-
-                </ul>
+                <ul class="list-group list-group-flush" id="list"></ul>
             </div>
         </div>
         <div class="col-sm">
             <div class="card">
                 <h5 class="card-header">已播歌曲</h5>
-                <ul class="list-group list-group-flush" id="played-list">
-                    <li class='list-group-item'>
-
-                    </li>
-
-                </ul>
+                <ul class="list-group list-group-flush" id="played-list"></ul>
             </div>
         </div>
     </div>

@@ -17,36 +17,36 @@
 // };
 
 // dibbling
-$(document).on('click', '.btn-success', function(event){
-    var vidoId = $("#video-id").val();
-    dibbling(vidoId);
+$(document).on('click', '.btn-success', function(){
+    dibbling($('#video-id').val());
     $("#video-id").val("");
 });
-$(document).on('click', '.btn-primary', function(event){
-    var vidoId = $(this).attr('video_id');
-    dibbling(vidoId);
+$(document).on('click', '.btn-primary', function(){
+    dibbling($(this).attr('data-id'));
 });
 
 //refresh
-$(document).on('click', '.btn-info', function(event){
+$(document).on('click', '.btn-info', function(){
     refreshPlaying();
     refreshList();
     refreshListPlayed();
 });
 
 // refresh playing & list & play list
-refreshPlaying();
-refreshList();
-refreshListPlayed();
+$(function() {
+    refreshPlaying();
+    refreshList();
+    refreshListPlayed();
+});
+
 
 function refreshPlaying(){
-    var promise_get_playing = $.ajax({
+    let promise_get_playing = $.ajax({
         url: 'v1/playing',
         method: "GET"
     });
 
     promise_get_playing.done(function(data){
-        console.log(data);
         if(data.id) {
             // have playing
             $('#playing').text(data.title);
@@ -58,59 +58,60 @@ function refreshPlaying(){
 }
 
 function refreshList(){
-
-    $("#list").empty();
-    var list = $.ajax({
+    let list = $.ajax({
         url: '/v1/list',
         method: "GET"
     });
 
-    list.done(function(dblist){
-        if(dblist.length > 0) {
-            // append video list
-            $("#list").empty();
-            for (const [key, row] of Object.entries(dblist)) {
-                var id = row['id'];
-                var video_id = row['video_id'];
-                var title = row['title'];
-                $("#list").append("<li class='list-group-item' id='"+id+"' video_id='"+video_id+"'>"+ title+"</li>");
-            }
-        } else {
+    list.done(function(db_list){
+        let play_list_dom = $('#list');
+        play_list_dom.empty();
+        if (db_list.length <= 0) {
             // no video list
-            $("#list").empty();
-            $("#list").append("<li class='list-group-item'>無點播清單</li>");
+            play_list_dom.append("<li class='list-group-item'>無點播清單</li>");
+        } else {
+            // have video list and append video list
+            db_list.forEach(function(element) {
+                let title = element['title'];
+                play_list_dom.append("<li class='list-group-item'>" +
+                    title +
+                    "</li>");
+            });
         }
     });
 }
 
 function refreshListPlayed(){
-    $("#played-list").empty();
-    var promise_get_list = $.ajax({
+    let promise_get_list = $.ajax({
         url: '/v1/list/played',
         method: "GET"
     });
 
-    promise_get_list.done(function(dblist){
-        if(dblist.length > 0) {
-            // append video list
-            $("#played-list").empty();
-            for (const [key, row] of Object.entries(dblist)) {
-                var id = row['id'];
-                var video_id = row['video_id'];
-                var title = row['title'];
-                $("#played-list").append("<li class='list-group-item' id='"+id+"' video_id='"+video_id+"'><a href='#' class='btn btn-primary' video_id='"+video_id+"'>再點播</a>"+title+"</li>");
-            }
-        } else {
+    promise_get_list.done(function(db_list){
+        let played_list_dom = $("#played-list");
+        played_list_dom.empty();
+        if (db_list.length <= 0) {
             // no video list
-            $("#played-list").empty();
-            $("#played-list").append("<li class='list-group-item'>無已播清單</li>");
+            played_list_dom.append("<li class='list-group-item'>無已播清單</li>");
+        } else {
+            // have video list and append video list
+            db_list.forEach(function(element) {
+                let video_id = element['video_id'];
+                let title = element['title'];
+                played_list_dom.append("<li class='list-group-item'>" +
+                    "<a href='#' class='btn btn-primary' data-id='" + video_id + "'>" +
+                    "再點播" +
+                    "</a>" +
+                    title +
+                    "</li>");
+            });
         }
 
     });
 }
 
 function dibbling(videoId) {
-    var promise_post_list = $.ajax({
+    let promise_post_list = $.ajax({
         url: 'v1/list',
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -126,12 +127,12 @@ function dibbling(videoId) {
 }
 
 function SuccessMethod(e) {
-    if(e['status'] == 1) {
+    if(e['status'] === 1) {
         console.log('send');
         // ws.send("{id:"+e['videoId']+",title:"+e['title']+"}");
     }
     refreshList();
-    refreshPlayedList();
+    refreshListPlayed();
     console.log(e);
 }
 
