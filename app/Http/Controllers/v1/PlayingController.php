@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\v1;
 
+use DB;
+use App\Model\ListTable;
+use App\Model\PlayingTable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class PlayerController extends Controller
+class PlayingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +28,20 @@ class PlayerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $id = $request->input('id');
+        $returnJson = DB::table('playing')
+            ->where('id', 1)
+            ->update(['video_id' => $id]);
+        if($returnJson === 0)
+        {
+            $returnJson = DB::table('playing')->insert(
+                [
+                    'id' => 1,
+                    'video_id' => $id,
+                ]
+            );
+        }
+        return response()->json($returnJson);
     }
 
     /**
@@ -34,9 +50,13 @@ class PlayerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $playingResult = PlayingTable::find(1);
+        $listResult = ListTable::withTrashed()
+            ->where('id', '=', $playingResult['video_id'])
+            ->first();
+        return response()->json($listResult);
     }
 
     /**

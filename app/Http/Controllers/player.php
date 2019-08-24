@@ -14,30 +14,6 @@ class Player extends Controller
         return view('player');
     }
     
-    public function playing(string $id)
-    {
-        $returnJson = DB::table('playing')
-            ->where('id', 1)
-            ->update(['video_id' => $id]);
-        if($returnJson === 0)
-        {
-            $returnJson = DB::table('playing')->insert(
-                [
-                    'id' => 1,
-                    'video_id' => $id,
-                ]
-            );
-        }
-        return response()->json($returnJson);
-    }
-    
-    public function playing_id(){
-        $playingResult = PlayingTable::find(1);
-        $listResult = ListTable::withTrashed()->where('id', '=', $playingResult['video_id'])
-            ->get();
-        return response()->json($listResult);
-    }
-    
     public function list()
     {
         $dbResult = ListTable::where('deleted_at', '=', null)

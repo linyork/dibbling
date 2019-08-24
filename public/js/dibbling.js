@@ -41,22 +41,19 @@ refreshPlayedList();
 
 function refreshPlaying(){
     var promise_get_playing = $.ajax({
-        url: '/player/playing-id',
+        url: 'v1/playing',
         method: "GET"
     });
 
     promise_get_playing.done(function(data){
-        if(data.length > 0) {
-            var id = data[0]['id'];
-            var video_id = data[0]['video_id'];
-            var title = data[0]['title'];
+        console.log(data);
+        if(data.id) {
             // have playing
-            $('#playing').text(title);
+            $('#playing').text(data.title);
         } else {
             // no playing
             $('#playing').text('Two Steps From Hell - Victory - YouTube');
         }
-        console.log(data);
     });
 }
 

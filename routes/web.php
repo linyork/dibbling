@@ -18,7 +18,6 @@ Route::get('player', 'player@index');
 
 // api
 Route::group(['prefix' => 'player'], function () {
-    Route::get('playing-id', 'Player@playing_id');
     Route::get('playing/{id}', 'Player@playing');
     Route::get('list', 'Player@list');
     Route::get('played-list', 'Player@play_list');
@@ -30,4 +29,6 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('list','v1\ListController@store');
     Route::delete('list/{id}', 'v1\ListController@destroy');
     
+    Route::get('playing', 'v1\PlayingController@show');
+    Route::post('playing', 'v1\PlayingController@store');
 });

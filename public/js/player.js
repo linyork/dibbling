@@ -89,11 +89,8 @@ function onPlayerStateChange(event) {
                 // delete first video
                 remove(onplay_video['id']);
 
-                // add playing
-                $.ajax({
-                    url: '/player/playing/'+onplay_video['id'],
-                    method: "GET"
-                });
+                // ajax add playing
+                playing(onplay_video['id'])
             } else {
                 // no video list
                 $("#list").empty();
@@ -104,18 +101,12 @@ function onPlayerStateChange(event) {
                 });
                 promise_get_random.done(function(data){
                     if(data.id) {
-                        var id = data['id'];
-                        var video_id = data['video_id'];
-                        var title = data['title'];
-                        event.target.loadVideoById(video_id);
-                        // add playing
-                        $.ajax({
-                            url: '/player/playing/'+id,
-                            method: "GET"
-                        });
+                        // play this video
+                        event.target.loadVideoById(data.video_id);
+                        // ajax add playing
+                        playing(data.id)
                     } else {
                         // todo
-                        console.log(1);
                         event.target.loadVideoById('hKRUPYrAQoE');
                     }
                     console.log(data);
@@ -138,5 +129,19 @@ function remove(id){
         },
         type: "DELETE",
         dataType: "json",
+    });
+}
+
+function playing(id){
+    $.ajax({
+        url: 'v1/playing',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        method: "POST",
+        dataType: "json",
+        data: {
+            'id': id,
+        },
     });
 }
