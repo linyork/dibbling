@@ -46,7 +46,7 @@ function onYouTubeIframeAPIReady() {
         events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange,
-            'onError': onPlayerStateChange,
+            'onError': onError,
         }
     });
 }
@@ -60,70 +60,55 @@ function onPlayerReady(event) {
 // YT Player change state
 function onPlayerStateChange(event) {
     if (event.data == 0) {
-        var promise_get_list = $.ajax({
-            url: '/player/list',
-            method: "GET"
-        });
-
-        promise_get_list.done(function(dblist){
-            if(dblist.length > 0) {
-                // append video list
-                var onplay_id = dblist[0]['id'];
-
-                $("#list").empty();
-                for (const [key, row] of Object.entries(dblist)) {
-                    var id = row['id'];
-                    var video_id = row['video_id'];
-                    var title = row['title'];
-                    $("#list").append("<li class='list-group-item' id='"+id+"' video_id='"+video_id+"'>"+title+"</li>");
-                }
-
-                // get onplay video
-                var onplay_video = dblist[0];
-                event.target.loadVideoById(onplay_video['video_id']);
-                videoData = event.target.getVideoData();
-
-                // tag onplay
-                $('#'+onplay_id).addClass('active');
-
-                // delete first video
-                remove(onplay_video['id']);
-
-                // ajax add playing
-                playing(onplay_video['id'])
-            } else {
-                // no video list
-                $("#list").empty();
-                $("#list").append("<li class='list-group-item'>無點播清單</li>");
-                var promise_get_random = $.ajax({
-                    url: '/player/random',
-                    method: "GET"
-                });
-                promise_get_random.done(function(data){
-                    if(data.id) {
-                        // play this video
-                        event.target.loadVideoById(data.video_id);
-                        // ajax add playing
-                        playing(data.id)
-                    } else {
-                        // todo
-                        event.target.loadVideoById('hKRUPYrAQoE');
-                    }
-                    console.log(data);
-                });
-
-                promise_get_random.fail(function(d){
-                    // todo
-                    event.target.loadVideoById('hKRUPYrAQoE');
-                })
-            }
-        });
+        playNext(event);
     }
 }
 
-function remove(id){
+// YT Player error
+function onError(event){
+    playNext(event);
+}
+
+function playNext(event) {
+    var list = $.ajax({
+        url: '/v1/list',
+        method: "GET"
+    });
+
+    list.done(function (dblist) {
+        if (dblist.length > 0) {
+            // append video list
+            var onplay_id = dblist[0]['id'];
+            $("#list").empty();
+            for (const [key, row] of Object.entries(dblist)) {
+                var id = row['id'];
+                var video_id = row['video_id'];
+                var title = row['title'];
+                $("#list").append("<li class='list-group-item' id='" + id + "' video_id='" + video_id + "'>" + title + "</li>");
+            }
+
+            // get onplay video & tag onplay video
+            var onplay_video = dblist[0];
+            event.target.loadVideoById(onplay_video['video_id']);
+            videoData = event.target.getVideoData();
+            $('#' + onplay_id).addClass('active');
+
+            // delete first video
+            remove(onplay_video['id']);
+
+            // ajax add playing
+            playing(onplay_video['id'])
+        } else {
+            // no video list
+            $("#list").empty();
+            $("#list").append("<li class='list-group-item'>無點播清單</li>");
+            playRandom(event);
+        }
+    });
+}
+function remove(id) {
     $.ajax({
-        url: 'v1/list/'+id,
+        url: 'v1/list/' + id,
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
@@ -132,7 +117,7 @@ function remove(id){
     });
 }
 
-function playing(id){
+function playing(id) {
     $.ajax({
         url: 'v1/playing',
         headers: {
@@ -143,5 +128,29 @@ function playing(id){
         data: {
             'id': id,
         },
+    });
+}
+
+function playRandom(event){
+    var promise_get_random = $.ajax({
+        url: '/v1/list/random',
+        method: "GET"
+    });
+    promise_get_random.done(function (data) {
+        console.log(data);
+        if (data.id) {
+            // play this video
+            event.target.loadVideoById(data.video_id);
+            // ajax add playing
+            playing(data.id)
+        } else {
+            // todo
+            event.target.loadVideoById('hKRUPYrAQoE');
+        }
+    });
+
+    promise_get_random.fail(function (d) {
+        // todo
+        event.target.loadVideoById('hKRUPYrAQoE');
     });
 }

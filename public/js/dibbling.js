@@ -31,13 +31,13 @@ $(document).on('click', '.btn-primary', function(event){
 $(document).on('click', '.btn-info', function(event){
     refreshPlaying();
     refreshList();
-    refreshPlayedList();
+    refreshListPlayed();
 });
 
 // refresh playing & list & play list
 refreshPlaying();
 refreshList();
-refreshPlayedList();
+refreshListPlayed();
 
 function refreshPlaying(){
     var promise_get_playing = $.ajax({
@@ -60,12 +60,12 @@ function refreshPlaying(){
 function refreshList(){
 
     $("#list").empty();
-    var promise_get_list = $.ajax({
-        url: '/player/list',
+    var list = $.ajax({
+        url: '/v1/list',
         method: "GET"
     });
 
-    promise_get_list.done(function(dblist){
+    list.done(function(dblist){
         if(dblist.length > 0) {
             // append video list
             $("#list").empty();
@@ -80,14 +80,13 @@ function refreshList(){
             $("#list").empty();
             $("#list").append("<li class='list-group-item'>無點播清單</li>");
         }
-
     });
 }
 
-function refreshPlayedList(){
+function refreshListPlayed(){
     $("#played-list").empty();
     var promise_get_list = $.ajax({
-        url: '/player/played-list',
+        url: '/v1/list/played',
         method: "GET"
     });
 

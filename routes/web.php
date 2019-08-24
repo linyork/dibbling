@@ -17,15 +17,9 @@ Route::get('dibbling', 'Dibbling@index');
 Route::get('player', 'player@index');
 
 // api
-Route::group(['prefix' => 'player'], function () {
-    Route::get('playing/{id}', 'Player@playing');
-    Route::get('list', 'Player@list');
-    Route::get('played-list', 'Player@play_list');
-    Route::get('random', 'Player@random');
-});
-
-// api
 Route::group(['prefix' => 'v1'], function () {
+    Route::get('list', 'v1\ListController@index');
+    Route::get('list/{action}', 'v1\ListController@show');
     Route::post('list','v1\ListController@store');
     Route::delete('list/{id}', 'v1\ListController@destroy');
     
