@@ -179,12 +179,16 @@ function FailMethod(e) {
 }
 
 function playListRow(video_id, id, title) {
-    let newLi = document.createElement('li');
-    newLi.className = 'list-group-item';
-    let newDiv = document.createElement('div');
-    newDiv.className = 'btn-group';
-    newDiv.setAttribute('role', 'group');
-    newDiv.setAttribute('aria-label', 'Basic example');
+    let li = document.createElement('li');
+    li.className = 'list-group-item text-truncate';
+    li.setAttribute('data-toggle', 'tooltip');
+    li.setAttribute('data-placement', 'top');
+    li.setAttribute('title', title);
+    let btn_group = document.createElement('div');
+    btn_group.className = 'btn-group';
+    btn_group.setAttribute('role', 'group');
+    btn_group.setAttribute('aria-label', 'Basic example');
+    btn_group.setAttribute('style', 'margin-right: 1em;');
     let newButton1 = document.createElement('button');
     newButton1.className = 'btn btn-secondary';
     newButton1.setAttribute('type', 'button');
@@ -196,21 +200,25 @@ function playListRow(video_id, id, title) {
     newButton2.setAttribute('data-uid', id);
     newButton2.append('移除');
 
-    newDiv.append(newButton1);
-    newDiv.append(newButton2);
-    newLi.append(newDiv);
-    newLi.append(title);
+    btn_group.append(newButton1);
+    btn_group.append(newButton2);
+    li.append(btn_group);
+    li.append(title);
 
-    return newLi;
+    return li;
 }
 
 function playedListRow(video_id, id, title) {
-    let newLi = document.createElement('li');
-    newLi.className = 'list-group-item';
-    let newDiv = document.createElement('div');
-    newDiv.className = 'btn-group';
-    newDiv.setAttribute('role', 'group');
-    newDiv.setAttribute('aria-label', 'Basic example');
+    let li = document.createElement('li');
+    li.className = 'list-group-item text-truncate';
+    li.setAttribute('data-toggle', 'tooltip');
+    li.setAttribute('data-placement', 'top');
+    li.setAttribute('title', title);
+    let btn_group = document.createElement('div');
+    btn_group.className = 'btn-group';
+    btn_group.setAttribute('role', 'group');
+    btn_group.setAttribute('aria-label', 'Basic example');
+    btn_group.setAttribute('style', 'margin-right: 1em;');
     let newButton1 = document.createElement('button');
     newButton1.className = 'btn btn-primary';
     newButton1.setAttribute('type', 'button');
@@ -222,10 +230,10 @@ function playedListRow(video_id, id, title) {
     newButton2.setAttribute('data-uid', id);
     newButton2.append('移除');
 
-    newDiv.append(newButton1);
-    newDiv.append(newButton2);
-    newLi.append(newDiv);
-    newLi.append(title);
+    btn_group.append(newButton1);
+    btn_group.append(newButton2);
+    li.append(btn_group);
+    li.append(title);
 
-    return newLi;
+    return li;
 }

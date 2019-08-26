@@ -25,13 +25,13 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm">
+        <div class="col-6">
             <div class="card">
                 <h5 class="card-header">點播歌曲</h5>
                 <ul class="list-group list-group-flush" id="list"></ul>
             </div>
         </div>
-        <div class="col-sm">
+        <div class="col-6">
             <div class="card">
                 <h5 class="card-header">已播歌曲</h5>
                 <ul class="list-group list-group-flush" id="played-list"></ul>
