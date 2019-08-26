@@ -15,7 +15,7 @@
                 <button id="playing" type="button" class="btn btn-info"></button>
             </h1>
             <span class="badge badge-primary">Client</span>
-            <span class="badge badge-secondary">v1.1</span>
+            <span class="badge badge-secondary">v1.2</span>
             <div class="form-group">
                 <input id="video-id" class="form-control">
                 <small class="form-text text-muted">請輸入 youtube 影片代碼</small>

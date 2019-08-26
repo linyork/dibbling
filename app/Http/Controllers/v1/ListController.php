@@ -96,20 +96,27 @@ class ListController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $list = ListTable::find($id);
-        $list->delete();
-        if ( $list->trashed() )
+        if($request->input('real'))
         {
-            return response()->json('Soft delete success.');
-        }
-        else
-        {
-            return response()->json('Soft delete error.');
+            DB::table('list')->where('id', '=', $id)->delete();
+            return response()->json('Real delete success.');
+        } else {
+            $list = ListTable::find($id);
+            $list->delete();
+            if ( $list->trashed() )
+            {
+                return response()->json('Soft delete success.');
+            }
+            else
+            {
+                return response()->json('Soft delete error.');
+            }
         }
     }
     

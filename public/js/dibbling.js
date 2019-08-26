@@ -21,24 +21,37 @@ $(document).on('click', '.btn-success', function(){
     dibbling($('#video-id').val());
     $("#video-id").val("");
 });
+
+// played dibbling
 $(document).on('click', '.btn-primary', function(){
     dibbling($(this).attr('data-id'));
 });
 
+// remove
+$(document).on('click', '.btn-secondary', function(){
+    remove($(this).attr('data-uid'));
+});
+
+// real remove
+$(document).on('click', '.btn-danger', function(){
+    realRemove($(this).attr('data-uid'));
+});
+
 //refresh
 $(document).on('click', '.btn-info', function(){
-    refreshPlaying();
-    refreshList();
-    refreshListPlayed();
+    refresh();
 });
 
 // refresh playing & list & play list
 $(function() {
+    refresh();
+});
+
+function refresh(){
     refreshPlaying();
     refreshList();
     refreshListPlayed();
-});
-
+}
 
 function refreshPlaying(){
     let promise_get_playing = $.ajax({
@@ -71,11 +84,8 @@ function refreshList(){
             play_list_dom.append("<li class='list-group-item'>無點播清單</li>");
         } else {
             // have video list and append video list
-            db_list.forEach(function(element) {
-                let title = element['title'];
-                play_list_dom.append("<li class='list-group-item'>" +
-                    title +
-                    "</li>");
+            db_list.forEach(function(e) {
+                play_list_dom.append(playListRow(e['video_id'], e['id'], e['title']));
             });
         }
     });
@@ -95,15 +105,8 @@ function refreshListPlayed(){
             played_list_dom.append("<li class='list-group-item'>無已播清單</li>");
         } else {
             // have video list and append video list
-            db_list.forEach(function(element) {
-                let video_id = element['video_id'];
-                let title = element['title'];
-                played_list_dom.append("<li class='list-group-item'>" +
-                    "<a href='#' class='btn btn-primary' data-id='" + video_id + "'>" +
-                    "再點播" +
-                    "</a>" +
-                    title +
-                    "</li>");
+            db_list.forEach(function(e) {
+                played_list_dom.append(playedListRow(e['video_id'], e['id'], e['title']));
             });
         }
 
@@ -111,6 +114,7 @@ function refreshListPlayed(){
 }
 
 function dibbling(videoId) {
+    if (videoId == '') return;
     let promise_post_list = $.ajax({
         url: 'v1/list',
         headers: {
@@ -126,17 +130,102 @@ function dibbling(videoId) {
     promise_post_list.fail(FailMethod);
 }
 
+function remove(id) {
+    let promise_remove = $.ajax({
+        url: 'v1/list/' + id,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: "DELETE",
+        dataType: "json",
+    });
+
+    promise_remove.done(function(){
+        refresh();
+    });
+}
+
+function realRemove(id){
+    let promise_remove = $.ajax({
+        url: 'v1/list/' + id ,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: "DELETE",
+        dataType: "json",
+        data: {
+            'real': true,
+        },
+    });
+
+    promise_remove.done(function(){
+        refresh();
+    });
+    console.log(id);
+}
+
 function SuccessMethod(e) {
     if(e['status'] === 1) {
         console.log('send');
         // ws.send("{id:"+e['videoId']+",title:"+e['title']+"}");
     }
-    refreshList();
-    refreshListPlayed();
+    refresh();
     console.log(e);
 }
 
 function FailMethod(e) {
     alert(e);
     console.log(e);
+}
+
+function playListRow(video_id, id, title) {
+    let newLi = document.createElement('li');
+    newLi.className = 'list-group-item';
+    let newDiv = document.createElement('div');
+    newDiv.className = 'btn-group';
+    newDiv.setAttribute('role', 'group');
+    newDiv.setAttribute('aria-label', 'Basic example');
+    let newButton1 = document.createElement('button');
+    newButton1.className = 'btn btn-secondary';
+    newButton1.setAttribute('type', 'button');
+    newButton1.setAttribute('data-uid', id);
+    newButton1.append('切歌');
+    let newButton2 = document.createElement('button');
+    newButton2.className = 'btn btn-danger';
+    newButton2.setAttribute('type', 'button');
+    newButton2.setAttribute('data-uid', id);
+    newButton2.append('移除');
+
+    newDiv.append(newButton1);
+    newDiv.append(newButton2);
+    newLi.append(newDiv);
+    newLi.append(title);
+
+    return newLi;
+}
+
+function playedListRow(video_id, id, title) {
+    let newLi = document.createElement('li');
+    newLi.className = 'list-group-item';
+    let newDiv = document.createElement('div');
+    newDiv.className = 'btn-group';
+    newDiv.setAttribute('role', 'group');
+    newDiv.setAttribute('aria-label', 'Basic example');
+    let newButton1 = document.createElement('button');
+    newButton1.className = 'btn btn-primary';
+    newButton1.setAttribute('type', 'button');
+    newButton1.setAttribute('data-id', video_id);
+    newButton1.append('點播');
+    let newButton2 = document.createElement('button');
+    newButton2.className = 'btn btn-danger';
+    newButton2.setAttribute('type', 'button');
+    newButton2.setAttribute('data-uid', id);
+    newButton2.append('移除');
+
+    newDiv.append(newButton1);
+    newDiv.append(newButton2);
+    newLi.append(newDiv);
+    newLi.append(title);
+
+    return newLi;
 }
