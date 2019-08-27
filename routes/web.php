@@ -12,9 +12,9 @@
 */
 
 // page
-Route::get('/', 'dibbling@index');
-Route::get('dibbling', 'dibbling@index');
-Route::get('player', 'player@index');
+Route::get('/', 'Dibbling@index');
+Route::get('dibbling', 'Dibbling@index');
+Route::get('player', 'Player@index');
 
 // api
 Route::group(['prefix' => 'v1'], function () {
