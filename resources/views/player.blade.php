@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ URL::asset('css/common/bootstrap.css') }}">
     <script src="{{ asset('js/common/jquery-3.4.1.js')}}"></script>
     <script src="{{ asset('js/common/bootstrap.js')}}"></script>
-    <script async src="http://www.youtube.com/iframe_api"></script>
+    <script async src="//www.youtube.com/iframe_api"></script>
     <script src="{{ asset('js/player.js')}}"></script>
 </head>
 <body>
