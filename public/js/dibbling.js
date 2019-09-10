@@ -16,224 +16,241 @@
 //     console.log(evt);
 // };
 
-// dibbling
-$(document).on('click', '.btn-success', function(){
-    dibbling($('#video-id').val());
-    $("#video-id").val("");
-});
+$(function() {
+    // dibbling
+    $(document).on('click', '.btn-success', function () {
+        dibbling($('#video-id').val());
+        $("#video-id").val("");
+    });
 
 // played dibbling
-$(document).on('click', '.btn-primary', function(){
-    dibbling($(this).attr('data-id'));
-});
+    $(document).on('click', '.btn-primary', function () {
+        redibbling($(this).attr('data-uid'));
+    });
 
 // remove
-$(document).on('click', '.btn-secondary', function(){
-    remove($(this).attr('data-uid'));
-});
+    $(document).on('click', '.btn-secondary', function () {
+        remove($(this).attr('data-uid'));
+    });
 
 // real remove
-$(document).on('click', '.btn-danger', function(){
-    realRemove($(this).attr('data-uid'));
-});
+    $(document).on('click', '.btn-danger', function () {
+        realRemove($(this).attr('data-uid'));
+    });
 
 //refresh
-$(document).on('click', '.btn-info', function(){
-    refresh();
-});
+    $(document).on('click', '.btn-info', function () {
+        refresh();
+    });
 
 // refresh playing & list & play list
-$(function() {
-    refresh();
-});
-
-function refresh(){
-    refreshPlaying();
-    refreshList();
-    refreshListPlayed();
-}
-
-function refreshPlaying(){
-    let promise_get_playing = $.ajax({
-        url: 'v1/playing',
-        method: "GET"
-    });
-
-    promise_get_playing.done(function(data){
-        if(data.id) {
-            // have playing
-            $('#playing').text(data.title);
-        } else {
-            // no playing
-            $('#playing').text('Two Steps From Hell - Victory - YouTube');
-        }
-    });
-}
-
-function refreshList(){
-    let list = $.ajax({
-        url: '/v1/list',
-        method: "GET"
-    });
-
-    list.done(function(db_list){
-        let play_list_dom = $('#list');
-        play_list_dom.empty();
-        if (db_list.length <= 0) {
-            // no video list
-            play_list_dom.append("<li class='list-group-item'>無點播清單</li>");
-        } else {
-            // have video list and append video list
-            db_list.forEach(function(e) {
-                play_list_dom.append(playListRow(e['video_id'], e['id'], e['title']));
-            });
-        }
-    });
-}
-
-function refreshListPlayed(){
-    let promise_get_list = $.ajax({
-        url: '/v1/list/played',
-        method: "GET"
-    });
-
-    promise_get_list.done(function(db_list){
-        let played_list_dom = $("#played-list");
-        played_list_dom.empty();
-        if (db_list.length <= 0) {
-            // no video list
-            played_list_dom.append("<li class='list-group-item'>無已播清單</li>");
-        } else {
-            // have video list and append video list
-            db_list.forEach(function(e) {
-                played_list_dom.append(playedListRow(e['video_id'], e['id'], e['title']));
-            });
-        }
-
-    });
-}
-
-function dibbling(videoId) {
-    if (videoId == '') return;
-    let promise_post_list = $.ajax({
-        url: 'v1/list',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        method: "POST",
-        dataType: "json",
-        data: {
-            'videoId': videoId,
-        },
-    });
-    promise_post_list.done(SuccessMethod);
-    promise_post_list.fail(FailMethod);
-}
-
-function remove(id) {
-    let promise_remove = $.ajax({
-        url: 'v1/list/' + id,
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        type: "DELETE",
-        dataType: "json",
-    });
-
-    promise_remove.done(function(){
+    $(function () {
         refresh();
     });
-}
 
-function realRemove(id){
-    let promise_remove = $.ajax({
-        url: 'v1/list/' + id ,
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        type: "DELETE",
-        dataType: "json",
-        data: {
-            'real': true,
-        },
-    });
-
-    promise_remove.done(function(){
-        refresh();
-    });
-    console.log(id);
-}
-
-function SuccessMethod(e) {
-    if(e['status'] === 1) {
-        console.log('send');
-        // ws.send("{id:"+e['videoId']+",title:"+e['title']+"}");
+    function refresh() {
+        refreshPlaying();
+        refreshList();
+        refreshListPlayed();
     }
-    refresh();
-    console.log(e);
-}
 
-function FailMethod(e) {
-    alert(e);
-    console.log(e);
-}
+    function refreshPlaying() {
+        let promise_get_playing = $.ajax({
+            url: 'v1/playing',
+            method: "GET"
+        });
 
-function playListRow(video_id, id, title) {
-    let li = document.createElement('li');
-    li.className = 'list-group-item text-truncate';
-    li.setAttribute('data-toggle', 'tooltip');
-    li.setAttribute('data-placement', 'top');
-    li.setAttribute('title', title);
-    let btn_group = document.createElement('div');
-    btn_group.className = 'btn-group';
-    btn_group.setAttribute('role', 'group');
-    btn_group.setAttribute('aria-label', 'Basic example');
-    btn_group.setAttribute('style', 'margin-right: 1em;');
-    let newButton1 = document.createElement('button');
-    newButton1.className = 'btn btn-secondary';
-    newButton1.setAttribute('type', 'button');
-    newButton1.setAttribute('data-uid', id);
-    newButton1.append('切歌');
-    let newButton2 = document.createElement('button');
-    newButton2.className = 'btn btn-danger';
-    newButton2.setAttribute('type', 'button');
-    newButton2.setAttribute('data-uid', id);
-    newButton2.append('移除');
+        promise_get_playing.done(function (data) {
+            if (data.id) {
+                // have playing
+                $('#playing').text(data.title);
+            } else {
+                // no playing
+                $('#playing').text('Two Steps From Hell - Victory - YouTube');
+            }
+        });
+    }
 
-    btn_group.append(newButton1);
-    btn_group.append(newButton2);
-    li.append(btn_group);
-    li.append(title);
+    function refreshList() {
+        let list = $.ajax({
+            url: '/v1/list',
+            method: "GET"
+        });
 
-    return li;
-}
+        list.done(function (db_list) {
+            let play_list_dom = $('#list');
+            play_list_dom.empty();
+            if (db_list.length <= 0) {
+                // no video list
+                play_list_dom.append("<li class='list-group-item'>無點播清單</li>");
+            } else {
+                // have video list and append video list
+                db_list.forEach(function (e) {
+                    play_list_dom.append(playListRow(e['video_id'], e['id'], e['title']));
+                });
+            }
+        });
+    }
 
-function playedListRow(video_id, id, title) {
-    let li = document.createElement('li');
-    li.className = 'list-group-item text-truncate';
-    li.setAttribute('data-toggle', 'tooltip');
-    li.setAttribute('data-placement', 'top');
-    li.setAttribute('title', title);
-    let btn_group = document.createElement('div');
-    btn_group.className = 'btn-group';
-    btn_group.setAttribute('role', 'group');
-    btn_group.setAttribute('aria-label', 'Basic example');
-    btn_group.setAttribute('style', 'margin-right: 1em;');
-    let newButton1 = document.createElement('button');
-    newButton1.className = 'btn btn-primary';
-    newButton1.setAttribute('type', 'button');
-    newButton1.setAttribute('data-id', video_id);
-    newButton1.append('點播');
-    let newButton2 = document.createElement('button');
-    newButton2.className = 'btn btn-danger';
-    newButton2.setAttribute('type', 'button');
-    newButton2.setAttribute('data-uid', id);
-    newButton2.append('移除');
+    function refreshListPlayed() {
+        let promise_get_list = $.ajax({
+            url: '/v1/list/played',
+            method: "GET"
+        });
 
-    btn_group.append(newButton1);
-    btn_group.append(newButton2);
-    li.append(btn_group);
-    li.append(title);
+        promise_get_list.done(function (db_list) {
+            let played_list_dom = $("#played-list");
+            played_list_dom.empty();
+            if (db_list.length <= 0) {
+                // no video list
+                played_list_dom.append("<li class='list-group-item'>無已播清單</li>");
+            } else {
+                // have video list and append video list
+                db_list.forEach(function (e) {
+                    played_list_dom.append(playedListRow(e['video_id'], e['id'], e['title']));
+                });
+            }
 
-    return li;
-}
+        });
+    }
+
+    function dibbling(videoId) {
+        if (videoId === '') return;
+        let promise_post_list = $.ajax({
+            url: 'v1/list',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            method: "POST",
+            dataType: "json",
+            data: {
+                'videoId': videoId,
+            },
+        });
+        promise_post_list.done(SuccessMethod);
+        promise_post_list.fail(FailMethod);
+    }
+
+    function redibbling(id){
+        let promise_remove = $.ajax({
+            url: 'v1/list/' + id,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "PUT",
+            dataType: "json",
+        });
+
+        promise_remove.done(function () {
+            refresh();
+        });
+    }
+
+    function remove(id) {
+        let promise_remove = $.ajax({
+            url: 'v1/list/' + id,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "DELETE",
+            dataType: "json",
+        });
+
+        promise_remove.done(function () {
+            refresh();
+        });
+    }
+
+    function realRemove(id) {
+        let promise_remove = $.ajax({
+            url: 'v1/list/' + id,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "DELETE",
+            dataType: "json",
+            data: {
+                'real': true,
+            },
+        });
+
+        promise_remove.done(function () {
+            refresh();
+        });
+        console.log(id);
+    }
+
+    function SuccessMethod(e) {
+        if (e['status'] === 1) {
+            console.log('send');
+            // ws.send("{id:"+e['videoId']+",title:"+e['title']+"}");
+        }
+        refresh();
+        console.log(e);
+    }
+
+    function FailMethod(e) {
+        alert(e);
+        console.log(e);
+    }
+
+    function playListRow(video_id, id, title) {
+        let li = document.createElement('li');
+        li.className = 'list-group-item text-truncate';
+        li.setAttribute('data-toggle', 'tooltip');
+        li.setAttribute('data-placement', 'top');
+        li.setAttribute('title', title);
+        let btn_group = document.createElement('div');
+        btn_group.className = 'btn-group';
+        btn_group.setAttribute('role', 'group');
+        btn_group.setAttribute('aria-label', 'Basic example');
+        btn_group.setAttribute('style', 'margin-right: 1em;');
+        let newButton1 = document.createElement('button');
+        newButton1.className = 'btn btn-secondary';
+        newButton1.setAttribute('type', 'button');
+        newButton1.setAttribute('data-uid', id);
+        newButton1.append('切歌');
+        let newButton2 = document.createElement('button');
+        newButton2.className = 'btn btn-danger';
+        newButton2.setAttribute('type', 'button');
+        newButton2.setAttribute('data-uid', id);
+        newButton2.append('移除');
+
+        btn_group.append(newButton1);
+        btn_group.append(newButton2);
+        li.append(btn_group);
+        li.append(title);
+
+        return li;
+    }
+
+    function playedListRow(video_id, id, title) {
+        let li = document.createElement('li');
+        li.className = 'list-group-item text-truncate';
+        li.setAttribute('data-toggle', 'tooltip');
+        li.setAttribute('data-placement', 'top');
+        li.setAttribute('title', title);
+        let btn_group = document.createElement('div');
+        btn_group.className = 'btn-group';
+        btn_group.setAttribute('role', 'group');
+        btn_group.setAttribute('aria-label', 'Basic example');
+        btn_group.setAttribute('style', 'margin-right: 1em;');
+        let newButton1 = document.createElement('button');
+        newButton1.className = 'btn btn-primary';
+        newButton1.setAttribute('type', 'button');
+        newButton1.setAttribute('data-uid', id);
+        newButton1.append('點播');
+        let newButton2 = document.createElement('button');
+        newButton2.className = 'btn btn-danger';
+        newButton2.setAttribute('type', 'button');
+        newButton2.setAttribute('data-uid', id);
+        newButton2.append('移除');
+
+        btn_group.append(newButton1);
+        btn_group.append(newButton2);
+        li.append(btn_group);
+        li.append(title);
+
+        return li;
+    }
+});

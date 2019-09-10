@@ -90,7 +90,9 @@ class ListController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = ListTable::onlyTrashed()->find($id);
+        
+        return response()->json($data->restore());
     }
 
     /**
