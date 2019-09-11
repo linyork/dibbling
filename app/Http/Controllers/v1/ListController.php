@@ -17,7 +17,7 @@ class ListController extends Controller
     public function index()
     {
         $dbResult = ListTable::where('deleted_at', '=', null)
-            ->orderBy('id')
+            ->orderBy('updated_at')
             ->get();
         return response()->json($dbResult);
     }
