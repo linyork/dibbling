@@ -1,11 +1,11 @@
 <html>
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="{{ URL::asset('css/common/bootstrap.css') }}">
-    <script src="{{ asset('js/common/jquery-3.4.1.js')}}"></script>
-    <script src="{{ asset('js/common/bootstrap.js')}}"></script>
+    <link rel="stylesheet" href="css/common/bootstrap.css">
+    <script src="js/common/jquery-3.4.1.js"></script>
+    <script src="js/common/bootstrap.js"></script>
     <script async src="//www.youtube.com/iframe_api"></script>
-    <script src="{{ asset('js/player.js')}}"></script>
+    <script src="js/player.js"></script>
 </head>
 <body>
 <div class="container">
