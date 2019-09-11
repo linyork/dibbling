@@ -70,7 +70,7 @@ class ListController extends Controller
     {
         if($action === 'played')
         {
-            $request = ListTable::onlyTrashed()->get();
+            $request = ListTable::onlyTrashed()->orderBy('updated_at')->get();
         }
     
         if($action === 'random')
