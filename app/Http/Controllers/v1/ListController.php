@@ -34,7 +34,7 @@ class ListController extends Controller
         $returnJson = ['status' => 0, 'msg' => '', 'id' => '', 'title' => '',];
         $user_agent = $request->header('user-agent');
         
-        if (preg_match("/Browser/i", $user_agent))
+        if (preg_match("/Browser/i", $user_agent) || preg_match("/python-requestsls/i", $user_agent))
         {
             $returnJson['msg'] = '你個小壞蛋不要再用python自動點歌嘍!';
             return response()->json($returnJson);
