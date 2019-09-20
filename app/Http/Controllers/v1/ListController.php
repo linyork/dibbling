@@ -34,14 +34,22 @@ class ListController extends Controller
         $returnJson = ['status' => 0, 'msg' => '', 'id' => '', 'title' => '',];
         $user_agent = $request->header('user-agent');
         
-        if (preg_match("/Browser/i", $user_agent) || preg_match("/python-requestsls/i", $user_agent))
+        if (preg_match("/Browser/i", $user_agent) || preg_match("/python/i", $user_agent))
         {
-            $returnJson['msg'] = '你個小壞蛋不要再用python自動點歌嘍!';
+            $returnJson['msg'] = '加油!';
+            return response()->json($returnJson);
+        }
+    
+        $videoIdResult = ListTable::where('video_id', '=', $videoId)->first();
+
+        if($videoIdResult)
+        {
+            $returnJson['msg'] = '加油!';
             return response()->json($returnJson);
         }
         
         $youtubeData = self::_get_youtube_title($videoId);
-
+        
         if ( $youtubeData['status'] === 1 )
         {
             DB::table('list')->insert(
