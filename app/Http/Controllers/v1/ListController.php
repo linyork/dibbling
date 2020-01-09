@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\v1;
 
 use DB;
+use DateTime;
+use DateInterval;
 use App\Model\ListTable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -14,6 +16,9 @@ class ListController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public static $LIMIT_MIN = 8;
+
     public function index()
     {
         $dbResult = ListTable::where('deleted_at', '=', null)
@@ -49,6 +54,12 @@ class ListController extends Controller
         }
         
         $youtubeData = self::_get_youtube_title($videoId);
+        list($dur_h, $dur_m, $dur_s) = self::_get_duration($videoId);
+
+        if($dur_h != 0 || $dur_m > self::$LIMIT_MIN) {
+            $returnJson['msg'] = '過長!';
+            return response()->json($returnJson);            
+        }
         
         if ( $youtubeData['status'] === 1 )
         {
@@ -136,6 +147,36 @@ class ListController extends Controller
             }
         }
     }
+
+    private function _get_duration(string $vid) : array
+    {
+        $h = 0;
+        $m = 0;
+        $s = 0;
+        $api_base = 'https://www.googleapis.com/youtube/v3/videos?';
+        $ary_param = array(
+            'part' => 'contentDetails',
+            'id' => $vid,
+            'key' => 'AIzaSyD8dMvEMgk7T5U1VFjC9-LoRp486E2X7gQ'  // fisher's key, replace if u want
+        );        
+
+        $json = file_get_contents($api_base.http_build_query($ary_param));
+        $ary_info = json_decode($json,true);
+        if(isset($ary_info['items'][0])) {
+            $duration = $ary_info['items'][0]['contentDetails']['duration'];
+
+            // format dutaion
+            $dt = new DateTime('@0'); // Unix epoch
+            $dt->add(new DateInterval($duration));
+            $str_duration = $dt->format('H:i:s');
+            list($h, $m, $s) = explode(':', $str_duration);
+            $h = intval($h);
+            $m = intval($m);
+            $s = intval($s);
+        }
+
+        return array($h, $m, $s);
+    }   
     
     private function _get_youtube_title(string $videoId) : array
     {
