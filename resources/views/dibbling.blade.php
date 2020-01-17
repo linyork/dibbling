@@ -12,7 +12,7 @@
         <div class="col-sm">
             <h1>
                 點播系統
-                <button id="playing" type="button" class="btn btn-info"></button>
+                <a id="playing" type="button" class="btn btn-info" target="_blank"></a>
             </h1>
             <span class="badge badge-primary">Client</span>
             <span class="badge badge-secondary">v1.2</span>

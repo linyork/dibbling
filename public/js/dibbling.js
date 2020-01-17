@@ -64,9 +64,12 @@ $(function() {
             if (data.id) {
                 // have playing
                 $('#playing').text(data.title);
+                $("#playing").attr("href", "https://www.youtube.com/watch?v="+data.video_id);
+
             } else {
                 // no playing
                 $('#playing').text('Two Steps From Hell - Victory - YouTube');
+                $("#playing").attr("href", "#");
             }
         });
     }
