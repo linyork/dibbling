@@ -24,7 +24,7 @@ Route::get('player', function(){
     return view('player');
 })->name('player');
 
-// api
+// api v1
 Route::group(['prefix' => 'v1'], function () {
     Route::get('list', 'v1\ListController@index');
     Route::get('list/{action}', 'v1\ListController@show');
