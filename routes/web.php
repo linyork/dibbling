@@ -11,10 +11,18 @@
 |
 */
 
-// page
-Route::get('/', 'dibbling@index');
-Route::get('dibbling', 'dibbling@index');
-Route::get('player', 'player@index');
+// home
+Route::get('/', function(){
+    return redirect('dibbling');
+});
+// dibbling
+Route::get('dibbling', function(){
+    return view('dibbling');
+})->name('dibbling');
+// player
+Route::get('player', function(){
+    return view('player');
+})->name('player');
 
 // api
 Route::group(['prefix' => 'v1'], function () {
@@ -23,7 +31,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('list','v1\ListController@store');
     Route::put('list/{id}', 'v1\ListController@update');
     Route::delete('list/{id}', 'v1\ListController@destroy');
-    
+
     Route::get('playing', 'v1\PlayingController@show');
     Route::post('playing', 'v1\PlayingController@store');
 });

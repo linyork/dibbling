@@ -28,7 +28,7 @@ composer install
 ### laravel
 
 ```
-php artisan mmigrate
+php artisan migrate
 ```
 
 ### 啟動
