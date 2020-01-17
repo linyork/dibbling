@@ -25,4 +25,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'v2'], function ()
 {
     Route::get('list', 'v2\ListController@list');
+    Route::get('list/played', 'v2\ListController@played');
+    Route::get('list/random', 'v2\ListController@random');
+    Route::post('list','v2\ListController@insert');
 });

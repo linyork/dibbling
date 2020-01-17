@@ -41,6 +41,10 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+$app->singleton(
+    \App\Helper\YoutubeHelper::class,
+    \App\Helper\YoutubeHelper::class
+);
 /*
 |--------------------------------------------------------------------------
 | Return The Application
