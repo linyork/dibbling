@@ -81,4 +81,31 @@ class ListController extends Controller
         }
         return response()->json($returnJson);
     }
+
+    public function redibbling($id)
+    {
+        $data = ListTable::onlyTrashed()->find($id);
+
+        return response()->json($data->restore());
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        if($request->input('real'))
+        {
+            \DB::table('list')->where('id', '=', $id)->delete();
+            return response()->json('Real delete success.');
+        } else {
+            $list = ListTable::find($id);
+            $list->delete();
+            if ( $list->trashed() )
+            {
+                return response()->json('Soft delete success.');
+            }
+            else
+            {
+                return response()->json('Soft delete error.');
+            }
+        }
+    }
 }
