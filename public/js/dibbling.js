@@ -48,6 +48,13 @@ $(function() {
         refresh();
     });
 
+  //  $('.list-group-item').mouseover(function() {
+    $(document).ready(function() {
+        $('span').on("mouseover",function(){
+            console.log('123');
+        });
+    });
+
     function refresh() {
         refreshPlaying();
         refreshList();
@@ -218,12 +225,14 @@ $(function() {
         newButton2.setAttribute('type', 'button');
         newButton2.setAttribute('data-uid', id);
         newButton2.append('移除');
-
+        let text_group = document.createElement('span');
+        text_group.className = 'test';
+        text_group.setAttribute('id', 'test');
         btn_group.append(newButton1);
         btn_group.append(newButton2);
         li.append(btn_group);
-        li.append(title);
-
+        text_group.append(title);
+        li.append(text_group);
         return li;
     }
 

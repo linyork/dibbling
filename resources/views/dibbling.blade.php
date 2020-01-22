@@ -2,6 +2,7 @@
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="css/common/bootstrap.css">
+    <link rel="stylesheet" href="css/common/dibbling.css">
     <script src="js/common/jquery-3.4.1.js"></script>
     <script src="js/common/bootstrap.js"></script>
     <script src="js/dibbling.js"></script>
@@ -40,5 +41,14 @@
     </div>
 </div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <iframe style="width: auto;" id="YouTubeVideoPlayer" frameborder="0" allowfullscreen="1" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" title="YouTube video player" width="640" height="360" src="https://www.youtube.com/embed/H4vrIS2gc4k?autoplay=0&amp;controls=1&amp;showinfo=0&amp;modestbranding=1&amp;loop=0&amp;fs=0&amp;cc_load_policty=0&amp;iv_load_policy=3&amp;autohide=0&amp;enablejsapi=1&amp;origin=http%3A%2F%2Flocal.dibbling.tw&amp;widgetid=1"></iframe>
+        </div>
+    </div>
+</div>
 </body>
 </html>
