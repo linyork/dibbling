@@ -48,12 +48,10 @@ $(function() {
         refresh();
     });
 
-  //  $('.list-group-item').mouseover(function() {
-    $(document).ready(function() {
-        $('span').on("mouseover",function(){
-            console.log('123');
-        });
-    });
+
+   $('.list-group-item > span').mouseover(function() {
+       console.log('123');
+   });
 
     function refresh() {
         refreshPlaying();
@@ -63,7 +61,7 @@ $(function() {
 
     function refreshPlaying() {
         let promise_get_playing = $.ajax({
-            url: 'v1/playing',
+            url: 'api/v2/playing',
             method: "GET"
         });
 
@@ -83,7 +81,7 @@ $(function() {
 
     function refreshList() {
         let list = $.ajax({
-            url: '/v1/list',
+            url: '/api/v2/list',
             method: "GET"
         });
 
@@ -104,7 +102,7 @@ $(function() {
 
     function refreshListPlayed() {
         let promise_get_list = $.ajax({
-            url: '/v1/list/played',
+            url: '/api/v2/list/played',
             method: "GET"
         });
 
@@ -127,7 +125,7 @@ $(function() {
     function dibbling(videoId) {
         if (videoId === '') return;
         let promise_post_list = $.ajax({
-            url: 'v1/list',
+            url: 'api/v2/list',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
@@ -143,7 +141,7 @@ $(function() {
 
     function redibbling(id){
         let promise_remove = $.ajax({
-            url: 'v1/list/' + id,
+            url: 'api/v2/list/' + id,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
@@ -158,7 +156,7 @@ $(function() {
 
     function remove(id) {
         let promise_remove = $.ajax({
-            url: 'v1/list/' + id,
+            url: 'api/v2/list/' + id,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
@@ -173,7 +171,7 @@ $(function() {
 
     function realRemove(id) {
         let promise_remove = $.ajax({
-            url: 'v1/list/' + id,
+            url: 'api/v2/list/' + id,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
@@ -225,14 +223,13 @@ $(function() {
         newButton2.setAttribute('type', 'button');
         newButton2.setAttribute('data-uid', id);
         newButton2.append('移除');
-        let text_group = document.createElement('span');
-        text_group.className = 'test';
-        text_group.setAttribute('id', 'test');
+        let titleSpan = document.createElement('span');
+
         btn_group.append(newButton1);
         btn_group.append(newButton2);
+        titleSpan.append(title);
         li.append(btn_group);
-        text_group.append(title);
-        li.append(text_group);
+        li.append(titleSpan);
         return li;
     }
 
@@ -257,11 +254,13 @@ $(function() {
         newButton2.setAttribute('type', 'button');
         newButton2.setAttribute('data-uid', id);
         newButton2.append('移除');
+        let titleSpan = document.createElement('span');
+        titleSpan.append(title);
 
         btn_group.append(newButton1);
         btn_group.append(newButton2);
         li.append(btn_group);
-        li.append(title);
+        li.append(titleSpan);
 
         return li;
     }

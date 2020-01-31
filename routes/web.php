@@ -23,15 +23,3 @@ Route::get('dibbling', function(){
 Route::get('player', function(){
     return view('player');
 })->name('player');
-
-// api v1
-Route::group(['prefix' => 'v1'], function () {
-    Route::get('list', 'v1\ListController@index');
-    Route::get('list/{action}', 'v1\ListController@show');
-    Route::post('list','v1\ListController@store');
-    Route::put('list/{id}', 'v1\ListController@update');
-    Route::delete('list/{id}', 'v1\ListController@destroy');
-
-    Route::get('playing', 'v1\PlayingController@show');
-    Route::post('playing', 'v1\PlayingController@store');
-});

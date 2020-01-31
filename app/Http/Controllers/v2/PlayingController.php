@@ -27,7 +27,7 @@ class PlayingController extends Controller
             ->update(['video_id' => $id]);
         if($returnJson === 0)
         {
-            $returnJson = DB::table('playing')->insert(
+            $returnJson = \DB::table('playing')->insert(
                 [
                     'id' => 1,
                     'video_id' => $id,
