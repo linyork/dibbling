@@ -11,15 +11,28 @@
 |
 */
 
-// home
-Route::get('/', function(){
-    return redirect('dibbling');
+Route::group(['middleware' => 'auth'], function ()
+{
+
+    // home
+    Route::get('/', function ()
+        {
+            return redirect('dibbling');
+        }
+    );
+    // dibbling
+    Route::get('dibbling', function ()
+        {
+            return view('dibbling');
+        }
+    )->name('dibbling');
 });
-// dibbling
-Route::get('dibbling', function(){
-    return view('dibbling');
-})->name('dibbling');
+
 // player
-Route::get('player', function(){
+Route::get('player', function ()
+{
     return view('player');
-})->name('player');
+}
+)->name('player');
+
+Auth::routes();
