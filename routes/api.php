@@ -25,17 +25,21 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 */
 Route::group(['prefix' => 'v2'], function ()
 {
+    // 點播
+    Route::post('list','v2\ListController@insert');
+    // 切歌
+    Route::put('list/{id}', 'v2\ListController@redibbling');
+    // 移除
+    Route::delete('list/{id}', 'v2\ListController@destroy');
+    // 取得點播清單
     Route::get('list', 'v2\ListController@list');
+    // 取得已播清單
     Route::get('list/played', 'v2\ListController@played');
+    // 隨機一首
     Route::get('list/random', 'v2\ListController@random');
+    // TODO: 或許可用list最新更新時間取得
+    // 取得正在播放
     Route::get('playing', 'v2\PlayingController@get');
-
-    Route::group(['middleware' => 'auth:api'], function ()
-    {
-        Route::post('playing', 'v2\PlayingController@playing');
-        Route::post('list','v2\ListController@insert');
-        Route::put('list/{id}', 'v2\ListController@redibbling');
-        Route::delete('list/{id}', 'v2\ListController@destroy');
-    });
-
+    // 更新正在播放
+    Route::post('playing', 'v2\PlayingController@playing');
 });
