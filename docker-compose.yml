@@ -54,7 +54,7 @@ services:
 #    volumes:
 #      - ./docker/ssl:/etc/ssl
 #      - ./:/var/www/html/dibbling
-  
+
   # database
   database:
     container_name: mysql
@@ -68,10 +68,11 @@ services:
       MYSQL_DATABASE: dibbling
       MYSQL_USER: dibblinguser
       MYSQL_PASSWORD: dibblingpassword
+    command: --default-authentication-plugin=mysql_native_password
     volumes:
       - ./docker/mysql/local.cnf:/etc/mysql/conf.d/local.cnf
       - ./docker/mysql/data:/var/lib/mysql
-  
+
 #  # cache
 #  cache:
 #    container_name: redis

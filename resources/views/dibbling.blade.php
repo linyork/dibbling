@@ -1,13 +1,6 @@
-<html>
-<head>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="css/common/bootstrap.css">
-    <link rel="stylesheet" href="css/common/dibbling.css">
-    <script src="js/common/jquery-3.4.1.js"></script>
-    <script src="js/common/bootstrap.js"></script>
-    <script src="js/dibbling.js"></script>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
 <div class="container">
     <div class="row">
         <div class="col-sm">
@@ -50,5 +43,4 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+@endsection
