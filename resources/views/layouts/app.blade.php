@@ -7,6 +7,13 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <!-- API Token -->
+    @guest
+    @else
+        <meta name="api_token" content="{{ Auth::user()->api_token }}">
+    @endguest
+
+    <!-- APP Name -->
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
