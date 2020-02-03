@@ -31,7 +31,6 @@
     <link rel="stylesheet" href="css/common/dibbling.css">
     <script src="js/common/jquery-3.4.1.js"></script>
 {{--    <script src="js/common/bootstrap.js"></script>--}}
-    <script src="js/dibbling.js"></script>
 
 </head>
 <body>
@@ -40,7 +39,13 @@
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
+                    <span class="badge background">v2.0</span>
                 </a>
+                @guest
+                @else
+                    <a id="playing" type="button" class="btn btn-info" target="_blank"></a>
+                @endguest
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -64,6 +69,15 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('dibbling') }}">Dibbling</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('dibbling_list') }}">List</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('dibbling_record') }}">Record</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -90,6 +104,10 @@
         <main class="py-4">
             @yield('content')
         </main>
+        <!-- App Js -->
+        <script src="/js/layout-app.js"></script>
+        <!-- Page Js-->
+        @yield('pageJs')
     </div>
 </body>
 </html>

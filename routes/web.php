@@ -13,19 +13,14 @@
 
 Route::group(['middleware' => 'auth'], function ()
 {
-
-    // home
     Route::get('/', function ()
         {
             return redirect('dibbling');
         }
     );
-    // dibbling
-    Route::get('dibbling', function ()
-        {
-            return view('dibbling');
-        }
-    )->name('dibbling');
+    Route::get('dibbling','Dibbling@index')->name('dibbling');
+    Route::get('dibbling_list','DibblingList@index')->name('dibbling_list');
+    Route::get('dibbling_record','DibblingRecord@index')->name('dibbling_record');
 });
 
 // player
