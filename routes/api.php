@@ -26,7 +26,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'v2'], function ()
 {
     // 需驗證身份
-    Route::middleware('auth:api')->group(function () {
+    Route::middleware(['auth:api', 'verified'])->group(function () {
         // 點播
         Route::post('list','v2\ListController@insert');
         // 重新點歌
