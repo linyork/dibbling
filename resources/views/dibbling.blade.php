@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
+    <div class="row" style="margin-top: 15vh;">
         <div class="col-sm">
             <div class="card">
                 <h4 class="card-header">Dibbling</h4>
