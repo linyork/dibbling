@@ -91,28 +91,53 @@ class ListController extends Controller
 
     public function redibbling($id)
     {
-        $data = ListTable::onlyTrashed()->find($id);
+        try
+        {
+            $list = ListTable::onlyTrashed()->find($id);
+            $result = $list->restore();
+            $record = new RecordTable;
+            $record->user_id = \Auth::user()->id;
+            $record->list_id = $list->id;
+            $record->record_type = 2;
+            $record->save();
+        }
+        catch (\Exception $e)
+        {
+            $result = false;
+        }
 
-        return response()->json($data->restore());
+        return response()->json($result);
     }
 
     public function destroy(Request $request, $id)
     {
-        if($request->input('real'))
+        try
         {
-            \DB::table('list')->where('id', '=', $id)->delete();
-            return response()->json('Real delete success.');
-        } else {
-            $list = ListTable::find($id);
-            $list->delete();
-            if ( $list->trashed() )
+            $list = ListTable::withTrashed()->find($id);
+
+            $record = new RecordTable;
+            $record->user_id = \Auth::user()->id;
+            $record->list_id = $id;
+            if($request->input('real'))
             {
-                return response()->json('Soft delete success.');
+                $record->record_type = 4;
+                $list->forceDelete();
+                $result_test = 'Real delete success.';
             }
             else
             {
-                return response()->json('Soft delete error.');
+                $record->record_type = 3;
+                $list->delete();
+                $result_test = ($list->trashed()) ? 'Soft delete success.' : 'Soft delete error.';
             }
+
+            $record->save();
         }
+        catch (\Exception $e)
+        {
+            $result_test = $e;
+        }
+        $result = response()->json($result_test);
+        return $result;
     }
 }
