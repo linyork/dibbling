@@ -101,7 +101,7 @@ function playNext(event) {
         } else {
             // no video list
             $("#list").empty();
-            $("#list").append("<li class='list-group-item'>無點播清單</li>");
+            $("#list").append("<li class='list-group-item'>No data</li>");
             playRandom(event);
         }
     });

@@ -20,7 +20,7 @@ $(function() {
             play_list_dom.empty();
             if (db_list.length <= 0) {
                 // no video list
-                play_list_dom.append("<li class='list-group-item'>無點播清單</li>");
+                play_list_dom.append("<li class='list-group-item'>No data</li>");
             } else {
                 // have video list and append video list
                 db_list.forEach(function (e) {
