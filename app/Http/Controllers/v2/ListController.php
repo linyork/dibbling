@@ -151,4 +151,20 @@ class ListController extends Controller
         $result = response()->json($result_test);
         return $result;
     }
+
+    public function play($id)
+    {
+        try
+        {
+            $list = ListTable::withTrashed()->find($id);
+            $list->delete();
+            $result_test = ($list->trashed()) ? 'Soft delete success.' : 'Soft delete error.';
+        }
+        catch (\Exception $e)
+        {
+            $result_test = $e;
+        }
+        $result = response()->json($result_test);
+        return $result;
+    }
 }

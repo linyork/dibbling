@@ -112,7 +112,7 @@ function remove(id) {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        type: "DELETE",
+        type: "POST",
         dataType: "json",
     });
 }

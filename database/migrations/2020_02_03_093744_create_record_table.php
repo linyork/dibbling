@@ -15,7 +15,7 @@ class CreateRecordTable extends Migration
     {
         Schema::create('record', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id')->index();
+            $table->integer('user_id')->default(0)->index();
             $table->integer('list_id')->index();
             $record_type_comment = '1:dibbling 2:redibbling 3.remove 4.realRemove';
             $table->integer('record_type')->comment($record_type_comment)->index();

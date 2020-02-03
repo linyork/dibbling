@@ -47,12 +47,10 @@ $(function() {
     }
 
     function SuccessMethod(e) {
-        if (e['status'] === 1) {
-            console.log('send');
-            // ws.send("{id:"+e['videoId']+",title:"+e['title']+"}");
+        if (e['status'] === false) {
+            alert(e.msg);
         }
         refresh();
-        console.log(e);
     }
 
     function FailMethod(e) {

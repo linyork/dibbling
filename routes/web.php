@@ -11,21 +11,15 @@
 |
 */
 
-Route::get('/', function (){
-    return redirect('dibbling');
-});
 
-Route::group(['middleware' => ['auth', 'verified']], function ()
-{
+Route::get('/', function (){ return redirect('dibbling'); })->name('home');
+Route::get('player', function (){ return view('player'); })->name('player');
+
+$middleware = ['auth'];
+if(\App::environment('production')) $middleware[] = 'verified';
+Route::middleware($middleware)->group(function () {
     Route::get('dibbling','Dibbling@index')->name('dibbling');
     Route::get('dibbling_list','DibblingList@index')->name('dibbling_list');
     Route::get('dibbling_record','DibblingRecord@index')->name('dibbling_record');
 });
-
-// player
-Route::get('player', function (){
-    return view('player');
-}
-)->name('player');
-
-Auth::routes(['verify' => true]);
+Auth::routes(['verify' => \App::environment('production')]);

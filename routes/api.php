@@ -25,8 +25,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 */
 Route::group(['prefix' => 'v2'], function ()
 {
-    // 需驗證身份
-    Route::middleware(['auth:api', 'verified'])->group(function () {
+    // 需驗證身份 production 處理
+    $middleware = ['auth:api'];
+    if(\App::environment('production')) $middleware[] = 'verified';
+    Route::middleware($middleware)->group(function () {
         // 點播
         Route::post('list','v2\ListController@insert');
         // 重新點歌
@@ -34,6 +36,8 @@ Route::group(['prefix' => 'v2'], function ()
         // 切歌 & 移除
         Route::delete('list/{id}', 'v2\ListController@destroy');
     });
+    // player 播放
+    Route::post('list/{id}', 'v2\ListController@play');
     // 取得點播清單
     Route::get('list', 'v2\ListController@list');
     // 取得已播清單

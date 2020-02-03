@@ -49,9 +49,15 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $email_validator = ['required', 'string', 'email', 'max:255', 'unique:users'];
+        if(\App::environment('production'))
+        {
+            $email_validator[] = 'regex:/core-tech\.(tw|jp)$/i';
+        }
+
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users', 'regex:/core-tech\.(tw|jp)$/i'],
+            'email' => $email_validator,
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
