@@ -5,6 +5,7 @@ namespace App\Http\Controllers\v2;
 
 use App\Helper\YoutubeHelper;
 use App\Http\Controllers\Controller;
+use App\Model\RecordTable;
 use Illuminate\Http\Request;
 use App\Model\ListTable;
 
@@ -15,6 +16,7 @@ class ListController extends Controller
         try
         {
             $result = ListTable::orderBy('updated_at')->get();
+
         }
         catch (\Exception $e)
         {
@@ -62,16 +64,21 @@ class ListController extends Controller
         $youtubeHelper->paser($videoId);
         if ( $youtubeHelper->getStatus() )
         {
-            \DB::table('list')->insert(
-                [
-                    'video_id' => $videoId,
-                    'title' => $youtubeHelper->getTitle(),
-                    'ip' => request()->ip(),
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]
-            );
             $returnJson['title'] = $youtubeHelper->getTitle();
+
+            $list = new ListTable;
+            $list->video_id = $videoId;
+            $list->title = $youtubeHelper->getTitle();
+            $list->ip = request()->ip();
+            $list->created_at = now();
+            $list->updated_at = now();
+            $list->save();
+
+            $record = new RecordTable;
+            $record->user_id = \Auth::user()->id;
+            $record->list_id = $list->id;
+            $record->record_type = 1;
+            $record->save();
         }
         else
         {

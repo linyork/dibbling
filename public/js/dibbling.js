@@ -127,6 +127,7 @@ $(function() {
         let promise_post_list = $.ajax({
             url: 'api/v2/list',
             headers: {
+                'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             method: "POST",
@@ -143,6 +144,7 @@ $(function() {
         let promise_remove = $.ajax({
             url: 'api/v2/list/' + id,
             headers: {
+                'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "PUT",
@@ -158,6 +160,7 @@ $(function() {
         let promise_remove = $.ajax({
             url: 'api/v2/list/' + id,
             headers: {
+                'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "DELETE",
@@ -173,6 +176,7 @@ $(function() {
         let promise_remove = $.ajax({
             url: 'api/v2/list/' + id,
             headers: {
+                'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "DELETE",

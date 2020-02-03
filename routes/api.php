@@ -25,12 +25,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 */
 Route::group(['prefix' => 'v2'], function ()
 {
-    // 點播
-    Route::post('list','v2\ListController@insert');
-    // 切歌
-    Route::put('list/{id}', 'v2\ListController@redibbling');
-    // 移除
-    Route::delete('list/{id}', 'v2\ListController@destroy');
+    // 需驗證身份
+    Route::middleware('auth:api')->group(function () {
+        // 點播
+        Route::post('list','v2\ListController@insert');
+        // 重新點歌
+        Route::put('list/{id}', 'v2\ListController@redibbling');
+        // 切歌 & 移除
+        Route::delete('list/{id}', 'v2\ListController@destroy');
+    });
     // 取得點播清單
     Route::get('list', 'v2\ListController@list');
     // 取得已播清單
