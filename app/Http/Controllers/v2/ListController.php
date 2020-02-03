@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Model\RecordTable;
 use Illuminate\Http\Request;
 use App\Model\ListTable;
+use phpDocumentor\Reflection\DocBlock\Tags\Reference\Url;
 
 class ListController extends Controller
 {
@@ -53,7 +54,17 @@ class ListController extends Controller
 
     public function insert(Request $request, YoutubeHelper $youtubeHelper)
     {
-        $videoId = $request->input('videoId');
+        $videoId_string = $request->input('videoId');
+        if(strlen($videoId_string) >= 12)
+        {
+            parse_str(parse_url($videoId_string, PHP_URL_QUERY), $get);
+            $videoId = $get['v'];
+        }
+        else
+        {
+            $videoId = $videoId_string;
+        }
+
         $returnJson = [
             'videoId' => $videoId,
             'status' => true,

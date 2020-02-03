@@ -12,7 +12,7 @@
                 <h4 class="card-header">Dibbling</h4>
                 <div class="card-body">
                     <input id="video-id" class="form-control">
-                    <small class="form-text text-muted">Please enter youtube video code</small>
+                    <small class="form-text text-muted">Please enter youtube video code or url</small>
                     <button id="dibbling-button" type="button" class="btn btn-success">Enter</button>
                 </div>
             </div>
