@@ -21,5 +21,6 @@ Route::middleware($middleware)->group(function () {
     Route::get('dibbling','Dibbling@index')->name('dibbling');
     Route::get('dibbling_list','DibblingList@index')->name('dibbling_list');
     Route::get('dibbling_record','DibblingRecord@index')->name('dibbling_record');
+    Route::get('player_controller','PlayerController@index')->name('player_controller');
 });
 Auth::routes(['verify' => \App::environment('production')]);

@@ -106,6 +106,7 @@ function playNext(event) {
         }
     });
 }
+
 function remove(id) {
     $.ajax({
         url: 'api/v2/list/' + id,
@@ -137,7 +138,6 @@ function playRandom(event){
         method: "GET"
     });
     promise_get_random.done(function (data) {
-        console.log(data);
         if (data.id) {
             // play this video
             event.target.loadVideoById(data.video_id);
@@ -154,3 +154,31 @@ function playRandom(event){
         event.target.loadVideoById('hKRUPYrAQoE');
     });
 }
+
+var sse = new EventSource('sse_server.php');
+
+sse.addEventListener('open', open, false);
+sse.addEventListener('message', message, false);
+sse.addEventListener('error', error, false);
+
+function open(event) {
+    console.log('與 Server 正常連接！');
+}
+
+function message(event) {
+    var pullData = JSON.parse(event.data);
+    console.log(pullData);
+}
+
+function error(event) {
+    closeEventSource();
+    console.log(event);
+    alert('連接發生錯誤！');
+}
+
+function closeEventSource() {
+    sse.close();
+    alert('已中斷 Server 連線！');
+}
+
+

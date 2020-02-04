@@ -35,6 +35,8 @@ Route::group(['prefix' => 'v2'], function ()
         Route::put('list/{id}', 'v2\ListController@redibbling');
         // 切歌 & 移除
         Route::delete('list/{id}', 'v2\ListController@destroy');
+        // 控制器指令
+        Route::post('command', 'v2\CommandController@index');
     });
     // player 播放
     Route::post('list/{id}', 'v2\ListController@play');
