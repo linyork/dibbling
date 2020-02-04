@@ -45,12 +45,12 @@ $(function() {
         newButton1.className = 'btn btn-secondary';
         newButton1.setAttribute('type', 'button');
         newButton1.setAttribute('data-uid', id);
-        newButton1.append('切歌');
+        newButton1.append('Cut');
         let newButton2 = document.createElement('button');
         newButton2.className = 'btn btn-danger';
         newButton2.setAttribute('type', 'button');
         newButton2.setAttribute('data-uid', id);
-        newButton2.append('移除');
+        newButton2.append('Remove');
         let titleSpan = document.createElement('span');
 
         btn_group.append(newButton1);

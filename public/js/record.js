@@ -67,7 +67,7 @@ $(function() {
         newButton2.className = 'btn btn-danger';
         newButton2.setAttribute('type', 'button');
         newButton2.setAttribute('data-uid', id);
-        newButton2.append('移除');
+        newButton2.append('Remove');
         let titleSpan = document.createElement('span');
         titleSpan.append(title);
 
