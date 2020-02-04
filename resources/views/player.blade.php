@@ -15,7 +15,7 @@
             <span class="badge badge-primary">Interface</span>
             <span class="badge badge-secondary">v2.0</span>
             <div class="card">
-                <div style="width: auto;"id="YouTubeVideoPlayer"></div>
+                <div style="width: auto;" id="YouTubeVideoPlayer"></div>
                 <div class="card-body">
                     <ul class="list-group" id="list">
                         <li class="list-group-item active">開機中</li>
