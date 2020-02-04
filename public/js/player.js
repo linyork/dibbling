@@ -27,8 +27,7 @@
 // };
 // init YT Player
 function onYouTubeIframeAPIReady() {
-    var player;
-    player = new YT.Player('YouTubeVideoPlayer', {
+    new YT.Player('YouTubeVideoPlayer', {
         videoId: 'H4vrIS2gc4k',     // YouTube 影片ID
         // width: 560,                 // 播放器寬度 (px)
         // height: 316,                // 播放器高度 (px)
@@ -52,6 +51,7 @@ function onYouTubeIframeAPIReady() {
 }
 
 // YT Player on readey
+var player_ref;
 function onPlayerReady(event) {
     player_ref = event.target;
     event.target.playVideo();
@@ -166,19 +166,25 @@ function open(event) {
 }
 
 function message(event) {
-    var pullData = JSON.parse(event.data);
-    console.log(pullData);
+    var command_list = JSON.parse(event.data);
+    if(command_list.constructor === Object && command_list.status === true) {
+        command_list.data.forEach(function(this_command){
+            switch (this_command.command) {
+                case 'seekTo':
+                    player_ref.seekTo(2000, true);
+                    break;
+            }
+        });
+    }
 }
 
 function error(event) {
     closeEventSource();
     console.log(event);
-    alert('連接發生錯誤！');
 }
 
 function closeEventSource() {
     sse.close();
-    alert('已中斷 Server 連線！');
 }
 
 
