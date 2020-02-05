@@ -155,11 +155,13 @@ function playRandom(event){
     });
 }
 
-var sse = new EventSource('sse_server.php');
 
-sse.addEventListener('open', open, false);
-sse.addEventListener('message', message, false);
-sse.addEventListener('error', error, false);
+function sseServer() {
+    var sse = new EventSource('sse_server.php');
+    sse.addEventListener('open', open, false);
+    sse.addEventListener('message', message, false);
+    sse.addEventListener('error', error, false);
+}
 
 function open(event) {
     console.log('與 Server 正常連接！');
