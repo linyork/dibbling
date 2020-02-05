@@ -148,17 +148,17 @@ class ListController extends Controller
         {
             $list = ListTable::withTrashed()->find($id);
 
-            $record = new RecordTable;
-            $record->user_id = \Auth::user()->id;
-            $record->list_id = $id;
             if($request->input('real'))
             {
-                $record->record_type = 4;
+                \DB::table('record')->where('list_id','=', $id)->delete();
                 $list->forceDelete();
                 $result_test = 'Real delete success.';
             }
             else
             {
+                $record = new RecordTable;
+                $record->user_id = \Auth::user()->id;
+                $record->list_id = $id;
                 $record->record_type = 3;
                 $list->delete();
                 $result_test = ($list->trashed()) ? 'Soft delete success.' : 'Soft delete error.';
