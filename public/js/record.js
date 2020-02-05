@@ -62,7 +62,7 @@ $(function() {
         newButton1.className = 'btn btn-primary';
         newButton1.setAttribute('type', 'button');
         newButton1.setAttribute('data-uid', id);
-        newButton1.append('點播');
+        newButton1.append('Dibbling');
         let newButton2 = document.createElement('button');
         newButton2.className = 'btn btn-danger';
         newButton2.setAttribute('type', 'button');
