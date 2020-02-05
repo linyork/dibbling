@@ -16,12 +16,22 @@ class ListController extends Controller
     {
         try
         {
-            $result = ListTable::orderBy('updated_at')->get();
+            $result = \DB::table('record')
+                ->join('users', 'record.user_id', '=', 'users.id')
+                ->join('list', 'record.list_id', '=', 'list.id')
+                ->where('record.record_type', '=', 1)
+                ->where('list.deleted_at','=', NULL)
+                ->orderBy('list.updated_at')
+                ->get();
+//            $result = RecordTable::with(['list', 'user'])
+//                ->FirstOrder()
+//                ->get();
+//            $result = ListTable::orderBy('updated_at')->get();
 
         }
         catch (\Exception $e)
         {
-            $result = [];
+            $result = $e;
         }
         return response()->json($result);
     }
@@ -30,7 +40,19 @@ class ListController extends Controller
     {
         try
         {
-            $result = ListTable::onlyTrashed()->orderBy('updated_at', 'DESC')->get();
+            $result = \DB::table('record')
+                ->join('users', 'record.user_id', '=', 'users.id')
+                ->join('list', 'record.list_id', '=', 'list.id')
+                ->where('record.record_type', '=', 1)
+                ->where('list.deleted_at','!=', NULL)
+                ->orderBy('list.updated_at', 'DESC')
+                ->get();
+//            $result = RecordTable::with(['list', 'user'])
+//                ->FirstOrder()
+//                ->onlyTrashed()
+//                ->orderBy('updated_at', 'DESC')
+//                ->get();
+//            $result = ListTable::onlyTrashed()->orderBy('updated_at', 'DESC')->get();
         }
         catch (\Exception $e)
         {

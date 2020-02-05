@@ -24,13 +24,13 @@ $(function() {
             } else {
                 // have video list and append video list
                 db_list.forEach(function (e) {
-                    play_list_dom.append(playListRow(e['video_id'], e['id'], e['title']));
+                    play_list_dom.append(playListRow(e['video_id'], e['id'], e['title'], e['name']));
                 });
             }
         });
     }
 
-    function playListRow(video_id, id, title) {
+    function playListRow(video_id, id, title, name) {
         let li = document.createElement('li');
         li.className = 'list-group-item text-truncate';
         li.setAttribute('data-toggle', 'tooltip');
@@ -51,12 +51,16 @@ $(function() {
         newButton2.setAttribute('type', 'button');
         newButton2.setAttribute('data-uid', id);
         newButton2.append('Remove');
+        let nameSpan = document.createElement('span');
+        nameSpan.append(name);
+        nameSpan.className = 'badge badge-primary';
         let titleSpan = document.createElement('span');
 
         btn_group.append(newButton1);
         btn_group.append(newButton2);
         titleSpan.append(title);
         li.append(btn_group);
+        li.append(nameSpan);
         li.append(titleSpan);
         return li;
     }
