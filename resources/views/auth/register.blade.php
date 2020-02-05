@@ -4,6 +4,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <div class="alert alert-secondary" role="alert">
+                請使用您自己的公司郵箱作為申請郵件
+                <br>
+                Please use your own company mailbox as the application mail
+            </div>
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
 
