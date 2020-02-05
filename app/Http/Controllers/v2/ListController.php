@@ -19,7 +19,7 @@ class ListController extends Controller
             $result = \DB::table('record')
                 ->join('users', 'record.user_id', '=', 'users.id')
                 ->join('list', 'record.list_id', '=', 'list.id')
-                ->where('record.record_type', '=', 1)
+                ->where('record.record_type', '=', RecordTable::DIBBLING)
                 ->where('list.deleted_at','=', NULL)
                 ->orderBy('list.updated_at')
                 ->get();
@@ -43,7 +43,7 @@ class ListController extends Controller
             $result = \DB::table('record')
                 ->join('users', 'record.user_id', '=', 'users.id')
                 ->join('list', 'record.list_id', '=', 'list.id')
-                ->where('record.record_type', '=', 1)
+                ->where('record.record_type', '=', RecordTable::DIBBLING)
                 ->where('list.deleted_at','!=', NULL)
                 ->orderBy('list.updated_at', 'DESC')
                 ->get();
@@ -110,7 +110,7 @@ class ListController extends Controller
             $record = new RecordTable;
             $record->user_id = \Auth::user()->id;
             $record->list_id = $list->id;
-            $record->record_type = 1;
+            $record->record_type = RecordTable::DIBBLING;
             $record->save();
         }
         else
@@ -131,7 +131,7 @@ class ListController extends Controller
             $record = new RecordTable;
             $record->user_id = \Auth::user()->id;
             $record->list_id = $list->id;
-            $record->record_type = 2;
+            $record->record_type = RecordTable::RE_DIBBLING;
             $record->save();
         }
         catch (\Exception $e)
@@ -159,7 +159,7 @@ class ListController extends Controller
                 $record = new RecordTable;
                 $record->user_id = \Auth::user()->id;
                 $record->list_id = $id;
-                $record->record_type = 3;
+                $record->record_type = RecordTable::CUT;
                 $list->delete();
                 $result_test = ($list->trashed()) ? 'Soft delete success.' : 'Soft delete error.';
             }

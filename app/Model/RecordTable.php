@@ -9,6 +9,10 @@ class RecordTable extends Model
 {
     use SoftDeletes;
 
+    public const DIBBLING = 1;
+    public const RE_DIBBLING = 2;
+    public const CUT = 3;
+
     protected $table = 'record';
     protected $primaryKey = 'id';
 
