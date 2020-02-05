@@ -30,6 +30,9 @@
     <link rel="stylesheet" href="css/common/bootstrap.css">
     <script src="js/common/jquery-3.4.1.js"></script>
 
+    <!-- Page Js-->
+    @yield('pageCss')
+
 </head>
 <body>
     <div id="app">
@@ -105,10 +108,10 @@
         <main class="py-4">
             @yield('content')
         </main>
-        <!-- App Js -->
-        <script src="/js/layout-app.js?{{ time() }}"></script>
-        <!-- Page Js-->
-        @yield('pageJs')
     </div>
+    <!-- App Js -->
+    <script src="/js/layout-app.js?{{ time() }}"></script>
+    <!-- Page Js-->
+    @yield('pageJs')
 </body>
 </html>

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('pageCss')
+
+@endsection
+
 @section('pageJs')
     <script src="/js/dibbling.js?{{ time() }}"></script>
 @endsection
