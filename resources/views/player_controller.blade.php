@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('pageJs')
-    <script src="/js/player_controller.js"></script>
+    <script src="/js/player_controller.js?{{ time() }}"></script>
 @endsection
 
 @section('content')

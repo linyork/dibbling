@@ -17,7 +17,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js').'?'.time() }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -28,9 +28,7 @@
 
     <!-- Dibbling Script & Css -->
     <link rel="stylesheet" href="css/common/bootstrap.css">
-    <link rel="stylesheet" href="css/common/dibbling.css">
     <script src="js/common/jquery-3.4.1.js"></script>
-{{--    <script src="js/common/bootstrap.js"></script>--}}
 
 </head>
 <body>
@@ -108,7 +106,7 @@
             @yield('content')
         </main>
         <!-- App Js -->
-        <script src="/js/layout-app.js"></script>
+        <script src="/js/layout-app.js?{{ time() }}"></script>
         <!-- Page Js-->
         @yield('pageJs')
     </div>

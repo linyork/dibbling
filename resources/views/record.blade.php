@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('pageJs')
-    <script src="/js/record.js"></script>
+    <script src="/js/record.js?{{ time() }}"></script>
 @endsection
 
 @section('content')
