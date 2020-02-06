@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'Language' => '中文',
     'app' => [
         'Login' => '登入',
         'Register' => '註冊',

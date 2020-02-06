@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'Language' => 'English',
     'app' => [
         'Dibbling' => 'Dibbling',
         'Login' => 'Login',
