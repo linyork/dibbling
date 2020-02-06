@@ -45,6 +45,8 @@ return [
     ],
     'controller' => [
         'Controller' => '控制器',
+        'Play' => '播放',
+        'Pause' => '暫停',
         'Cut' => '切歌',
         'Voice' => '音量',
     ],

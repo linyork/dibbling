@@ -44,6 +44,8 @@ return [
     ],
     'controller' => [
         'Controller' => 'Controller',
+        'Play' => 'Play',
+        'Pause' => 'Pause',
         'Cut' => 'Cut',
         'Voice' => 'Voice',
     ],

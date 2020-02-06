@@ -14,9 +14,19 @@
 
                         <div class="form-group row">
                             <label for="name" class="col-md-3 col-form-label text-md-right">
-                                {{ __('web.controller.Cut') }}
+                                {{ __('web.controller.Controller') }}
                             </label>
-                            <div class="col-md-8">
+                            <div class="col-md-2">
+                                <button class="btn btn-success" type="button" value="playVideo" id="play">
+                                    {{ __('web.controller.Play') }}
+                                </button>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-secondary" type="button" value="pauseVideo" id="pause">
+                                    {{ __('web.controller.Pause') }}
+                                </button>
+                            </div>
+                            <div class="col-md-2">
                                 <button class="btn btn-danger" type="button" value="seekTo" id="cut">
                                     {{ __('web.controller.Cut') }}
                                 </button>
@@ -29,12 +39,17 @@
                             </label>
                             <div class="col-md-8">
                                 <div class="form-group btnDiv">
-                                    <div class="col-lg-12">
-                                        <input type="range" class="form-control" min="0" max="100" step="10" id="voice">
+                                    <div class="col-lg-10">
+                                        <input type="range" class="form-control" min="0" max="100" step="5" id="voice" style="padding: unset;">
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="alert alert-danger" role="alert">
+                            群求善心人士幫大家做個好看一點的面板!
+                        </div>
+
                     </div>
                 </div>
             </div>
