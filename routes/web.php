@@ -1,4 +1,12 @@
 <?php
+/*
+|--------------------------------------------------------------------------
+| Web Routes __construct
+|--------------------------------------------------------------------------
+*/
+App::setLocale((Cookie::get('locale')) ?? 'en');
+$userMiddlewareArray = ['auth'];
+if(\App::environment('production')) $userMiddlewareArray[] = 'verified';
 
 /*
 |--------------------------------------------------------------------------
@@ -10,14 +18,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
+Route::get('set_locale/{locale}', 'SetLocale@index')->name('set_locale');
 Route::get('/', function (){ return redirect('dibbling'); })->name('home');
 Route::get('player', function (){ return view('player'); })->name('player');
-
-$middleware = ['auth'];
-if(\App::environment('production')) $middleware[] = 'verified';
-Route::middleware($middleware)->group(function () {
+Route::middleware($userMiddlewareArray)->group(function () {
     Route::get('dibbling','Dibbling@index')->name('dibbling');
     Route::get('dibbling_list','DibblingList@index')->name('dibbling_list');
     Route::get('dibbling_record','DibblingRecord@index')->name('dibbling_record');
