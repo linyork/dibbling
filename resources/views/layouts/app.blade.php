@@ -62,22 +62,23 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('web.app.Login') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('web.app.Register') }}</a>
                                 </li>
                             @endif
+                            @include('common.localebutton')
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('dibbling') }}">Dibbling</a>
+                                <a class="nav-link" href="{{ route('dibbling') }}">{{ __('web.app.Dibbling') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('dibbling_list') }}">List</a>
+                                <a class="nav-link" href="{{ route('dibbling_list') }}">{{ __('web.app.List') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('dibbling_record') }}">Record</a>
+                                <a class="nav-link" href="{{ route('dibbling_record') }}">{{ __('web.app.Record') }}</a>
                             </li>
 {{--                            <li class="nav-item">--}}
 {{--                                <a class="nav-link" href="{{ route('player_controller') }}">Controller</a>--}}
@@ -88,12 +89,12 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('setting') }}">{{ __('web.app.Setting') }}</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('web.app.Logout') }}
                                     </a>
-
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>

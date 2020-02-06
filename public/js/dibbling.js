@@ -18,6 +18,12 @@
 
 $(function() {
     // dibbling
+    $('#video-id').keydown(function (e) {
+        if (e.keyCode == 13) {
+            dibbling($('#video-id').val());
+            $("#video-id").val("");
+        }
+    });
     $(document).on('click', '#dibbling-button', function () {
         dibbling($('#video-id').val());
         $("#video-id").val("");

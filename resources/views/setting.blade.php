@@ -1,0 +1,29 @@
+@extends('layouts.app')
+
+@section('pageCss')
+
+@endsection
+
+@section('pageJs')
+    <script src="/js/setting.js?{{ time() }}"></script>
+@endsection
+
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center" style="margin-top: 10vh;">
+            <div class="col-md-8">
+                <div class="card">
+                    <h4 class="card-header">{{ __('web.setting.Setting') }}</h4>
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('web.setting.Language')}}</label>
+                            <div class="col-md-6">
+                                @include('common.localebutton')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

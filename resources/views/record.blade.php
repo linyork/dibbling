@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-sm">
                 <div class="card">
-                    <h5 class="card-header">Record</h5>
+                    <h5 class="card-header">{{ __('web.record.Record') }}</h5>
                     <ul class="list-group list-group-flush" id="played-list"></ul>
                 </div>
             </div>

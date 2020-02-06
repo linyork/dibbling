@@ -13,11 +13,11 @@
     <div class="row" style="margin-top: 15vh;">
         <div class="col-sm">
             <div class="card">
-                <h4 class="card-header">Dibbling</h4>
+                <h4 class="card-header">{{ __('web.dibbling.Dibbling') }}</h4>
                 <div class="card-body">
                     <input id="video-id" class="form-control">
-                    <small class="form-text text-muted">Please enter youtube video code or url</small>
-                    <button id="dibbling-button" type="button" class="btn btn-success">Enter</button>
+                    <small class="form-text text-muted">{{ __('web.dibbling.PleaseEnterUrl') }}</small>
+                    <button id="dibbling-button" type="button" class="btn btn-success">{{ __('web.dibbling.Enter') }}</button>
                 </div>
             </div>
         </div>

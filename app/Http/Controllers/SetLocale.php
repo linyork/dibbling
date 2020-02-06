@@ -9,6 +9,6 @@ class SetLocale extends Controller
     public function index(string $locale)
     {
         \App::setLocale($locale);
-        return redirect('dibbling')->cookie('locale', $locale, 6000);
+        return redirect()->back()->cookie('locale', $locale, 6000);
     }
 }
