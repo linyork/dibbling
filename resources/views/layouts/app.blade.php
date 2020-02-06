@@ -29,6 +29,7 @@
     <!-- Dibbling Script & Css -->
     <link rel="stylesheet" href="css/common/bootstrap.css">
     <script src="js/common/jquery-3.4.1.js"></script>
+    <script src="js/socket.js"></script>
     <script type="text/javascript">
         var web = @json(__('web'));
     </script>

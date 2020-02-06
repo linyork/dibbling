@@ -25,6 +25,19 @@ services:
       - ./docker/ssl:/etc/ssl
       - ./:/var/www/html/dibbling
 
+  # node
+  node:
+    container_name: node
+    networks:
+      - frontend
+      - backend
+    image: node:13
+    ports:
+      - "${DOCKER_NODE_PORT}:8443"
+    volumes:
+      - ./docker/ssl:/etc/ssl
+      - ./:/var/www/html/dibbling
+
   # php-fpm
   php-fpm:
     container_name: php

@@ -5,6 +5,7 @@
     <script src="js/common/jquery-3.4.1.js"></script>
     <script src="js/common/bootstrap.js"></script>
     <script async src="//www.youtube.com/iframe_api"></script>
+    <script src="js/socket.js"></script>
     <script src="js/player.js?{{ time() }}"></script>
 </head>
 <body>

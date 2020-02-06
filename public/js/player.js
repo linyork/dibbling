@@ -1,30 +1,3 @@
-// var ws = new WebSocket('ws://local.dibbling.tw:9502');
-//
-// //開啟後執行的動作，指定一個 function 會在連結 WebSocket 後執行
-// ws.onopen = () => {
-//     console.log('WebSocket open connection');
-//     ws.send("player");
-// };
-//
-// //關閉後執行的動作，指定一個 function 會在連結中斷後執行
-// ws.onclose = () => {
-//     console.log('WebSocket close connection');
-// };
-//
-// // onmessage  監聽
-// ws.onmessage = (evt) => {
-//     console.log(evt);
-// };
-// ws.onmessage = (evt) => {
-//     console.log(evt);
-//     var videoId = '';
-//     var title = '';
-//     JSON.parse(evt.data, function(k, v) {
-//         if (typeof k === 'videoId') videoId = evt.data;
-//         if (typeof k === 'title') title = evt.data;
-//     });
-//     $("#list").append("<li class='list-group-item' id='"+id+"'>"+title+"</li>");
-// };
 // init YT Player
 function onYouTubeIframeAPIReady() {
     new YT.Player('YouTubeVideoPlayer', {
@@ -155,7 +128,7 @@ function playRandom(event){
     });
 }
 
-
+// sse
 function sseServer() {
     var sse = new EventSource('sse_server.php');
     sse.addEventListener('open', open, false);
@@ -188,5 +161,18 @@ function error(event) {
 function closeEventSource() {
     sse.close();
 }
+
+// web socket
+var socket = io('http://localhost:8443/player');
+socket.on('connect', function(){});
+socket.on('disconnect', function(){});
+socket.on('command', function(data){
+    switch (data) {
+        case 'seekTo':
+            player_ref.seekTo(2000, true);
+            break;
+    }
+});
+
 
 
