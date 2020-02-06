@@ -7,8 +7,8 @@ return [
         'Register' => '登録',
         'Dibbling' => 'リクエスト',
         'List' => 'プレイリスト',
-        'Record' => '記録',
-        'Setting' => '再生履歴',
+        'Record' => '再生履歴',
+        'Setting' => '設定',
         'Logout' => 'ログアウト',
 
     ],
