@@ -6,7 +6,11 @@
     <script src="js/common/bootstrap.js"></script>
     <script async src="//www.youtube.com/iframe_api"></script>
     <script src="js/socket.js"></script>
+    <script type="text/javascript">
+        var domain = "{{ config('app.domain') }}";
+    </script>
     <script src="js/player.js?{{ time() }}"></script>
+
 </head>
 <body>
 <div class="container">

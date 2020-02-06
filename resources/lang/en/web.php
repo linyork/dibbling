@@ -8,9 +8,9 @@ return [
         'Register' => 'Register',
         'List' => 'List',
         'Record' => 'Record',
+        'Controller' => 'Controller',
         'Setting' => 'Setting',
         'Logout' => 'Logout',
-
     ],
     'login' => [
         'Login' => 'Login',
@@ -41,6 +41,11 @@ return [
         'Record' => 'Record',
         'Dibbling' => 'Dibbling',
         'Remove' => 'Remove',
+    ],
+    'controller' => [
+        'Controller' => 'Controller',
+        'Cut' => 'Cut',
+        'Voice' => 'Voice',
     ],
     'setting' => [
 

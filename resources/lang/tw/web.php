@@ -9,6 +9,7 @@ return [
         'List' => '清單',
         'Record' => '紀錄',
         'Setting' => '設定',
+        'Controller' => '控制器',
         'Logout' => '登出',
 
     ],
@@ -41,6 +42,11 @@ return [
         'Record' => '紀錄',
         'Dibbling' => '點播',
         'Remove' => '移除',
+    ],
+    'controller' => [
+        'Controller' => '控制器',
+        'Cut' => '切歌',
+        'Voice' => '音量',
     ],
     'setting' => [
 

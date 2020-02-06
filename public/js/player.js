@@ -128,50 +128,47 @@ function playRandom(event){
     });
 }
 
-// sse
-function sseServer() {
-    var sse = new EventSource('sse_server.php');
-    sse.addEventListener('open', open, false);
-    sse.addEventListener('message', message, false);
-    sse.addEventListener('error', error, false);
-}
-
-function open(event) {
-    console.log('與 Server 正常連接！');
-}
-
-function message(event) {
-    var command_list = JSON.parse(event.data);
-    if(command_list.constructor === Object && command_list.status === true) {
-        command_list.data.forEach(function(this_command){
-            switch (this_command.command) {
-                case 'seekTo':
-                    player_ref.seekTo(2000, true);
-                    break;
-            }
-        });
-    }
-}
-
-function error(event) {
-    closeEventSource();
-    console.log(event);
-}
-
-function closeEventSource() {
-    sse.close();
-}
+// // sse
+// function sseServer() {
+//     var sse = new EventSource('sse_server.php');
+//     sse.addEventListener('open', open, false);
+//     sse.addEventListener('message', message, false);
+//     sse.addEventListener('error', error, false);
+// }
+//
+// function open(event) {
+//     console.log('與 Server 正常連接！');
+// }
+//
+// function message(event) {
+//     var command_list = JSON.parse(event.data);
+//     if(command_list.constructor === Object && command_list.status === true) {
+//         command_list.data.forEach(function(this_command){
+//             switch (this_command.command) {
+//                 case 'seekTo':
+//                     player_ref.seekTo(2000, true);
+//                     break;
+//             }
+//         });
+//     }
+// }
+//
+// function error(event) {
+//     closeEventSource();
+//     console.log(event);
+// }
+//
+// function closeEventSource() {
+//     sse.close();
+// }
 
 // web socket
-var socket = io('http://localhost:8443/player');
+var socket = io('https://'+domain+':8443/player');
 socket.on('connect', function(){});
 socket.on('disconnect', function(){});
-socket.on('command', function(data){
-    switch (data) {
-        case 'seekTo':
-            player_ref.seekTo(2000, true);
-            break;
-    }
+socket.on('command', function(command){
+    console.log("player_ref."+command);
+    eval("player_ref."+command);
 });
 
 

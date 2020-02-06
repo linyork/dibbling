@@ -1,3 +1,9 @@
+$(function (){
+    function refresh() {
+        refreshPlaying();
+    }
+    refresh();
+});
 
 // dibbling
 // $(document).on('click', '.command', function (e) {
@@ -17,8 +23,12 @@
 // });
 
 // web socket
-var socket = io('http://localhost:8443');
-$(document).on('click', '.command', function (e) {
-    var command = $(this).val();
-    socket.emit('command', command);
+var socket = io('https://'+domain+':8443');
+// cut
+$(document).on('click', '#cut', function (e) {
+    socket.emit('command', $(this).val()+'("99999",true)');
+});
+// voice
+$(document).on('input', '#voice', function (e) {
+    socket.emit('command', 'setVolume('+$(this).val()+')');
 });

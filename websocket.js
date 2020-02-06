@@ -1,7 +1,9 @@
 #!/usr/bin/env node
-const express = require('express');
-const app = express();
-const server = require('http').Server(app);
+const fs = require('fs');
+const server = require('https').createServer({
+    key: fs.readFileSync('/etc/ssl/private/selfsigned.key'),
+    cert: fs.readFileSync('/etc/ssl/certs/selfsigned.crt')
+});
 const io = require('socket.io')(server);
 
 
