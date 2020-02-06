@@ -6,9 +6,9 @@ return [
         'Login' => 'ログイン',
         'Register' => '登録',
         'Dibbling' => 'リクエスト',
-        'List' => 'リスト',
+        'List' => 'プレイリスト',
         'Record' => '記録',
-        'Setting' => '設定',
+        'Setting' => '再生履歴',
         'Logout' => 'ログアウト',
 
     ],
@@ -33,12 +33,12 @@ return [
         'Enter' => '確認',
     ],
     'list' => [
-        'List' => 'リスト',
+        'List' => 'プレイリスト',
         'Cut' => '切る',
         'Remove' => '削除',
     ],
     'record' => [
-        'Record' => '記録',
+        'Record' => '再生履歴',
         'Dibbling' => 'リクエスト',
         'Remove' => '削除',
     ],
