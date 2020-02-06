@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'Language' => '中文',
+    'Language' => '繁體中文',
     'app' => [
         'Login' => '登入',
         'Register' => '註冊',
@@ -34,9 +34,13 @@ return [
     ],
     'list' => [
         'List' => '清單',
+        'Cut' => '切歌',
+        'Remove' => '移除',
     ],
     'record' => [
         'Record' => '紀錄',
+        'Dibbling' => '點播',
+        'Remove' => '移除',
     ],
     'setting' => [
 

@@ -34,9 +34,13 @@ return [
     ],
     'list' => [
         'List' => 'List',
+        'Cut' => 'Cut',
+        'Remove' => 'Remove',
     ],
     'record' => [
         'Record' => 'Record',
+        'Dibbling' => 'Dibbling',
+        'Remove' => 'Remove',
     ],
     'setting' => [
 

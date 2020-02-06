@@ -45,12 +45,12 @@ $(function() {
         newButton1.className = 'btn btn-secondary';
         newButton1.setAttribute('type', 'button');
         newButton1.setAttribute('data-uid', id);
-        newButton1.append('Cut');
+        newButton1.append(__('web.list.Cut'));
         let newButton2 = document.createElement('button');
         newButton2.className = 'btn btn-danger';
         newButton2.setAttribute('type', 'button');
         newButton2.setAttribute('data-uid', id);
-        newButton2.append('Remove');
+        newButton2.append(__('web.list.Remove'));
         let nameSpan = document.createElement('span');
         nameSpan.append(name);
         nameSpan.className = 'badge badge-primary';
