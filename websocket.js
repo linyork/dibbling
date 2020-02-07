@@ -27,7 +27,6 @@ otherRoom.on('connection', (socket) => {
     // 當發生離線事件
     socket.on('disconnect', () => {
         console.log('some on disconnect');
-        io.emit('log',' have one disconnect.');
     });
 });
 
