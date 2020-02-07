@@ -33,7 +33,7 @@ services:
       - backend
     image: node:13
     ports:
-      - "${DOCKER_NODE_PORT}:8443"
+      - "${DOCKER_NODE_PORT}:${DOCKER_NODE_PORT}"
     command: "node /var/www/html/websocket.js"
     volumes:
       - ./docker/ssl:/etc/ssl
