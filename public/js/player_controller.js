@@ -23,7 +23,7 @@ $(function (){
 // });
 
 // web socket
-var socket = io(document.location.protocol+'//'+domain+':8443/socket');
+var socket = io(document.location.protocol+'//'+domain+'/socket');
 // log
 socket.on('log', function(string){
     console.log(string);
