@@ -27,6 +27,6 @@ otherRoom.on('connection', (socket) => {
 });
 
 // 注意，這邊的 server 原本是 app
-server.listen(8087, () => {
-    console.log("Server Started. http://localhost:8087");
+server.listen(8443, () => {
+    console.log("Server Started. http://localhost:8443");
 });
