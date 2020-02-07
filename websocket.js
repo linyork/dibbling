@@ -3,9 +3,40 @@ const fs = require('fs');
 const server = require('https').createServer({
     key: fs.readFileSync('/etc/ssl/private/selfsigned.key'),
     cert: fs.readFileSync('/etc/ssl/certs/selfsigned.crt')
+},(req, res) => {
+    var headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS, POST, GET',
+        'Access-Control-Max-Age': 2592000, // 30 days
+        'Content-Type': contentType
+    };
+    fs.readFile(filePath, function(err, content) {
+        if (err) {
+            // if(err.code == 'ENOENT'){
+            //     fs.readFile('./errpages/404.html', function(err, content) {
+            //         res.writeHead(404, headers);
+            //         res.end(content, 'utf-8');
+            //     });
+            // }
+            // else {
+            //     fs.readFile('./errpages/500.html', function(err, content) {
+            //         res.writeHead(500, headers);
+            //         res.end(content, 'utf-8');
+            //     });
+            // }
+        }
+        else {
+            res.writeHead(200, headers);
+            res.end(content, 'utf-8');
+        }
+    });
+
+    if (req.method === 'OPTIONS') {
+        res.writeHead(204, headers);
+        res.end();
+    }
 });
 const io = require('socket.io')(server);
-io.set('origins', '*:*');
 
 
 const playerRoom = io.of('player');
