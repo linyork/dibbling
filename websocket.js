@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 const express = require('express');
 const app = express();
+app.set('trust proxy', true);
+app.get("/", (req, res, next) => {
+    res.end(req.ip);
+});
+
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
