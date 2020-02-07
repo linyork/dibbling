@@ -25,19 +25,19 @@ services:
       - ./docker/ssl:/etc/ssl
       - ./:/var/www/html/dibbling
 
-#  # node
-#  node:
-#    container_name: node
-#    networks:
-#      - frontend
-#      - backend
-#    image: node:13
-#    ports:
-#      - "${DOCKER_NODE_PORT}:${DOCKER_NODE_PORT}"
-#    command: "node /var/www/html/websocket.js"
-#    volumes:
-#      - ./docker/ssl:/etc/ssl
-#      - ./:/var/www/html
+  # node
+  node:
+    container_name: node
+    networks:
+      - frontend
+      - backend
+    image: node:13
+    ports:
+      - "${DOCKER_NODE_PORT}:${DOCKER_NODE_PORT}"
+    command: "node /var/www/html/websocket.js"
+    volumes:
+      - ./docker/ssl:/etc/ssl
+      - ./:/var/www/html
 
   # php-fpm
   php-fpm:

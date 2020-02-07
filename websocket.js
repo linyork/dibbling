@@ -1,10 +1,12 @@
 #!/usr/bin/env node
-const fs = require('fs');
-const server = require('https').createServer({
-    key: fs.readFileSync('docker/ssl/private/selfsigned.key'),
-    cert: fs.readFileSync('docker/ssl/certs/selfsigned.crt'),
-    origins: '*:*'
+const express = require('express');
+const app = express();
+app.set('trust proxy', true);
+app.get("/", (req, res, next) => {
+    res.end(req.ip);
 });
+
+const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 const playerRoom = io.of('socket/player');
@@ -30,5 +32,5 @@ otherRoom.on('connection', (socket) => {
 
 // 注意，這邊的 server 原本是 app
 server.listen(8443, () => {
-    console.log("Server Started. https://localhost:8443");
+    console.log("Server Started. http://localhost:8443");
 });
