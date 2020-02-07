@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const server = require('https').createServer({
-    key: fs.readFileSync('/etc/ssl/private/selfsigned.key'),
-    cert: fs.readFileSync('/etc/ssl/certs/selfsigned.crt'),
+    key: fs.readFileSync('docker/ssl/private/selfsigned.key'),
+    cert: fs.readFileSync('docker/ssl/certs/selfsigned.crt'),
     origins: '*:*'
 });
 const io = require('socket.io')(server);
