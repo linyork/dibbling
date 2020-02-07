@@ -3,7 +3,7 @@ const fs = require('fs');
 const server = require('https').createServer({
     key: fs.readFileSync('/etc/ssl/private/selfsigned.key'),
     cert: fs.readFileSync('/etc/ssl/certs/selfsigned.crt')
-},(req, res) => {});
+});
 const io = require('socket.io')(server);
 io.set('origins', '*:*');
 
