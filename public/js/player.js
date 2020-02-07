@@ -163,7 +163,7 @@ function playRandom(event){
 // }
 
 // web socket
-var socket = io(document.location.protocol+'//'+domain+'/socket/player');
+var socket = io(document.location.protocol+'//'+domain+':8443/socket/player');
 socket.on('connect', function(){});
 socket.on('disconnect', function(){});
 socket.on('command', function(command){
