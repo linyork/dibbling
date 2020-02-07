@@ -5,8 +5,8 @@ const server = require('https').createServer({
     cert: fs.readFileSync('/etc/ssl/certs/selfsigned.crt')
 });
 const io = require('socket.io')(server);
-io.set('origins', '*:*');
-
+server.set('transports', ['websocket', 'xhr-polling', 'jsonp-polling', 'htmlfile', 'flashsocket']);
+server.set('origins', '*:*');
 
 const playerRoom = io.of('player');
 playerRoom.on('connection',function(socket) {
@@ -30,4 +30,6 @@ io.on('connection', (socket) => {
 });
 
 // 注意，這邊的 server 原本是 app
-server.listen(8443, '');
+server.listen(8443, () => {
+    console.log("Server Started. http://localhost:8443");
+});
