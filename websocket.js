@@ -9,12 +9,13 @@ const io = require('socket.io')(server);
 
 const playerRoom = io.of('player');
 playerRoom.on('connection',function(socket) {
-    console .log('player ready');
+    io.emit('log','player is ready');
 });
 
 // 當發生連線事件
 io.on('connection', (socket) => {
-    console.log('welcome');
+
+    io.emit('log',' have one ready use connection.');
 
     // 當有人發送指令時
     socket.on('command', (command) => {
@@ -23,7 +24,7 @@ io.on('connection', (socket) => {
 
     // 當發生離線事件
     socket.on('disconnect', () => {
-        console.log('Bye');
+        io.emit('log',' have one disconnect.');
     });
 });
 

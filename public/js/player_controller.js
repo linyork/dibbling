@@ -24,6 +24,10 @@ $(function (){
 
 // web socket
 var socket = io('https://'+domain+':8443');
+// log
+socket.on('log', function(string){
+    console.log(string);
+});
 // play
 $(document).on('click', '#play', function (e) {
     socket.emit('command', $(this).val()+'()');
