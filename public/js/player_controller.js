@@ -30,17 +30,33 @@ socket.on('log', function(string){
 });
 // play
 $(document).on('click', '#play', function (e) {
-    socket.emit('command', $(this).val()+'()');
+    var command = {
+        command: 'play',
+        value: 'play',
+    };
+    socket.emit('command', JSON.stringify(command));
 });
 // cut
 $(document).on('click', '#cut', function (e) {
-    socket.emit('command', $(this).val()+'("99999",true)');
+    var command = {
+        command: 'cut',
+        value: 'cut',
+    };
+    socket.emit('command', JSON.stringify(command));
 });
 // pause
 $(document).on('click', '#pause', function (e) {
-    socket.emit('command', $(this).val()+'()');
+    var command = {
+        command: 'pause',
+        value: 'pause',
+    };
+    socket.emit('command', JSON.stringify(command));
 });
 // voice
 $(document).on('input', '#voice', function (e) {
-    socket.emit('command', 'setVolume('+$(this).val()+')');
+    var command = {
+        command: 'voice',
+        value: $(this).val()
+    };
+    socket.emit('command', JSON.stringify(command));
 });
