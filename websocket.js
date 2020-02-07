@@ -5,6 +5,7 @@ const server = require('https').createServer({
     cert: fs.readFileSync('/etc/ssl/certs/selfsigned.crt')
 });
 const io = require('socket.io')(server);
+io.set('origins', '*:*');
 
 
 const playerRoom = io.of('player');
