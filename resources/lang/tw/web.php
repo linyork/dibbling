@@ -29,7 +29,6 @@ return [
         'Confirm Password' => '確認密碼',
     ],
     'dibbling' => [
-        'Dibbling' => '點播',
         'PleaseEnterUrl' => '請輸入 youtube code 或者網址',
         'Enter' => '確認',
     ],
@@ -37,6 +36,7 @@ return [
         'List' => '清單',
         'Cut' => '切歌',
         'Remove' => '移除',
+        'NoData' => '沒有點播歌曲',
     ],
     'record' => [
         'Record' => '紀錄',
@@ -49,9 +49,9 @@ return [
         'Pause' => '暫停',
         'Cut' => '切歌',
         'Voice' => '音量',
+        'Speed' => '速度',
     ],
     'setting' => [
-
         'Setting' => '設定',
         'Language' => '語系',
     ],

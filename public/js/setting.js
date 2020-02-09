@@ -1,6 +1,5 @@
-$(function (){
-    function refresh() {
-        refreshPlaying();
-    }
-    refresh();
-});
+// $(function (){
+//     function refresh() {
+//     }
+//     refresh();
+// });

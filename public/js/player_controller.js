@@ -1,8 +1,7 @@
 $(function (){
-    function refresh() {
-        refreshPlaying();
-    }
-    refresh();
+    // function refresh() {
+    // }
+    // refresh();
 });
 
 // dibbling
@@ -60,3 +59,13 @@ $(document).on('input', '#voice', function (e) {
     };
     socket.emit('command', JSON.stringify(command));
 });
+// speed
+$(document).on('input', '#speed', function (e) {
+    var command = {
+        command: 'speed',
+        value: $(this).val()
+    };
+    socket.emit('command', JSON.stringify(command));
+    $("#show-speed").text($(this).val());
+});
+

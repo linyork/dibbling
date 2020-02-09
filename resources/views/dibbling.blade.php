@@ -1,7 +1,16 @@
 @extends('layouts.app')
 
 @section('pageCss')
+    <style>
+        .card-margin-bottom {
+            margin-bottom: 20px;
 
+        }
+
+        .playing {
+            width: 100%;
+        }
+    </style>
 @endsection
 
 @section('pageJs')
@@ -10,18 +19,47 @@
 
 @section('content')
 <div class="container">
-    <div class="row" style="margin-top: 15vh;">
-        <div class="col-sm">
+
+    <div class="row justify-content-center card-margin-bottom">
+        <div class="col-md-6">
             <div class="card">
-                <h4 class="card-header">{{ __('web.dibbling.Dibbling') }}</h4>
                 <div class="card-body">
-                    <input id="video-id" class="form-control">
-                    <small class="form-text text-muted">{{ __('web.dibbling.PleaseEnterUrl') }}</small>
-                    <button id="dibbling-button" type="button" class="btn btn-success">{{ __('web.dibbling.Enter') }}</button>
+                    <a id="playing" type="button" class="btn btn-dark playing" target="_blank"></a>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="row justify-content-center card-margin-bottom">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="{{ __('web.dibbling.PleaseEnterUrl') }}" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button id="dibbling-button" type="button" class="btn btn-success">{{ __('web.dibbling.Enter') }}</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center card-margin-bottom">
+        <div class="col-md-6">
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">公告</h4>
+                <p>有興趣製作Dibblig的大大請私訊York 已有 白白 DZ 相繼參與</p>
+                <p>音量功能暫無效果 因<a href="https://developers.google.com/youtube/iframe_api_reference" target="_blank">youtubeSDK</a> 調整音量不支援移動裝置</p>
+                <hr>
+                <p class="mb-0">考慮新增功能</p>
+                <p class="mb-0">1) Google 小姐廣播功能</p>
+                <p class="mb-0">2) 彈幕功能</p>
+            </div>
+        </div>
+    </div>
+    
 </div>
 
 

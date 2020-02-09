@@ -183,6 +183,9 @@ socket.on('command', function(command){
         case 'voice':
             player_ref.setVolume(parseInt(commandOptions.value));
             break;
+        case 'speed':
+            player_ref.setPlaybackRate(parseFloat(commandOptions.value));
+            break;
     }
 });
 

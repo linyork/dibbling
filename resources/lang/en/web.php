@@ -28,7 +28,6 @@ return [
         'Confirm Password' => 'Confirm Password',
     ],
     'dibbling' => [
-        'Dibbling' => 'Dibbling',
         'PleaseEnterUrl' => 'Please enter youtube video code or url.',
         'Enter' => 'Enter',
     ],
@@ -36,6 +35,7 @@ return [
         'List' => 'List',
         'Cut' => 'Cut',
         'Remove' => 'Remove',
+        'NoData' => 'No Data',
     ],
     'record' => [
         'Record' => 'Record',
@@ -48,9 +48,9 @@ return [
         'Pause' => 'Pause',
         'Cut' => 'Cut',
         'Voice' => 'Voice',
+        'Speed' => 'Speed',
     ],
     'setting' => [
-
         'Setting' => 'Setting',
         'Language' => 'Language',
     ],

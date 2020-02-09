@@ -46,6 +46,24 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label text-md-right">
+                                {{ __('web.controller.Speed') }}
+                            </label>
+                            <div class="col-md-8">
+                                <div class="form-group btnDiv row">
+                                    <div class="col-lg-10">
+                                        <input type="range" class="form-control" min="0.25" max="2" step="0.25" value="1" id="speed" style="padding: unset;">
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <button type="button" class="btn btn-primary">
+                                             <span class="badge badge-light" id="show-speed">1</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="alert alert-danger" role="alert">
                             群求善心人士幫大家做個好看一點的面板!
                         </div>

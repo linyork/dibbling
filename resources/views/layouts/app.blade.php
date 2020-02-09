@@ -47,10 +47,6 @@
                     {{ config('app.name', 'Laravel') }}
                     <span class="badge background">v2.0</span>
                 </a>
-                @guest
-                @else
-                    <a id="playing" type="button" class="btn btn-dark" target="_blank" style="max-width: 50%;"></a>
-                @endguest
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>

@@ -28,7 +28,6 @@ return [
         'Confirm Password' => 'パスワード再確認',
     ],
     'dibbling' => [
-        'Dibbling' => 'リクエスト',
         'PleaseEnterUrl' => 'youtube code またはURLをご入力ください',
         'Enter' => '確認',
     ],
@@ -36,14 +35,22 @@ return [
         'List' => 'プレイリスト',
         'Cut' => '切る',
         'Remove' => '削除',
+        'NoData' => 'No Data',
     ],
     'record' => [
         'Record' => '再生履歴',
         'Dibbling' => 'リクエスト',
         'Remove' => '削除',
     ],
+    'controller' => [
+        'Controller' => 'Controller',
+        'Play' => 'Play',
+        'Pause' => 'Pause',
+        'Cut' => 'Cut',
+        'Voice' => 'Voice',
+        'Speed' => 'Speed',
+    ],
     'setting' => [
-
         'Setting' => '設定',
         'Language' => '言語',
     ],

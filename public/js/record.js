@@ -104,7 +104,6 @@ $(function() {
     }
 
     function refresh() {
-        refreshPlaying();
         refreshListPlayed();
     }
 
