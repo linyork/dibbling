@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "897eebae795464fc0f2597674d1aae1f",
+    "content-hash": "14dca81a6d8a9a31638597d777ac2bba",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1478,6 +1478,44 @@
                 "uuid"
             ],
             "time": "2019-12-17T08:18:51+00:00"
+        },
+        {
+            "name": "sseffa/video-api",
+            "version": "2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sseffa/laravel-video-api.git",
+                "reference": "c8d653aad95cd85624aedce8b38e13e388fb283d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sseffa/laravel-video-api/zipball/c8d653aad95cd85624aedce8b38e13e388fb283d",
+                "reference": "c8d653aad95cd85624aedce8b38e13e388fb283d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.*",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Sseffa\\VideoApi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Sefa Karagöz",
+                    "email": "karagozsefa@gmail.com",
+                    "homepage": "http://sefakaragoz.com/"
+                }
+            ],
+            "description": "Laravel Video Data (youtube/vimeo) API",
+            "keywords": [
+                "laravel"
+            ],
+            "time": "2017-03-20T19:32:54+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

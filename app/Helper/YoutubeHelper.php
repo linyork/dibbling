@@ -2,10 +2,15 @@
 
 namespace App\Helper;
 
+use \Sseffa\VideoApi\VideoApi;
+
 class YoutubeHelper
 {
+    private $apiKey = 'AIzaSyD8dMvEMgk7T5U1VFjC9-LoRp486E2X7gQ';
     private $status;
     private $title;
+    private $duration;
+    private $seal;
     private $errMsg;
 
 
@@ -81,8 +86,20 @@ class YoutubeHelper
             return;
         }
 
-        $this->status = true;
-        $this->title = $title;
+        // get date
+        $detailData = \VideoApi::setType(VideoApi::YOUTUBE)->setKey($this->apiKey)->getVideoDetail($videoId);
+        if($detailData['duration'] >= 600)
+        {
+            $this->errMsg = "點播播放時間過長的影片";
+            return;
+        }
+        else
+        {
+            $this->title = $detailData['title'];
+            $this->seal = $detailData['thumbnail_large'];
+            $this->duration = $detailData['duration'];
+            $this->status = true;
+        }
     }
 
     public function getErrMsg() : string
@@ -98,6 +115,16 @@ class YoutubeHelper
     public function getStatus() : string
     {
         return $this->title ?? '';
+    }
+
+    public function getSeal() : string
+    {
+        return $this->seal ?? '';
+    }
+
+    public function getDuration() : int
+    {
+        return $this->duratino ?? 0;
     }
 
 }
