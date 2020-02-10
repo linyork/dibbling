@@ -60,7 +60,7 @@ class YoutubeHelper
 
     public function getDuration() : int
     {
-        return $this->duratino ?? 0;
+        return $this->duration ?? 0;
     }
 
 }

@@ -102,6 +102,8 @@ class ListController extends Controller
             $list = new ListTable;
             $list->video_id = $videoId;
             $list->title = $youtubeHelper->getTitle();
+            $list->seal = $youtubeHelper->getSeal();
+            $list->duration = $youtubeHelper->getDuration();
             $list->ip = request()->ip();
             $list->created_at = now();
             $list->updated_at = now();
