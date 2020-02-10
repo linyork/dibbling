@@ -7,6 +7,11 @@ const log = require('simple-node-logger').createSimpleFileLogger('/var/log/node/
 const playerRoom = io.of('socket/player');
 playerRoom.on('connection',function(socket) {
     log.info('some one connetion player');
+
+    socket.on('playing', () => {
+        log.info('player change video');
+        otherRoom.emit('playing');
+    });
 });
 
 const otherRoom = io.of('socket');

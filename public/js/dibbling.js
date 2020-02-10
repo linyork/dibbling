@@ -1,22 +1,12 @@
-// var ws = new WebSocket('ws://local.dibbling.tw:9502');
-//
-// //開啟後執行的動作，指定一個 function 會在連結 WebSocket 後執行
-// ws.onopen = () => {
-//     console.log('WebSocket open connection');
-//     ws.send("asdf");
-// };
-//
-// //關閉後執行的動作，指定一個 function 會在連結中斷後執行
-// ws.onclose = () => {
-//     console.log('WebSocket close connection');
-// };
-//
-// // onmessage  監聽
-// ws.onmessage = (evt) => {
-//     console.log(evt);
-// };
-
 $(function() {
+
+    // web socket
+    var socket = io(document.location.protocol+'//'+domain+'/socket');
+    socket.on('playing',function (){
+        console.log('change');
+        refresh();
+    });
+
     // playing
     function refreshPlaying() {
         let promise_get_playing = $.ajax({

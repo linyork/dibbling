@@ -1,10 +1,5 @@
-$(function (){
-    // function refresh() {
-    // }
-    // refresh();
-});
 
-// dibbling
+// sse
 // $(document).on('click', '.command', function (e) {
 //     var command = $(this).val();
 //     $.ajax({
@@ -23,10 +18,6 @@ $(function (){
 
 // web socket
 var socket = io(document.location.protocol+'//'+domain+'/socket');
-// log
-socket.on('log', function(string){
-    console.log(string);
-});
 // play
 $(document).on('click', '#play', function (e) {
     var command = {

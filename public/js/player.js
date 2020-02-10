@@ -1,3 +1,30 @@
+// web socket
+var socket = io(document.location.protocol+'//'+domain+'/socket/player');
+socket.on('connect', function(){});
+socket.on('disconnect', function(){});
+socket.on('command', function(command){
+    console.log(command);
+    var commandOptions = JSON.parse(command);
+    switch(commandOptions.command)
+    {
+        case 'play':
+            player_ref.playVideo();
+            break;
+        case 'cut':
+            player_ref.seekTo("99999",true);
+            break;
+        case 'pause':
+            player_ref.pauseVideo();
+            break;
+        case 'voice':
+            player_ref.setVolume(parseInt(commandOptions.value));
+            break;
+        case 'speed':
+            player_ref.setPlaybackRate(parseFloat(commandOptions.value));
+            break;
+    }
+});
+
 // init YT Player
 function onYouTubeIframeAPIReady() {
     new YT.Player('YouTubeVideoPlayer', {
@@ -92,7 +119,7 @@ function remove(id) {
 }
 
 function playing(id) {
-    $.ajax({
+    var promise_post_playing = $.ajax({
         url: 'api/v2/playing',
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -102,6 +129,10 @@ function playing(id) {
         data: {
             'id': id,
         },
+    });
+    promise_post_playing.done(function (){
+        // socket
+        socket.emit('playing')
     });
 }
 
@@ -161,33 +192,3 @@ function playRandom(event){
 // function closeEventSource() {
 //     sse.close();
 // }
-
-// web socket
-var socket = io(document.location.protocol+'//'+domain+'/socket/player');
-socket.on('connect', function(){});
-socket.on('disconnect', function(){});
-socket.on('command', function(command){
-    console.log(command);
-    var commandOptions = JSON.parse(command);
-    switch(commandOptions.command)
-    {
-        case 'play':
-            player_ref.playVideo();
-            break;
-        case 'cut':
-            player_ref.seekTo("99999",true);
-            break;
-        case 'pause':
-            player_ref.pauseVideo();
-            break;
-        case 'voice':
-            player_ref.setVolume(parseInt(commandOptions.value));
-            break;
-        case 'speed':
-            player_ref.setPlaybackRate(parseFloat(commandOptions.value));
-            break;
-    }
-});
-
-
-
