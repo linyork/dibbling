@@ -47,8 +47,14 @@ php artisan migrate
 ```
 將所需的DB建立起來
 
-# Log
+## Log
 
 Nginx log: docker/nginx
 
 Socket log: docker/node
+
+## 關於註冊
+
+註冊時會發現寄送認證信失敗
+
+請再重新瀏覽首頁輸入帳號密碼即可登入
