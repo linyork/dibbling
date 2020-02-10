@@ -40,14 +40,14 @@ $(function() {
             } else {
                 // have video list and append video list
                 db_list.forEach(function (e) {
-                    played_list_dom.append(playedListRow(e['video_id'], e['id'], e['title'], e['name']));
+                    played_list_dom.append(playedListRow(e['video_id'], e['id'], e['title'], e['duration'], e['name']));
                 });
             }
 
         });
     }
 
-    function playedListRow(video_id, id, title, name) {
+    function playedListRow(video_id, id, title, duration, name) {
         let li = document.createElement('li');
         li.className = 'list-group-item text-truncate';
         li.setAttribute('data-toggle', 'tooltip');
@@ -58,6 +58,10 @@ $(function() {
         btn_group.setAttribute('role', 'group');
         btn_group.setAttribute('aria-label', 'Basic example');
         btn_group.setAttribute('style', 'margin-right: 1em;');
+        let newButtonTime = document.createElement('button');
+        newButtonTime.className = 'btn btn-dark';
+        newButtonTime.setAttribute('type', 'button');
+        newButtonTime.append(timeStamp(duration));
         let newButton1 = document.createElement('button');
         newButton1.className = 'btn btn-primary';
         newButton1.setAttribute('type', 'button');
@@ -73,6 +77,7 @@ $(function() {
         nameSpan.className = 'badge badge-primary';
         let titleSpan = document.createElement('span');
 
+        btn_group.append(newButtonTime);
         btn_group.append(newButton1);
         btn_group.append(newButton2);
         titleSpan.append(title);
@@ -101,6 +106,20 @@ $(function() {
             refresh();
         });
         console.log(id);
+    }
+
+    function timeStamp( second_time ){
+
+        var time = parseInt(second_time);
+        if( parseInt(second_time )> 60){
+
+            var second = parseInt(second_time) % 60;
+            if(second < 10) second = "0"+second.toString();
+            var min = parseInt(second_time / 60);
+            time = min + ":" + second;
+        }
+
+        return time;
     }
 
     function refresh() {
