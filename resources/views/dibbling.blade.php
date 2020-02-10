@@ -35,7 +35,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="{{ __('web.dibbling.PleaseEnterUrl') }}" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <input id="video-id" type="text" class="form-control" placeholder="{{ __('web.dibbling.PleaseEnterUrl') }}" aria-label="Recipient's username" aria-describedby="basic-addon2">
                         <div class="input-group-append">
                             <button id="dibbling-button" type="button" class="btn btn-success">{{ __('web.dibbling.Enter') }}</button>
                         </div>
@@ -59,7 +59,7 @@
             </div>
         </div>
     </div>
-    
+
 </div>
 
 
