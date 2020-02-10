@@ -50,12 +50,11 @@
         <div class="col-md-6">
             <div class="alert alert-success" role="alert">
                 <h4 class="alert-heading">公告</h4>
-                <p>有興趣製作Dibblig的大大請私訊York 已有 白白 DZ 相繼參與</p>
+                <p>有興趣製作Dibblig的大大請私訊York 已有 白白 DZ Jimmy 相繼參與</p>
                 <p>音量功能暫無效果 因<a href="https://developers.google.com/youtube/iframe_api_reference" target="_blank">youtubeSDK</a> 調整音量不支援移動裝置</p>
+                <p>播放下一首時無需重新整理"現正播放中"的標題會同步更新</p>
                 <hr>
-                <p class="mb-0">考慮新增功能</p>
-                <p class="mb-0">1) Google 小姐廣播功能</p>
-                <p class="mb-0">2) 彈幕功能</p>
+                <p class="mb-0">白白已經設計好新版面 !</p>
             </div>
         </div>
     </div>

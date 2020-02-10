@@ -9,6 +9,7 @@ return [
         'List' => 'プレイリスト',
         'Record' => '再生履歴',
         'Setting' => '設定',
+        'Controller' => 'リモコン',
         'Logout' => 'ログアウト',
 
     ],
@@ -43,12 +44,12 @@ return [
         'Remove' => '削除',
     ],
     'controller' => [
-        'Controller' => 'Controller',
-        'Play' => 'Play',
-        'Pause' => 'Pause',
-        'Cut' => 'Cut',
-        'Voice' => 'Voice',
-        'Speed' => 'Speed',
+        'Controller' => 'リモコン',
+        'Play' => 'スタート',
+        'Pause' => '一時停止',
+        'Cut' => '演奏中止',
+        'Voice' => '音量',
+        'Speed' => '再生速度',
     ],
     'setting' => [
         'Setting' => '設定',
