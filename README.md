@@ -46,3 +46,9 @@ bash env.sh
 php artisan migrate
 ```
 將所需的DB建立起來
+
+# Log
+
+Nginx log: docker/nginx
+
+Socket log: docker/node
