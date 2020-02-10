@@ -6,7 +6,7 @@ use \Sseffa\VideoApi\VideoApi;
 
 class YoutubeHelper
 {
-    private $apiKey = 'AIzaSyD8dMvEMgk7T5U1VFjC9-LoRp486E2X7gQ';
+    private $apiKey = 'AIzaSyD7oY7GZRdLTsrIVdlqLAWinzRwvD3WChA';
     private $status;
     private $title;
     private $duration;
@@ -16,89 +16,25 @@ class YoutubeHelper
 
     public function paser(string $videoId)
     {
-        /* 取得 URL 頁面資料 */
-        $ch = curl_init();
-
-        // 設定 URL
-        curl_setopt($ch, CURLOPT_URL, 'https://www.youtube.com/watch?v=' . $videoId);
-        // 讓 curl_exec() 獲取的信息以資料流的形式返回，而不是直接輸出。
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        // 在發起連接前等待的時間，如果設置為0，則不等待
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
-        // 設定 CURL 最長執行的秒數
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-
-        // 嘗試取得文件內容
-        $store = curl_exec($ch);
-
-        // 檢查文件是否正確取得
-        if ( curl_errno($ch) )
+        try
         {
-            $this->errMsg = "無法取得 URL 資料";
-            return;
-        }
+            $detailData = \VideoApi::setType(VideoApi::YOUTUBE)->setKey($this->apiKey)->getVideoDetail($videoId);
 
-        // 關閉 CURL
-        curl_close($ch);
-
-
-        // 解析 HTML 的 <head> 區段
-        preg_match("/<head.*>(.*)<\/head>/smUi", $store, $htmlHeaders);
-        if ( ! count($htmlHeaders) )
-        {
-            $this->errMsg = "無法解析資料中的 <head> 區段";
-            return;
-        }
-
-        // 取得 <head> 中 meta 設定的編碼格式
-        if ( preg_match("/<meta[^>]*http-equiv[^>]*charset=(.*)(\"|')/Ui", $htmlHeaders[1], $results) )
-        {
-            $charset = $results[1];
-        }
-        else
-        {
-            $charset = "None";
-        }
-
-        // 取得 <title> 中的文字
-        if ( preg_match("/<title>(.*)<\/title>/Ui", $htmlHeaders[1], $htmlTitles) )
-        {
-            if ( ! count($htmlTitles) )
+            if($detailData['duration'] >= 600)
             {
-                $this->errMsg = "無法解析 <title> 的內容";
-                return;
-            }
-
-            // 將  <title> 的文字編碼格式轉成 UTF-8
-            if ( $charset == "None" )
-            {
-                $title = $htmlTitles[1];
+                $this->errMsg = "點播播放時間過長的影片";
             }
             else
             {
-                $title = iconv($charset, "UTF-8", $htmlTitles[1]);
+                $this->title = $detailData['title'];
+                $this->seal = $detailData['thumbnail_large'];
+                $this->duration = $detailData['duration'];
+                $this->status = true;
             }
         }
-
-        if ( $title === 'YouTube' )
+        catch (\Exception $e)
         {
             $this->errMsg = "無法解析ID點播失敗";
-            return;
-        }
-
-        // get date
-        $detailData = \VideoApi::setType(VideoApi::YOUTUBE)->setKey($this->apiKey)->getVideoDetail($videoId);
-        if($detailData['duration'] >= 600)
-        {
-            $this->errMsg = "點播播放時間過長的影片";
-            return;
-        }
-        else
-        {
-            $this->title = $detailData['title'];
-            $this->seal = $detailData['thumbnail_large'];
-            $this->duration = $detailData['duration'];
-            $this->status = true;
         }
     }
 
