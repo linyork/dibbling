@@ -36,7 +36,7 @@ return [
         'List' => 'プレイリスト',
         'Cut' => '切る',
         'Remove' => '削除',
-        'NoData' => 'No Data',
+        'NoData' => 'データなし',
     ],
     'record' => [
         'Record' => '再生履歴',
