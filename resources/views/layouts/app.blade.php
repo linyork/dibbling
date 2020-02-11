@@ -33,6 +33,14 @@
     <script type="text/javascript">
         var web = @json(__('web'));
         var domain = "{{ config('app.domain') }}";
+        @guest
+        @else
+        var user = {
+            id: "{{ Auth::user()->id }}",
+            name: "{{ Auth::user()->name }}",
+            email: "{{ Auth::user()->email }}",
+        };
+        @endguest
     </script>
 
     <!-- Page Js-->

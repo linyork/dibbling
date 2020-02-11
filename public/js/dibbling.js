@@ -2,6 +2,7 @@ $(function() {
 
     // web socket
     var socket = io(document.location.protocol+'//'+domain+'/socket');
+    socket.emit('intoDibbling', user.name);
     socket.on('playing',function (){
         console.log('change');
         refresh();

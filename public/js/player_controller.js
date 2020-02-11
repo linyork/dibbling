@@ -18,6 +18,7 @@
 
 // web socket
 var socket = io(document.location.protocol+'//'+domain+'/socket');
+socket.emit('intoController', user.name);
 // play
 $(document).on('click', '#play', function (e) {
     var command = {
