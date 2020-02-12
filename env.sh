@@ -7,12 +7,13 @@ while :
 do
     echo "Choose the option you want:"
     echo "----------------------------------------"
-    echo -e "a.\tStart all containers"
-    echo -e "r.\tRestart all containers"
-    echo -e "l.\tList all containers"
-    echo -e "c.\tClose all containers"
-    echo -e "i.\tInto container"
-    echo -e "q.\tExit"
+    echo -e "a.\t\tStart all containers"
+    echo -e "r.\t\tRestart all containers"
+    echo -e "l.\t\tList all containers"
+    echo -e "c.\t\tClose all containers"
+    echo -e "console.\tShow container console."
+    echo -e "i.\t\tInto container"
+    echo -e "q.\t\tExit"
     read -p "Input:" input
 
     clear
@@ -34,6 +35,17 @@ do
         c)
             # 關閉 container
             docker rm -f $(docker ps -a -q) | awk '{print "移除 \""$1"\" Container"}'
+            ;;
+        console)
+            docker ps -a --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}\t{{.ID}}"
+            echo "Enter Container Name"
+            read -p "Name:" containerName
+            clear
+            #  進入 container
+            if [[ ${containerName} ]]; then
+                docker logs $(docker ps -aq --filter name=${containerName})
+            fi
+            echo "----------------------------------------"
             ;;
         i)
             docker ps -a --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}\t{{.ID}}"
