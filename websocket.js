@@ -43,7 +43,7 @@ otherRoom.on('connection', (socket) => {
     // chart
     socket.on('chat', (chat) => {
        log.info(socket.name + ': ' + chat + '.');
-       playerRoom.emit('chat', chat);
+        otherRoom.emit('chat', chat);
     });
 });
 
