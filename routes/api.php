@@ -39,7 +39,7 @@ Route::group(['prefix' => 'v2'], function ()
         Route::post('command', 'v2\CommandController@index');
     });
     // player 播放
-    Route::get('list/{id}', 'v2\ListController@play');
+    Route::get('list/remove/{id}', 'v2\ListController@play');
     // 取得點播清單
     Route::get('list', 'v2\ListController@list');
     // 取得已播清單

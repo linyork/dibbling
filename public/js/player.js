@@ -109,7 +109,7 @@ function playNext(event) {
 
 function remove(id) {
     $.ajax({
-        url: 'api/v2/list/' + id,
+        url: 'api/v2/list/remove' + id,
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
