@@ -12,6 +12,9 @@ socket.on('chat', function( chat ) {
 function refreshPlaying() {
     let promise_get_playing = $.ajax({
         url: 'api/v2/playing',
+        headers: {
+            'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content')
+        },
         method: "GET"
     });
 
@@ -44,7 +47,6 @@ $(document).on('click', '#dibbling-button', function () {
 function refresh() {
     refreshPlaying();
 }
-
 
 function dibbling(videoId) {
     if (videoId === '') return;

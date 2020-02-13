@@ -62,6 +62,8 @@ function onPlayerStateChange(event) {
     if (event.data == 0) {
         playNext(event);
     }
+    // socket
+    socket.emit('playing')
 }
 
 // YT Player error
@@ -71,94 +73,22 @@ function onError(event){
 
 function playNext(event) {
     var list = $.ajax({
-        url: '/api/v2/list',
+        url: '/api/v2/next',
         method: "GET"
     });
 
-    list.done(function (dblist) {
-        if (dblist.length > 0) {
+    list.done(function (next) {
+        if (next.id) {
             // append video list
-            var onplay_id = dblist[0]['id'];
             $("#list").empty();
-            for (const [key, row] of Object.entries(dblist)) {
-                var id = row['id'];
-                var video_id = row['video_id'];
-                var title = row['title'];
-                $("#list").append("<li class='list-group-item' id='" + id + "' video_id='" + video_id + "'>" + title + "</li>");
-            }
-
-            // get onplay video & tag onplay video
-            var onplay_video = dblist[0];
-            event.target.loadVideoById(onplay_video['video_id']);
-            videoData = event.target.getVideoData();
-            $('#' + onplay_id).addClass('active');
-
-            // delete first video
-            remove(onplay_video['id']);
-
-            // ajax add playing
-            playing(onplay_video['id'])
+            $("#list").append("<li class='list-group-item'>" + next.title + "</li>");
+            // youtube
+            event.target.loadVideoById(next.video_id);
         } else {
             // no video list
             $("#list").empty();
             $("#list").append("<li class='list-group-item'>No data</li>");
-            playRandom(event);
         }
-    });
-}
-
-function remove(id) {
-    $.ajax({
-        url: 'api/v2/list/remove',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        type: "POST",
-        dataType: "json",
-        data:{
-            id: id,
-        },
-    });
-}
-
-function playing(id) {
-    var promise_post_playing = $.ajax({
-        url: 'api/v2/update/playing',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        method: "POST",
-        dataType: "json",
-        data: {
-            'id': id,
-        },
-    });
-    promise_post_playing.done(function (){
-        // socket
-        socket.emit('playing')
-    });
-}
-
-function playRandom(event){
-    var promise_get_random = $.ajax({
-        url: '/api/v2/get/random',
-        method: "GET"
-    });
-    promise_get_random.done(function (data) {
-        if (data.id) {
-            // play this video
-            event.target.loadVideoById(data.video_id);
-            // ajax add playing
-            playing(data.id)
-        } else {
-            // todo
-            event.target.loadVideoById('hKRUPYrAQoE');
-        }
-    });
-
-    promise_get_random.fail(function (d) {
-        // todo
-        event.target.loadVideoById('hKRUPYrAQoE');
     });
 }
 

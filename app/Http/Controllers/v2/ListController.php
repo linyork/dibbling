@@ -26,7 +26,7 @@ class ListController extends Controller
         }
         catch (\Exception $e)
         {
-            $result = $e;
+            $result = [];
         }
         return response()->json($result);
     }
@@ -50,18 +50,6 @@ class ListController extends Controller
         return response()->json($result);
     }
 
-    public function random()
-    {
-        try
-        {
-            $result = ListTable::onlyTrashed()->inRandomOrder()->first();
-        }
-        catch (\Exception $e)
-        {
-            $result = [];
-        }
-        return response()->json($result);
-    }
 
     public function insert(Request $request, YoutubeHelper $youtubeHelper)
     {
@@ -164,18 +152,4 @@ class ListController extends Controller
         return response()->json($result_test);
     }
 
-    public function play(Request $request)
-    {
-        try
-        {
-            $list = ListTable::withTrashed()->find($request->input('id'));
-            $list->delete();
-            $result_test = ($list->trashed()) ? 'Soft delete success.' : 'Soft delete error.';
-        }
-        catch (\Exception $e)
-        {
-            $result_test = $e;
-        }
-        return  response()->json($result_test);
-    }
 }

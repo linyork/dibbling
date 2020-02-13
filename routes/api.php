@@ -28,6 +28,7 @@ Route::group(['prefix' => 'v2'], function ()
     // 需驗證身份 production 處理
     $middleware = ['auth:api'];
     if(\App::environment('production')) $middleware[] = 'verified';
+    // dibbling client
     Route::middleware($middleware)->group(function () {
         // 點播
         Route::post('list','v2\ListController@insert');
@@ -37,19 +38,13 @@ Route::group(['prefix' => 'v2'], function ()
         Route::delete('list/{id}', 'v2\ListController@destroy');
         // 控制器指令
         Route::post('command', 'v2\CommandController@index');
+        // 取得點播清單
+        Route::get('list', 'v2\ListController@list');
+        // 取得已播清單
+        Route::get('list/played', 'v2\ListController@played');
+        // 取得正在播放
+        Route::get('playing', 'v2\PlayingController@get');
     });
-    // 取得已播清單
-    Route::get('list/played', 'v2\ListController@played');
-
-    // player 更新 deteled_at 時間
-    Route::post('list/remove', 'v2\ListController@play');
-    // 取得點播清單
-    Route::get('list', 'v2\ListController@list');
-    // 隨機取得一首
-    Route::get('get/random', 'v2\ListController@random');
-    // TODO: 或許可用list最新更新時間取得
-    // 取得正在播放
-    Route::get('playing', 'v2\PlayingController@get');
-    // 更新正在播放
-    Route::post('update/playing', 'v2\PlayingController@playing');
+    // dibbling player
+    Route::get('/next', 'v2\PlayerController@next');
 });

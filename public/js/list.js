@@ -12,6 +12,9 @@ $(function() {
     function refreshList() {
         let list = $.ajax({
             url: '/api/v2/list',
+            headers: {
+                'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content')
+            },
             method: "GET"
         });
 
@@ -23,19 +26,19 @@ $(function() {
                 play_list_dom.append("<li class='list-group-item'>"+__('web.list.NoData')+"</li>");
             } else {
                 // have video list and append video list
-                db_list.forEach(function (e) {
-                    play_list_dom.append(playListRow(e['video_id'], e['id'], e['title'], e['duration'], e['name']));
+                db_list.forEach(function (video) {
+                    play_list_dom.append(playListRow(video));
                 });
             }
         });
     }
 
-    function playListRow(video_id, id, title, duration, name) {
+    function playListRow(video) {
         let li = document.createElement('li');
         li.className = 'list-group-item text-truncate';
         li.setAttribute('data-toggle', 'tooltip');
         li.setAttribute('data-placement', 'top');
-        li.setAttribute('title', title);
+        li.setAttribute('title', video['title']);
         let btn_group = document.createElement('div');
         btn_group.className = 'btn-group';
         btn_group.setAttribute('role', 'group');
@@ -44,26 +47,26 @@ $(function() {
         let newButtonTime = document.createElement('button');
         newButtonTime.className = 'btn btn-dark';
         newButtonTime.setAttribute('type', 'button');
-        newButtonTime.append(timeStamp(duration));
+        newButtonTime.append(timeStamp(video['duration']));
         let newButton1 = document.createElement('button');
         newButton1.className = 'btn btn-secondary';
         newButton1.setAttribute('type', 'button');
-        newButton1.setAttribute('data-uid', id);
+        newButton1.setAttribute('data-uid', video['id']);
         newButton1.append(__('web.list.Cut'));
         let newButton2 = document.createElement('button');
         newButton2.className = 'btn btn-danger';
         newButton2.setAttribute('type', 'button');
-        newButton2.setAttribute('data-uid', id);
+        newButton2.setAttribute('data-uid', video['id']);
         newButton2.append(__('web.list.Remove'));
         let nameSpan = document.createElement('span');
-        nameSpan.append(name);
+        nameSpan.append(video['name']);
         nameSpan.className = 'badge badge-primary';
         let titleSpan = document.createElement('span');
 
         btn_group.append(newButtonTime);
         btn_group.append(newButton1);
         btn_group.append(newButton2);
-        titleSpan.append(title);
+        titleSpan.append(video['title']);
         li.append(btn_group);
         li.append(nameSpan);
         li.append(titleSpan);

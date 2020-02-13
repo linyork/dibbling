@@ -23,27 +23,4 @@ class PlayingController extends Controller
         }
         return response()->json($listResult);
     }
-
-    public function playing(Request $request)
-    {
-        try
-        {
-            $id = $request->input('id');
-
-            if ( \DB::table('playing')->first() )
-            {
-                \DB::table('playing')->update(['video_id' => $id]);
-            }
-            else
-            {
-                \DB::table('playing')->insert(['video_id' => $id]);
-            }
-            $returnJson = $id;
-        }
-        catch (\Exception $e)
-        {
-            $returnJson = $e;
-        }
-        return response()->json($returnJson);
-    }
 }
