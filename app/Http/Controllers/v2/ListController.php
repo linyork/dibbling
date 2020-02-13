@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Model\RecordTable;
 use Illuminate\Http\Request;
 use App\Model\ListTable;
-use phpDocumentor\Reflection\DocBlock\Tags\Reference\Url;
 
 class ListController extends Controller
 {
@@ -169,7 +168,7 @@ class ListController extends Controller
     {
         try
         {
-            $list = ListTable::find($id);
+            $list = ListTable::withTrashed()->find($id);
             $list->delete();
             $result_test = ($list->trashed()) ? 'Soft delete success.' : 'Soft delete error.';
         }
