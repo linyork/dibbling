@@ -23,10 +23,6 @@ class ListController extends Controller
                 ->where('list.deleted_at','=', NULL)
                 ->orderBy('list.updated_at')
                 ->get();
-//            $result = RecordTable::with(['list', 'user'])
-//                ->FirstOrder()
-//                ->get();
-//            $result = ListTable::orderBy('updated_at')->get();
 
         }
         catch (\Exception $e)
@@ -47,12 +43,6 @@ class ListController extends Controller
                 ->where('list.deleted_at','!=', NULL)
                 ->orderBy('list.updated_at', 'DESC')
                 ->get();
-//            $result = RecordTable::with(['list', 'user'])
-//                ->FirstOrder()
-//                ->onlyTrashed()
-//                ->orderBy('updated_at', 'DESC')
-//                ->get();
-//            $result = ListTable::onlyTrashed()->orderBy('updated_at', 'DESC')->get();
         }
         catch (\Exception $e)
         {
@@ -172,8 +162,7 @@ class ListController extends Controller
         {
             $result_test = $e;
         }
-        $result = response()->json($result_test);
-        return $result;
+        return response()->json($result_test);
     }
 
     public function play($id)
@@ -188,7 +177,6 @@ class ListController extends Controller
         {
             $result_test = $e;
         }
-        $result = response()->json($result_test);
-        return $result;
+        return  response()->json($result_test);
     }
 }

@@ -22,9 +22,7 @@ class PlayingController extends Controller
     public function playing(Request $request)
     {
         $id = $request->input('id');
-        $returnJson = \DB::table('playing')
-            ->where('id', 1)
-            ->update(['video_id' => $id]);
+        $returnJson = \DB::table('playing')->where('id', 1)->update(['video_id' => $id]);
         if($returnJson === 0)
         {
             $returnJson = \DB::table('playing')->insert(
