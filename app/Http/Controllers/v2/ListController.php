@@ -164,11 +164,11 @@ class ListController extends Controller
         return response()->json($result_test);
     }
 
-    public function play($id)
+    public function play(Request $request)
     {
         try
         {
-            $list = ListTable::withTrashed()->find($id);
+            $list = ListTable::withTrashed()->find($request->input('id'));
             $list->delete();
             $result_test = ($list->trashed()) ? 'Soft delete success.' : 'Soft delete error.';
         }

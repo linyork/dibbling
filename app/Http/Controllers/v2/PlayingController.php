@@ -12,25 +12,37 @@ class PlayingController extends Controller
 {
     public function get()
     {
-        $playingResult = PlayingTable::find(1);
-        $listResult = ListTable::withTrashed()
-            ->where('id', '=', $playingResult['video_id'])
-            ->first();
+        try
+        {
+            $playingResult = PlayingTable::firstOrFail();
+            $listResult = ListTable::withTrashed()->where('id', '=', $playingResult['video_id'])->first();
+        }
+        catch (\Exception $e)
+        {
+            $listResult = [];
+        }
         return response()->json($listResult);
     }
 
     public function playing(Request $request)
     {
-        $id = $request->input('id');
-        $returnJson = \DB::table('playing')->where('id', 1)->update(['video_id' => $id]);
-        if($returnJson === 0)
+        try
         {
-            $returnJson = \DB::table('playing')->insert(
-                [
-                    'id' => 1,
-                    'video_id' => $id,
-                ]
-            );
+            $id = $request->input('id');
+
+            if ( \DB::table('playing')->first() )
+            {
+                \DB::table('playing')->update(['video_id' => $id]);
+            }
+            else
+            {
+                \DB::table('playing')->insert(['video_id' => $id]);
+            }
+            $returnJson = $id;
+        }
+        catch (\Exception $e)
+        {
+            $returnJson = $e;
         }
         return response()->json($returnJson);
     }

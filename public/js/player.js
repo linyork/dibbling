@@ -109,18 +109,21 @@ function playNext(event) {
 
 function remove(id) {
     $.ajax({
-        url: 'api/v2/list/remove/' + id,
+        url: 'api/v2/remove/',
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        type: "GET",
+        type: "POST",
         dataType: "json",
+        data:{
+            id: id,
+        },
     });
 }
 
 function playing(id) {
     var promise_post_playing = $.ajax({
-        url: 'api/v2/playing',
+        url: 'api/v2/update/playing',
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
@@ -138,7 +141,7 @@ function playing(id) {
 
 function playRandom(event){
     var promise_get_random = $.ajax({
-        url: '/api/v2/list/random',
+        url: '/api/v2/get/random',
         method: "GET"
     });
     promise_get_random.done(function (data) {

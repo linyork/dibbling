@@ -38,17 +38,18 @@ Route::group(['prefix' => 'v2'], function ()
         // 控制器指令
         Route::post('command', 'v2\CommandController@index');
     });
-    // player 播放
-    Route::get('list/remove/{id}', 'v2\ListController@play');
-    // 取得點播清單
-    Route::get('list', 'v2\ListController@list');
     // 取得已播清單
     Route::get('list/played', 'v2\ListController@played');
-    // 隨機一首
-    Route::get('list/random', 'v2\ListController@random');
+
+    // player 更新 deteled_at 時間
+    Route::post('list/remove', 'v2\ListController@play');
+    // 取得點播清單
+    Route::get('list', 'v2\ListController@list');
+    // 隨機取得一首
+    Route::get('get/random', 'v2\ListController@random');
     // TODO: 或許可用list最新更新時間取得
     // 取得正在播放
     Route::get('playing', 'v2\PlayingController@get');
     // 更新正在播放
-    Route::post('playing', 'v2\PlayingController@playing');
+    Route::post('update/playing', 'v2\PlayingController@playing');
 });
