@@ -180,7 +180,7 @@ class ListController extends Controller
     {
         try
         {
-            $list = ListTable::withTrashed()->find($id);
+            $list = ListTable::find($id);
             $list->delete();
             $result_test = ($list->trashed()) ? 'Soft delete success.' : 'Soft delete error.';
         }
