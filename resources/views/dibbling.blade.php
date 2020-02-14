@@ -2,13 +2,36 @@
 
 @section('pageCss')
     <style>
-        .card-margin-bottom {
-            margin-bottom: 20px;
-
+        .css-dibbling-interface {
+            overflow: hidden;
+            background-color: white;
+        }
+        .css-dibbling-interface-bg {
+            background-image: url("https://i.ytimg.com/vi/hKRUPYrAQoE/hqdefault.jpg");
+            filter: blur(15px);
+            opacity: 0.5;
+            width: 100%;
+            min-height: 490px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            margin-top: 20px;
+        }
+        .css-dibbling-interface-con {
+            position: absolute;
         }
 
-        .playing {
-            width: 100%;
+        .css-dibbling-interface-title {
+            margin-top: 30px;
+            color:white;
+        }
+
+        .css-dibbling-interface-seal {
+            margin-top: 30px;
+        }
+
+        .card-margin-bottom {
+            margin-bottom: 20px;
         }
     </style>
 @endsection
@@ -18,17 +41,20 @@
 @endsection
 
 @section('content')
-<div class="container">
 
-    <div class="row justify-content-center card-margin-bottom">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <a id="playing" type="button" class="btn btn-dark playing" target="_blank"></a>
-                </div>
-            </div>
+<div class="row justify-content-center card-margin-bottom css-dibbling-interface">
+    <div class="css-dibbling-interface-bg"></div>
+    <div class="container css-dibbling-interface-con">
+        <div class="row justify-content-center css-dibbling-interface-seal">
+            <img src="https://i.ytimg.com/vi/hKRUPYrAQoE/hqdefault.jpg">
+        </div>
+        <div class="row justify-content-center css-dibbling-interface-title">
+            <span id="playing"></span>
         </div>
     </div>
+</div>
+
+<div class="container">
 
     <div class="row justify-content-center card-margin-bottom">
         <div class="col-md-6">
