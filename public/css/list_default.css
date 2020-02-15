@@ -1,0 +1,111 @@
+.css-list {
+    margin: 5px;
+    box-shadow: 0 2px 4px 0 rgba(51, 51, 51, 0.3);
+}
+
+.css-list-text {
+    font-family: MicrosoftJhengHei;
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #999999;
+    margin: 5px;
+}
+
+.css-list-img-group {
+    position: relative;
+}
+
+.css-list-duration {
+    position: absolute;
+    font-family: MicrosoftJhengHei;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    right: 0;
+    bottom: 0;
+    opacity: 0.5;
+    background-color: #ffffff;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+.card-body {
+    padding: 0.5rem;
+}
+
+.css-list-name {
+    background-color: rgba(0, 0, 0, 0.5);
+    font-family: MicrosoftJhengHei;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #ffffff;
+    padding-right: 0.3rem;
+    padding-left: 0.3rem;
+}
+.css-list-title {
+    height: 3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    font-family: MicrosoftJhengHei;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #999999;
+}
+
+.css-list-btn-group {
+    padding: 0.5rem;
+}
+
+.css-list-cut {
+    float: right;
+    border-radius: 3px;
+    border: solid 1px #999999;
+    background-color: #ffffff;
+    font-family: MicrosoftJhengHei;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #999999;
+    cursor: pointer;
+}
+
+.css-list-remove {
+    float: right;
+    border-radius: 3px;
+    border: solid 1px #e95a5a;
+    font-family: MicrosoftJhengHei;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #e95a5a;
+    margin-left: 0.5rem;
+    cursor: pointer;
+}

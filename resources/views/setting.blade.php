@@ -21,6 +21,13 @@
                                 @include('common.localebutton')
                             </div>
                         </div>
+
+{{--                        <div class="form-group row">--}}
+{{--                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('web.setting.Mode')}}</label>--}}
+{{--                            <div class="col-md-6">--}}
+{{--                                @include('common.mode')--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                     </div>
                 </div>
             </div>

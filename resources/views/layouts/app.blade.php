@@ -23,11 +23,9 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
     <!-- Dibbling Script & Css -->
     <link rel="stylesheet" href="css/common/bootstrap.css">
+    <link rel="stylesheet" href="css/app.css">
     <script src="js/common/jquery-3.4.1.js"></script>
     <script src="js/socket.js"></script>
     <script type="text/javascript">
@@ -43,7 +41,7 @@
         @endguest
     </script>
 
-    <!-- Page Js-->
+    <!-- Page Css-->
     @yield('pageCss')
 
 </head>
@@ -52,8 +50,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                    <span class="badge background">v2.0</span>
+                    <img src="/logo.png" class="card-img-top">
                 </a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -81,16 +78,21 @@
                             @include('common.localebutton')
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('dibbling') }}">{{ __('web.app.Dibbling') }}</a>
+                                <a class="nav-link {{ (Route::currentRouteName() === 'dibbling') ? 'current-page' : '' }}" href="{{ route('dibbling') }}">
+                                    {{ __('web.app.Dibbling') }}
+                                </a>
                             </li>
+                            <li class="nav-item lll"></li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('dibbling_list') }}">{{ __('web.app.List') }}</a>
+                                <a class="nav-link {{ (Route::currentRouteName() === 'dibbling_list') ? 'current-page' : '' }}" href="{{ route('dibbling_list') }}">
+                                    {{ __('web.app.List') }}
+                                </a>
                             </li>
+                            <li class="nav-item lll"></li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('dibbling_record') }}">{{ __('web.app.Record') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('player_controller') }}">{{ __('web.app.Controller') }}</a>
+                                <a class="nav-link {{ (Route::currentRouteName() === 'dibbling_record') ? 'current-page' : '' }}" href="{{ route('dibbling_record') }}">
+                                    {{ __('web.app.Record') }}
+                                </a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

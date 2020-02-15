@@ -28,8 +28,10 @@ return [
         'Confirm Password' => 'Confirm Password',
     ],
     'dibbling' => [
+        'Dibbling' => 'Dibbling',
         'PleaseEnterUrl' => 'Please enter youtube video code or url.',
         'Enter' => 'Enter',
+        'Random' => 'Random',
     ],
     'list' => [
         'List' => 'List',
@@ -53,5 +55,8 @@ return [
     'setting' => [
         'Setting' => 'Setting',
         'Language' => 'Language',
+        'Mode' => 'Mode',
+        'Default' => 'Default',
+        'Dark' => 'Dark',
     ],
 ];

@@ -1,12 +1,14 @@
 $(function() {
     // remove
-    $(document).on('click', '.btn-secondary', function () {
+    $(document).on('click', '.js-cut', function () {
         remove($(this).attr('data-uid'));
+        $(this).parents(".col-12").remove();
     });
 
     // real remove
-    $(document).on('click', '.btn-danger', function () {
+    $(document).on('click', '.js-remove', function () {
         realRemove($(this).attr('data-uid'));
+        $(this).parents(".col-12").remove();
     });
 
     function refreshList() {
@@ -19,62 +21,13 @@ $(function() {
         });
 
         list.done(function (db_list) {
-            let play_list_dom = $('#list');
-            play_list_dom.empty();
-            if (db_list.length <= 0) {
-                // no video list
-                play_list_dom.append("<li class='list-group-item'>"+__('web.list.NoData')+"</li>");
-            } else {
-                // have video list and append video list
-                db_list.forEach(function (video) {
-                    play_list_dom.append(playListRow(video));
-                });
-            }
+            $("#list").empty();
+            $("#list").append(db_list)
         });
     }
 
-    function playListRow(video) {
-        let li = document.createElement('li');
-        li.className = 'list-group-item text-truncate';
-        li.setAttribute('data-toggle', 'tooltip');
-        li.setAttribute('data-placement', 'top');
-        li.setAttribute('title', video['title']);
-        let btn_group = document.createElement('div');
-        btn_group.className = 'btn-group';
-        btn_group.setAttribute('role', 'group');
-        btn_group.setAttribute('aria-label', 'Basic example');
-        btn_group.setAttribute('style', 'margin-right: 1em;');
-        let newButtonTime = document.createElement('button');
-        newButtonTime.className = 'btn btn-dark';
-        newButtonTime.setAttribute('type', 'button');
-        newButtonTime.append(timeStamp(video['duration']));
-        let newButton1 = document.createElement('button');
-        newButton1.className = 'btn btn-secondary';
-        newButton1.setAttribute('type', 'button');
-        newButton1.setAttribute('data-uid', video['id']);
-        newButton1.append(__('web.list.Cut'));
-        let newButton2 = document.createElement('button');
-        newButton2.className = 'btn btn-danger';
-        newButton2.setAttribute('type', 'button');
-        newButton2.setAttribute('data-uid', video['id']);
-        newButton2.append(__('web.list.Remove'));
-        let nameSpan = document.createElement('span');
-        nameSpan.append(video['name']);
-        nameSpan.className = 'badge badge-primary';
-        let titleSpan = document.createElement('span');
-
-        btn_group.append(newButtonTime);
-        btn_group.append(newButton1);
-        btn_group.append(newButton2);
-        titleSpan.append(video['title']);
-        li.append(btn_group);
-        li.append(nameSpan);
-        li.append(titleSpan);
-        return li;
-    }
-
     function remove(id) {
-        let promise_remove = $.ajax({
+        $.ajax({
             url: 'api/v2/list/' + id,
             headers: {
                 'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
@@ -83,14 +36,10 @@ $(function() {
             type: "DELETE",
             dataType: "json",
         });
-
-        promise_remove.done(function () {
-            refresh();
-        });
     }
 
     function realRemove(id) {
-        let promise_remove = $.ajax({
+        $.ajax({
             url: 'api/v2/list/' + id,
             headers: {
                 'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
@@ -103,24 +52,6 @@ $(function() {
             },
         });
 
-        promise_remove.done(function () {
-            refresh();
-        });
-        console.log(id);
-    }
-
-    function timeStamp( second_time ){
-
-        var time = parseInt(second_time);
-        if( parseInt(second_time )> 60){
-
-            var second = parseInt(second_time) % 60;
-            if(second < 10) second = "0"+second.toString();
-            var min = parseInt(second_time / 60);
-            time = min + ":" + second;
-        }
-
-        return time;
     }
 
     function refresh() {
