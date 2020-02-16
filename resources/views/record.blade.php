@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('pageCss')
-    <link rel="stylesheet" href="/css/record_default.css?{{ time() }}">
+    <link rel="stylesheet" href="/css/record_{{ strtolower( Request::cookie('mode') ?? 'default' ) }}.css?{{ time() }}">
 @endsection
 
 @section('pageJs')

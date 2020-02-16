@@ -11,6 +11,12 @@ $(function() {
         $(this).parents(".col-12").remove();
     });
 
+    var isAjax = false;
+    $(window).scroll(function(){
+        if (isAjax) return;
+        if ($(document).height() - $(this).scrollTop() - $(this).height()<100) refreshListPlayedPage();
+    });
+
     function redibbling(id){
         $.ajax({
             url: 'api/v2/list/' + id,
@@ -25,16 +31,32 @@ $(function() {
 
     function refreshListPlayed() {
         let promise_get_list = $.ajax({
-            url: '/api/v2/list/played',
+            url: '/api/v2/list/played/1',
             headers: {
                 'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content')
             },
             method: "GET"
         });
-
         promise_get_list.done(function (db_list) {
             $("#record-list").empty();
             $("#record-list").append(db_list)
+        });
+    }
+
+    var page = 2;
+    function refreshListPlayedPage() {
+        isAjax = true;
+        let promise_get_list = $.ajax({
+            url: '/api/v2/list/played/'+page,
+            headers: {
+                'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content')
+            },
+            method: "GET"
+        });
+        promise_get_list.done(function (db_list) {
+            isAjax = false;
+            $("#record-list").append(db_list);
+            if(db_list) page = page +1;
         });
     }
 

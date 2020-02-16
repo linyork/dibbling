@@ -1,0 +1,116 @@
+.css-record {
+    margin: 5px;
+    box-shadow: 0 2px 4px 0 rgba(51, 51, 51, 0.3);
+    border: unset !important;
+    background-color: #222222 !important;
+    border-radius: 1px;
+    box-shadow: 0 2px 4px 0 rgba(51, 51, 51, 0.3), 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.css-record-text {
+    font-family: MicrosoftJhengHei;
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #999999;
+    margin: 5px;
+}
+
+.css-record-img-group {
+    position: relative;
+}
+
+.css-record-duration {
+    position: absolute;
+    font-family: MicrosoftJhengHei;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    right: 0;
+    bottom: 0;
+    opacity: 0.5;
+    background-color: #222222;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+.card-body {
+    padding: 0.5rem;
+}
+
+.css-record-name {
+    background-color: rgba(255, 255, 255, 0.5);
+    font-family: MicrosoftJhengHei;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #333333;
+    padding-right: 0.3rem;
+    padding-left: 0.3rem;
+}
+.css-record-title {
+    height: 3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    font-family: MicrosoftJhengHei;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #999999;
+}
+
+.css-record-btn-group {
+    padding: 0.5rem;
+}
+
+.css-record-dibbling {
+    float: right;
+    border-radius: 3px;
+    border: solid 1px #fa6400;
+    background-color: #222222;
+    font-family: MicrosoftJhengHei;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fa6400;
+    cursor: pointer;
+}
+
+.css-record-remove {
+    float: right;
+    border-radius: 3px;
+    border: solid 1px #e95a5a;
+    background-color: #222222;
+    font-family: MicrosoftJhengHei;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #e95a5a;
+    margin-left: 0.5rem;
+    cursor: pointer;
+}

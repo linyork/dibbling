@@ -1,16 +1,14 @@
 .css-video-interface {
     overflow: hidden;
-    background-color: white;
 }
 .css-video-interface-bg {
     filter: blur(12px);
     opacity: 1;
     width: 100%;
-    min-height: 490px;
+    min-height: 510px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    margin-top: 20px;
 }
 .css-video-interface-con {
     position: absolute;

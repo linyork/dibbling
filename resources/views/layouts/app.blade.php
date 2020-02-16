@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" style="{{ (Request::cookie('mode') === 'Dark') ? 'background-color: #333333 !important;' : '' }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,7 +25,7 @@
 
     <!-- Dibbling Script & Css -->
     <link rel="stylesheet" href="css/common/bootstrap.css">
-    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/app_{{ strtolower( Request::cookie('mode') ?? 'default' ) }}.css">
     <script src="js/common/jquery-3.4.1.js"></script>
     <script src="js/socket.js"></script>
     <script type="text/javascript">

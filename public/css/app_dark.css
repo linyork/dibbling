@@ -1,0 +1,53 @@
+#app {
+    background-color: #333333 !important;
+}
+
+.nav-link {
+    font-family: MicrosoftJhengHei;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #999999;
+}
+
+.navbar {
+    background-color: #333333 !important;
+}
+
+.nav-link {
+    color: #ffffff !important;
+}
+
+.nav-link:hover {
+    color: #bbbbbb !important;
+}
+
+.current-page {
+    color: #fa6400 !important;
+}
+
+.current-page:hover {
+    color: #fa6400 !important;
+}
+
+.dropdown-menu {
+    background-color: #333333 !important;
+    border-radius: 3px !important;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3) !important;
+    border: solid 1px #cccccc !important;
+}
+
+.dropdown-item {
+    color: #ffffff !important;
+}
+
+.dropdown-item:hover {
+    background-color: #555555 !important;
+}
+
+.py-4 {
+    background-color: #333333 !important;
+}

@@ -2,7 +2,7 @@
 
 @section('pageCss')
     <link rel="stylesheet" href="/css/video_interface.css?{{ time() }}">
-    <link rel="stylesheet" href="/css/dibbling_default.css?{{ time() }}">
+    <link rel="stylesheet" href="/css/dibbling_{{ strtolower( Request::cookie('mode') ?? 'default' ) }}.css?{{ time() }}">
 @endsection
 
 @section('pageJs')
