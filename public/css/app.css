@@ -12,14 +12,3 @@
 .current-page {
     color: #fa6400 !important;
 }
-
-.lll {
-    width: 1px;
-    height: 16px;
-    margin-top: 11px;
-    border-radius: 0.5px;
-    border: solid 1px #cccccc;
-    background-color: #d8d8d8;
-    margin-left: 0.5em;
-    margin-right: 0.5em;
-}

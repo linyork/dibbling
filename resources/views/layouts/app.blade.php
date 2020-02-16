@@ -82,13 +82,11 @@
                                     {{ __('web.app.Dibbling') }}
                                 </a>
                             </li>
-                            <li class="nav-item lll"></li>
                             <li class="nav-item">
                                 <a class="nav-link {{ (Route::currentRouteName() === 'dibbling_list') ? 'current-page' : '' }}" href="{{ route('dibbling_list') }}">
                                     {{ __('web.app.List') }}
                                 </a>
                             </li>
-                            <li class="nav-item lll"></li>
                             <li class="nav-item">
                                 <a class="nav-link {{ (Route::currentRouteName() === 'dibbling_record') ? 'current-page' : '' }}" href="{{ route('dibbling_record') }}">
                                     {{ __('web.app.Record') }}
