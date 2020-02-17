@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" style="{{ (Request::cookie('mode') === 'Dark') ? 'background-color: #333333 !important;' : '' }}">
+@guest
+    <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@else
+    <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" style="{{ (Request::cookie('mode') === 'Dark') ? 'background-color: #333333 !important;' : '' }}">
+@endguest
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,10 +28,14 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Dibbling Script & Css -->
-    <link rel="stylesheet" href="css/common/bootstrap.css">
-    <link rel="stylesheet" href="css/app_{{ strtolower( Request::cookie('mode') ?? 'default' ) }}.css">
-    <script src="js/common/jquery-3.4.1.js"></script>
-    <script src="js/socket.js"></script>
+    <link rel="stylesheet" href="{{ asset('css/common/bootstrap.css') }}">
+    @guest
+        <link rel="stylesheet" href="{{ asset('css/app_default.css') }}">
+    @else
+        <link rel="stylesheet" href="{{ asset('css/app_'.strtolower( Request::cookie('mode') ?? 'default' ).'.css') }}">
+    @endguest
+    <script src="{{ asset('js/common/jquery-3.4.1.js') }}"></script>
+    <script src="{{ asset('js/socket.js') }}"></script>
     <script type="text/javascript">
         var web = @json(__('web'));
         var domain = "{{ config('app.domain') }}";
@@ -50,7 +58,11 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="/logo.png" class="card-img-top">
+                    @guest
+                        <img src="/logo_default.png" class="card-img-top">
+                    @else
+                        <img src="/logo_{{ strtolower( Request::cookie('mode') ?? 'default' ) }}.png" class="card-img-top">
+                    @endguest
                 </a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

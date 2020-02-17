@@ -1,54 +1,67 @@
 // web socket
-var socket = io(document.location.protocol + '//' + domain + '/socket');
-socket.emit('intoDibbling', user.name);
-socket.on('playing', function () {
-    refresh();
+var socket;
+let promise_get_playing = $.ajax({
+    url: 'api/v2/user',
+    headers: {
+        'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content')
+    },
+    method: "GET"
 });
-// chart
-socket.on('chat', function( chat ) {
-    console.log(chat);
+
+promise_get_playing.done(function (data) {
+    socket = io(document.location.protocol + '//' + domain + '/socket');
+    socket.emit('intoDibbling', data);
+    socket.on('playing', function () {
+        refresh();
+    });
+
+    // chart
+    socket.on('chat', function( chat ) {
+        console.log(chat);
+    });
+    // play
+    $(document).on('click', '#play', function (e) {
+        var command = {
+            command: 'play',
+            value: 'play',
+        };
+        socket.emit('command', JSON.stringify(command));
+    });
+    // cut
+    $(document).on('click', '#cut', function (e) {
+        var command = {
+            command: 'cut',
+            value: 'cut',
+        };
+        socket.emit('command', JSON.stringify(command));
+    });
+    // pause
+    $(document).on('click', '#pause', function (e) {
+        var command = {
+            command: 'pause',
+            value: 'pause',
+        };
+        socket.emit('command', JSON.stringify(command));
+    });
+    // voice
+    $(document).on('input', '#voice', function (e) {
+        var command = {
+            command: 'voice',
+            value: $(this).val()
+        };
+        socket.emit('command', JSON.stringify(command));
+    });
+    // speed
+    $(document).on('input', '#speed', function (e) {
+        var command = {
+            command: 'speed',
+            value: $(this).val()
+        };
+        socket.emit('command', JSON.stringify(command));
+        $("#show-speed").text($(this).val());
+    });
 });
-// play
-$(document).on('click', '#play', function (e) {
-    var command = {
-        command: 'play',
-        value: 'play',
-    };
-    socket.emit('command', JSON.stringify(command));
-});
-// cut
-$(document).on('click', '#cut', function (e) {
-    var command = {
-        command: 'cut',
-        value: 'cut',
-    };
-    socket.emit('command', JSON.stringify(command));
-});
-// pause
-$(document).on('click', '#pause', function (e) {
-    var command = {
-        command: 'pause',
-        value: 'pause',
-    };
-    socket.emit('command', JSON.stringify(command));
-});
-// voice
-$(document).on('input', '#voice', function (e) {
-    var command = {
-        command: 'voice',
-        value: $(this).val()
-    };
-    socket.emit('command', JSON.stringify(command));
-});
-// speed
-$(document).on('input', '#speed', function (e) {
-    var command = {
-        command: 'speed',
-        value: $(this).val()
-    };
-    socket.emit('command', JSON.stringify(command));
-    $("#show-speed").text($(this).val());
-});
+
 
 // playing
 function refreshPlaying() {

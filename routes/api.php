@@ -30,6 +30,8 @@ Route::group(['prefix' => 'v2'], function ()
     if(\App::environment('production')) $middleware[] = 'verified';
     // dibbling client
     Route::middleware($middleware)->group(function () {
+        // 取得使用者
+        Route::get('user','v2\UserController@index');
         // 點播
         Route::post('list','v2\ListController@insert');
         // 重新點歌
