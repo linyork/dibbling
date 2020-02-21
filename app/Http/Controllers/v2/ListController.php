@@ -15,39 +15,46 @@ class ListController extends Controller
     {
         try
         {
-            $result = \DB::table('record')
+            $list = \DB::table('record')
                 ->join('users', 'record.user_id', '=', 'users.id')
                 ->join('list', 'record.list_id', '=', 'list.id')
                 ->where('record.record_type', '=', RecordTable::DIBBLING)
                 ->where('list.deleted_at','=', NULL)
                 ->orderBy('list.updated_at')
                 ->get();
-
         }
         catch (\Exception $e)
         {
-            $result = [];
+            $list = [];
         }
-        return response()->json($result);
+        return response()->view('common.list', ['list' => $list], 200);
     }
 
-    public function played()
+    public function played(Request $request, $page)
     {
         try
         {
-            $result = \DB::table('record')
+            $limit = 20;
+            $offset = ($page - 1) * $limit;
+            $records = \DB::table('record')
                 ->join('users', 'record.user_id', '=', 'users.id')
                 ->join('list', 'record.list_id', '=', 'list.id')
                 ->where('record.record_type', '=', RecordTable::DIBBLING)
                 ->where('list.deleted_at','!=', NULL)
                 ->orderBy('list.updated_at', 'DESC')
+                ->limit($limit)
+                ->offset($offset)
                 ->get();
+            if ( ! $records )
+            {
+                return response()->json([]);
+            }
         }
         catch (\Exception $e)
         {
-            $result = [];
+            $records = [];
         }
-        return response()->json($result);
+        return response()->view('common.record', ['records' => $records], 200);
     }
 
 

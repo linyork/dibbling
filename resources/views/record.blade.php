@@ -1,18 +1,16 @@
 @extends('layouts.app')
 
+@section('pageCss')
+    <link rel="stylesheet" href="/css/record_{{ strtolower( Request::cookie('mode') ?? 'default' ) }}.css?{{ time() }}">
+@endsection
+
 @section('pageJs')
     <script src="/js/record.js?{{ time() }}"></script>
 @endsection
 
 @section('content')
     <div class="container">
-        <div class="row">
-            <div class="col-sm">
-                <div class="card">
-                    <h5 class="card-header">{{ __('web.record.Record') }}</h5>
-                    <ul class="list-group list-group-flush" id="played-list"></ul>
-                </div>
-            </div>
-        </div>
+        <div class="css-record-text">{{ __('web.record.Record') }}</div>
+        <div class="row" id="record-list"></div>
     </div>
 @endsection

@@ -29,8 +29,10 @@ return [
         'Confirm Password' => 'パスワード再確認',
     ],
     'dibbling' => [
+        'Dibbling' => 'リクエスト',
         'PleaseEnterUrl' => 'youtube code またはURLをご入力ください',
         'Enter' => '確認',
+        'Random' => 'Random',
     ],
     'list' => [
         'List' => 'プレイリスト',
@@ -54,5 +56,8 @@ return [
     'setting' => [
         'Setting' => '設定',
         'Language' => '言語',
+        'Mode' => 'Mode',
+        'Default' => 'Default',
+        'Dark' => 'Dark',
     ],
 ];

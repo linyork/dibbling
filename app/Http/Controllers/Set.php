@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class SetLocale extends Controller
+class Set extends Controller
 {
-    public function index(string $locale)
+    public function locale(string $locale)
     {
         \App::setLocale($locale);
         return redirect()->back()->cookie('locale', $locale, 60000, null, null, false, false, false, null);
+    }
+
+    public function mode(string $mode)
+    {
+        return redirect()->back()->cookie('mode', $mode, 60000, null, null, false, false, false, null);
     }
 }

@@ -1,0 +1,34 @@
+.py-4 {
+    padding: unset !important;
+}
+
+.css-dibbling {
+    margin-top: 30px;
+}
+
+.bd-content-title {
+    color: #ffffff !important;
+}
+
+.card {
+    border: unset !important;
+}
+
+.card-body {
+    background-color: #222222 !important;
+    border: unset !important;
+    border-radius: 0.25rem !important;;
+}
+
+.form-control {
+    border-radius: 3px !important;
+    border: solid 1px #cccccc !important;
+    background-color: #222222 !important;
+    color: #cccccc;
+}
+
+#dibbling-button {
+    border-radius: 3px !important;
+    border: solid 1px #cccccc !important;
+    background-color: #222222 !important;
+}

@@ -29,8 +29,10 @@ return [
         'Confirm Password' => '確認密碼',
     ],
     'dibbling' => [
+        'Dibbling' => '點播',
         'PleaseEnterUrl' => '請輸入 youtube code 或者網址',
         'Enter' => '確認',
+        'Random' => '隨機',
     ],
     'list' => [
         'List' => '清單',
@@ -54,5 +56,8 @@ return [
     'setting' => [
         'Setting' => '設定',
         'Language' => '語系',
+        'Mode' => '模式',
+        'Default' => '預設',
+        'Dark' => '深色',
     ],
 ];

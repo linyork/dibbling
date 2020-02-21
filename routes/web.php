@@ -18,7 +18,8 @@ if(\App::environment('production')) $userMiddlewareArray[] = 'verified';
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('set_locale/{locale}', 'SetLocale@index')->name('set_locale');
+Route::get('set_locale/{locale}', 'Set@locale')->name('set_locale');
+Route::get('set_mode/{mode}', 'Set@mode')->name('set_mode');
 Route::get('/', function (){ return redirect('dibbling'); })->name('home');
 Route::get('player', function (){ return view('player'); })->name('player');
 Route::middleware($userMiddlewareArray)->group(function () {
@@ -26,6 +27,5 @@ Route::middleware($userMiddlewareArray)->group(function () {
     Route::get('dibbling_list','DibblingList@index')->name('dibbling_list');
     Route::get('dibbling_record','DibblingRecord@index')->name('dibbling_record');
     Route::get('setting', 'Setting@index')->name('setting');
-    Route::get('player_controller','PlayerController@index')->name('player_controller');
 });
 Auth::routes(['verify' => \App::environment('production')]);

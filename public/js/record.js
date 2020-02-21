@@ -1,16 +1,24 @@
 $(function() {
     // played dibbling
-    $(document).on('click', '.btn-primary', function () {
+    $(document).on('click', '.js-dibbling', function () {
         redibbling($(this).attr('data-uid'));
+        $(this).parents(".col-12").remove();
     });
 
     // real remove
-    $(document).on('click', '.btn-danger', function () {
+    $(document).on('click', '.js-remove', function () {
         realRemove($(this).attr('data-uid'));
+        $(this).parents(".col-12").remove();
+    });
+
+    var isAjax = false;
+    $(window).scroll(function(){
+        if (isAjax) return;
+        if ($(document).height() - $(this).scrollTop() - $(this).height()<100) refreshListPlayedPage();
     });
 
     function redibbling(id){
-        let promise_remove = $.ajax({
+        $.ajax({
             url: 'api/v2/list/' + id,
             headers: {
                 'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
@@ -19,80 +27,41 @@ $(function() {
             type: "PUT",
             dataType: "json",
         });
-
-        promise_remove.done(function () {
-            refresh();
-        });
     }
 
     function refreshListPlayed() {
         let promise_get_list = $.ajax({
-            url: '/api/v2/list/played',
+            url: '/api/v2/list/played/1',
             headers: {
                 'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content')
             },
             method: "GET"
         });
-
         promise_get_list.done(function (db_list) {
-            let played_list_dom = $("#played-list");
-            played_list_dom.empty();
-            if (db_list.length <= 0) {
-                // no video list
-                played_list_dom.append("<li class='list-group-item'>"+__('web.list.NoData')+"</li>");
-            } else {
-                // have video list and append video list
-                db_list.forEach(function (video) {
-                    played_list_dom.append(playedListRow(video));
-                });
-            }
-
+            $("#record-list").empty();
+            $("#record-list").append(db_list)
         });
     }
 
-    function playedListRow(video) {
-        let li = document.createElement('li');
-        li.className = 'list-group-item text-truncate';
-        li.setAttribute('data-toggle', 'tooltip');
-        li.setAttribute('data-placement', 'top');
-        li.setAttribute('title', video['title']);
-        let btn_group = document.createElement('div');
-        btn_group.className = 'btn-group';
-        btn_group.setAttribute('role', 'group');
-        btn_group.setAttribute('aria-label', 'Basic example');
-        btn_group.setAttribute('style', 'margin-right: 1em;');
-        let newButtonTime = document.createElement('button');
-        newButtonTime.className = 'btn btn-dark';
-        newButtonTime.setAttribute('type', 'button');
-        newButtonTime.append(timeStamp(video['duration']));
-        let newButton1 = document.createElement('button');
-        newButton1.className = 'btn btn-primary';
-        newButton1.setAttribute('type', 'button');
-        newButton1.setAttribute('data-uid', video['id']);
-        newButton1.append(__('web.record.Dibbling'));
-        let newButton2 = document.createElement('button');
-        newButton2.className = 'btn btn-danger';
-        newButton2.setAttribute('type', 'button');
-        newButton2.setAttribute('data-uid', video['id']);
-        newButton2.append(__('web.record.Remove'));
-        let nameSpan = document.createElement('span');
-        nameSpan.append(video['name']);
-        nameSpan.className = 'badge badge-primary';
-        let titleSpan = document.createElement('span');
-
-        btn_group.append(newButtonTime);
-        btn_group.append(newButton1);
-        btn_group.append(newButton2);
-        titleSpan.append(video['title']);
-        li.append(btn_group);
-        li.append(nameSpan);
-        li.append(titleSpan);
-
-        return li;
+    var page = 2;
+    function refreshListPlayedPage() {
+        isAjax = true;
+        let promise_get_list = $.ajax({
+            url: '/api/v2/list/played/'+page,
+            headers: {
+                'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content')
+            },
+            method: "GET"
+        });
+        promise_get_list.done(function (db_list) {
+            isAjax = false;
+            $("#record-list").append(db_list);
+            if(db_list) page = page +1;
+        });
     }
 
     function realRemove(id) {
-        let promise_remove = $.ajax({
+        promise_remove = $.ajax({
             url: 'api/v2/list/' + id,
             headers: {
                 'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
@@ -104,11 +73,6 @@ $(function() {
                 'real': true,
             },
         });
-
-        promise_remove.done(function () {
-            refresh();
-        });
-        console.log(id);
     }
 
     function timeStamp( second_time ){

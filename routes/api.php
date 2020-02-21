@@ -30,6 +30,8 @@ Route::group(['prefix' => 'v2'], function ()
     if(\App::environment('production')) $middleware[] = 'verified';
     // dibbling client
     Route::middleware($middleware)->group(function () {
+        // 取得使用者
+        Route::get('user','v2\UserController@index');
         // 點播
         Route::post('list','v2\ListController@insert');
         // 重新點歌
@@ -41,7 +43,7 @@ Route::group(['prefix' => 'v2'], function ()
         // 取得點播清單
         Route::get('list', 'v2\ListController@list');
         // 取得已播清單
-        Route::get('list/played', 'v2\ListController@played');
+        Route::get('list/played/{page}', 'v2\ListController@played');
         // 取得正在播放
         Route::get('playing', 'v2\PlayingController@get');
     });

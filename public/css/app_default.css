@@ -1,0 +1,14 @@
+.nav-link {
+    font-family: MicrosoftJhengHei;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #999999;
+}
+
+.current-page {
+    color: #fa6400 !important;
+}

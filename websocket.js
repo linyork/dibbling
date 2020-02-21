@@ -7,10 +7,7 @@ const log = require('simple-node-logger').createSimpleFileLogger('/var/log/node/
 // player connection
 const playerRoom = io.of('socket/player');
 playerRoom.on('connection', function (socket) {
-    log.info('some one connetion player.');
-
     socket.on('playing', () => {
-        log.info('player change video.');
         otherRoom.emit('playing');
     });
 });
@@ -20,18 +17,13 @@ const otherRoom = io.of('socket');
 otherRoom.on('connection', (socket) => {
     // disconnect
     socket.on('disconnect', () => {
-        log.info('some one disconnect.');
+        // log.info(socket.name + ' disconnect.');
     });
 
     // log
-    log.info('some one connetion.');
-    socket.on('intoDibbling', (name) => {
-        socket.name = name;
-        log.info(name + ' into dibbling page.');
-    });
-    socket.on('intoController', (name) => {
-        socket.name = name;
-        log.info(name + ' into controller page.');
+    socket.on('intoDibbling', (data) => {
+        socket.user = data;
+        // log.info(name + ' into dibbling page.');
     });
 
     // command
@@ -43,7 +35,7 @@ otherRoom.on('connection', (socket) => {
     // chart
     socket.on('chat', (chat) => {
        log.info(socket.name + ': ' + chat + '.');
-        otherRoom.emit('chat', socket.name + ': ' + chat + '.');
+        otherRoom.emit('chat', socket.user.name + ': ' + chat + '.');
     });
 });
 
