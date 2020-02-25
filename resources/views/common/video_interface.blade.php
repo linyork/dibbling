@@ -26,7 +26,7 @@
                         {{ __('web.controller.Cut') }}
                     </button>
                     <button id="like" type="button" class="col css-video-interface-btn btn btn-light" data-id="{{ $playing['id'] }}">
-                        {{ count($likes) }}
+                        <span>{{ count($likes) }}</span>
                         @if($isLike)
                             <i class="fas fa-thumbs-up"></i>
                         @else

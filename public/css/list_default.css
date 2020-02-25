@@ -76,36 +76,7 @@
     padding: 0.5rem;
 }
 
-.css-list-cut {
+.css-record-btn {
     float: right;
-    border-radius: 3px;
-    border: solid 1px #999999;
-    background-color: #ffffff;
-    font-family: MicrosoftJhengHei;
-    font-size: 14px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: center;
-    color: #999999;
-    cursor: pointer;
-}
-
-.css-list-remove {
-    float: right;
-    border-radius: 3px;
-    border: solid 1px #e95a5a;
-    font-family: MicrosoftJhengHei;
-    font-size: 14px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: center;
-    color: #e95a5a;
-    margin-left: 0.5rem;
-    cursor: pointer;
+    margin-left: 10px;
 }

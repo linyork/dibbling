@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v2;
 
 use App\Helper\YoutubeHelper;
 use App\Http\Controllers\Controller;
+use App\Model\LikeTable;
 use App\Model\RecordTable;
 use Illuminate\Http\Request;
 use App\Model\ListTable;
@@ -15,18 +16,26 @@ class ListController extends Controller
         try
         {
             $list = \DB::table('record')
+                ->select('users.*', 'list.*', \DB::raw('count(like.list_id) as likes'))
                 ->join('users', 'record.user_id', '=', 'users.id')
                 ->join('list', 'record.list_id', '=', 'list.id')
+                ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
                 ->where('record.record_type', '=', RecordTable::DIBBLING)
                 ->where('list.deleted_at','=', NULL)
                 ->orderBy('list.updated_at')
+                ->groupBy('record.id')
                 ->get();
+            $likes = \DB::table('like')
+                ->where('user_id', '=',\Auth::user()->getAuthIdentifier())
+                ->get()
+                ->keyBy('list_id')
+                ->toArray();
         }
         catch (\Exception $e)
         {
             $list = [];
         }
-        return response()->view('common.list', ['list' => $list], 200);
+        return response()->view('common.list', ['list' => $list, 'likes' => $likes], 200);
     }
 
     public function played(Request $request, $page)
@@ -36,14 +45,22 @@ class ListController extends Controller
             $limit = 20;
             $offset = ($page - 1) * $limit;
             $records = \DB::table('record')
+                ->select('users.*', 'list.*', \DB::raw('count(like.list_id) as likes'))
                 ->join('users', 'record.user_id', '=', 'users.id')
                 ->join('list', 'record.list_id', '=', 'list.id')
+                ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
                 ->where('record.record_type', '=', RecordTable::DIBBLING)
                 ->where('list.deleted_at','!=', NULL)
                 ->orderBy('list.updated_at', 'DESC')
+                ->groupBy('record.id')
                 ->limit($limit)
                 ->offset($offset)
                 ->get();
+            $likes = \DB::table('like')
+                ->where('user_id', '=',\Auth::user()->getAuthIdentifier())
+                ->get()
+                ->keyBy('list_id')
+                ->toArray();
             if ( ! $records )
             {
                 return response()->json([]);
@@ -53,7 +70,7 @@ class ListController extends Controller
         {
             $records = [];
         }
-        return response()->view('common.record', ['records' => $records], 200);
+        return response()->view('common.record', ['records' => $records, 'likes' => $likes], 200);
     }
 
     public function insert(Request $request, YoutubeHelper $youtubeHelper)

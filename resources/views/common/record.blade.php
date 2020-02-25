@@ -1,5 +1,5 @@
 @foreach($records as $record)
-    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="card css-record">
             <div class="css-record-img-group">
                 <img src="{{ $record->seal }}" class="card-img-top">
@@ -10,8 +10,20 @@
                 <span class="css-record-title">{{ $record->title }}</span>
             </div>
             <div class="css-record-btn-group">
-                <input class="css-record-remove js-remove" data-uid="{{ $record->list_id }}" type="button" value="{{ __('web.record.Remove') }}">
-                <input class="css-record-dibbling js-dibbling" data-uid="{{ $record->list_id }}" type="button" value="{{ __('web.record.Dibbling') }}">
+                <button data-uid="{{ $record->id }}" type="button" class="btn btn-sm btn-outline-warning js-dibbling css-record-btn">
+                    {{ __('web.record.Dibbling') }}
+                </button>
+                <button data-uid="{{ $record->id }}" type="button" class="btn btn-sm btn-outline-danger js-remove css-record-btn">
+                    {{ __('web.record.Remove') }}
+                </button>
+                <button data-uid="{{ $record->id }}" type="button" class="btn btn-sm btn-outline-primary js-like css-record-btn">
+                    <span>{{ $record->likes }}</span>
+                    @if(array_key_exists($record->id, $likes))
+                        <i class="fas fa-thumbs-up"></i>
+                    @else
+                        <i class="far fa-thumbs-up"></i>
+                    @endif
+                </button>
             </div>
         </div>
     </div>

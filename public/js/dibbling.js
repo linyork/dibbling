@@ -77,7 +77,17 @@ $(document).on('click', '#like', function (e) {
         },
     });
     like.done(function (result) {
-        refreshPlaying();
+        if(result['like']) {
+            button.find('span').text(parseInt(button.find('span').text())+1);
+            button.find('i').removeClass('fas');
+            button.find('i').removeClass('far');
+            button.find('i').addClass('fas');
+        } else {
+            button.find('span').text(parseInt(button.find('span').text())-1);
+            button.find('i').removeClass('fas');
+            button.find('i').removeClass('far');
+            button.find('i').addClass('far');
+        }
     });
 });
 
