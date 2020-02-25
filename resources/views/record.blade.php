@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('pageCss')
+    <link rel="stylesheet" href="{{ asset('css/common/fontawesome.css') }}">
     <link rel="stylesheet" href="/css/record_{{ strtolower( Request::cookie('mode') ?? 'default' ) }}.css?{{ time() }}">
 @endsection
 

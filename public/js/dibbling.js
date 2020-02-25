@@ -62,6 +62,35 @@ promise_get_playing.done(function (data) {
     });
 });
 
+$(document).on('click', '#like', function (e) {
+    var button = $(this);
+    var like = $.ajax({
+        url: 'api/v2/like',
+        headers: {
+            'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        method: "POST",
+        dataType: "json",
+        data: {
+            'videoId': $(this).attr('data-id'),
+        },
+    });
+    like.done(function (result) {
+        if(result['like']) {
+            button.find('span').text(parseInt(button.find('span').text())+1);
+            button.find('i').removeClass('fas');
+            button.find('i').removeClass('far');
+            button.find('i').addClass('fas');
+        } else {
+            button.find('span').text(parseInt(button.find('span').text())-1);
+            button.find('i').removeClass('fas');
+            button.find('i').removeClass('far');
+            button.find('i').addClass('far');
+        }
+    });
+});
+
 
 // playing
 function refreshPlaying() {

@@ -11,6 +11,11 @@ $(function() {
         $(this).parents(".col-12").remove();
     });
 
+    // like
+    $(document).on('click', '.js-like', function () {
+        like($(this).attr('data-uid'), this);
+    });
+
     var isAjax = false;
     $(window).scroll(function(){
         if (isAjax) return;
@@ -75,18 +80,33 @@ $(function() {
         });
     }
 
-    function timeStamp( second_time ){
-
-        var time = parseInt(second_time);
-        if( parseInt(second_time )> 60){
-
-            var second = parseInt(second_time) % 60;
-            if(second < 10) second = "0"+second.toString();
-            var min = parseInt(second_time / 60);
-            time = min + ":" + second;
-        }
-
-        return time;
+    function like(id, obj) {
+        var button = $(obj);
+        var like = $.ajax({
+            url: 'api/v2/like',
+            headers: {
+                'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            method: "POST",
+            dataType: "json",
+            data: {
+                'videoId': id,
+            },
+        });
+        like.done(function (result) {
+            if(result['like']) {
+                button.find('span').text(parseInt(button.find('span').text())+1);
+                button.find('i').removeClass('fas');
+                button.find('i').removeClass('far');
+                button.find('i').addClass('fas');
+            } else {
+                button.find('span').text(parseInt(button.find('span').text())-1);
+                button.find('i').removeClass('fas');
+                button.find('i').removeClass('far');
+                button.find('i').addClass('far');
+            }
+        });
     }
 
     function refresh() {

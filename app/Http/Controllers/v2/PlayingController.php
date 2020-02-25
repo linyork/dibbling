@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\v2;
 
 use App\Http\Controllers\Controller;
+use App\Model\LikeTable;
 use App\Model\PlayingTable;
-use App\Model\ListTable;
 use App\Model\RecordTable;
-use Illuminate\Http\Request;
 
 
 class PlayingController extends Controller
@@ -16,6 +15,7 @@ class PlayingController extends Controller
         try
         {
             $playingResult = PlayingTable::firstOrFail();
+
             $playingVideo = \DB::table('record')
                 ->join('users', 'record.user_id', '=', 'users.id')
                 ->join('list', 'record.list_id', '=', 'list.id')
@@ -24,6 +24,11 @@ class PlayingController extends Controller
                 ->get()
                 ->first();
             $playingVideo = get_object_vars($playingVideo);
+
+            $likes = LikeTable::where('list_id', '=', $playingResult['video_id'])->get();
+            $isLike = LikeTable::where('user_id', '=', \Auth::user()->getAuthIdentifier())
+                ->where('list_id', '=', $playingResult['video_id'])->first();
+
             $nextVideo = \DB::table('record')
                 ->join('users', 'record.user_id', '=', 'users.id')
                 ->join('list', 'record.list_id', '=', 'list.id')
@@ -46,6 +51,8 @@ class PlayingController extends Controller
             $data = [
                 'playing' => $playingVideo,
                 'next' => $nextVideo,
+                'likes' => $likes,
+                'isLike' => $isLike,
             ];
         }
         catch (\Exception $e)
