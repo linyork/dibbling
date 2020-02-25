@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\v2;
 
-
 use App\Helper\YoutubeHelper;
 use App\Http\Controllers\Controller;
 use App\Model\RecordTable;
@@ -56,7 +55,6 @@ class ListController extends Controller
         }
         return response()->view('common.record', ['records' => $records], 200);
     }
-
 
     public function insert(Request $request, YoutubeHelper $youtubeHelper)
     {
@@ -137,6 +135,7 @@ class ListController extends Controller
             if($request->input('real'))
             {
                 \DB::table('record')->where('list_id','=', $id)->delete();
+                \DB::table('like')->where('list_id','=', $id)->delete();
                 $list->forceDelete();
                 $result_test = 'Real delete success.';
             }
