@@ -16,9 +16,18 @@
                     <span>》下一首: {{ $next['title'] }}</span>
                 </div>
                 <div class="row justify-content-center css-video-interface-btn-group">
-                    <input id="play" class="col css-video-interface-btn" type="button" value="{{ __('web.controller.Play') }}">
-                    <input id="pause" class="col css-video-interface-btn" type="button" value="{{ __('web.controller.Pause') }}" style="margin-left: 20px;margin-right: 20px;">
-                    <input id="cut" class="col css-video-interface-btn" type="button" value="{{ __('web.controller.Cut') }}">
+                    <button id="play" type="button" class="col css-video-interface-btn btn btn-light">
+                        {{ __('web.controller.Play') }}
+                    </button>
+                    <button id="pause" type="button" class="col css-video-interface-btn btn btn-light" style="margin-left: 20px;margin-right: 10px;">
+                        {{ __('web.controller.Pause') }}
+                    </button>
+                    <button id="cut" type="button" class="col css-video-interface-btn btn btn-light" style="margin-left: 10px;margin-right: 20px;">
+                        {{ __('web.controller.Cut') }}
+                    </button>
+                    <button type="button" class="col css-video-interface-btn btn btn-light">
+                        0  <i class="far fa-thumbs-up"></i>
+                    </button>
                 </div>
                 <div class="row">
                     <span class=" css-video-interface-voice">{{ __('web.controller.Voice') }}</span>
