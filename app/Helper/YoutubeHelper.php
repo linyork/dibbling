@@ -6,7 +6,7 @@ use \Sseffa\VideoApi\VideoApi;
 
 class YoutubeHelper
 {
-    private $apiKey = 'AIzaSyD7oY7GZRdLTsrIVdlqLAWinzRwvD3WChA';
+    private $apiKey = 'AIzaSyBLWdR9mE4HjzKz_x4vjHH7nrgI1DTPDE4';
     private $status;
     private $title;
     private $duration;
