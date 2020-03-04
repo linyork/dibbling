@@ -6,7 +6,6 @@ use \Sseffa\VideoApi\VideoApi;
 
 class YoutubeHelper
 {
-    private $apiKey = 'AIzaSyBLWdR9mE4HjzKz_x4vjHH7nrgI1DTPDE4';
     private $status;
     private $title;
     private $duration;
@@ -18,7 +17,9 @@ class YoutubeHelper
     {
         try
         {
-            $detailData = \VideoApi::setType(VideoApi::YOUTUBE)->setKey($this->apiKey)->getVideoDetail($videoId);
+            $detailData = \VideoApi::setType(VideoApi::YOUTUBE)
+                ->setKey(\Config::get('app.youtube_api_key'))
+                ->getVideoDetail($videoId);
 
             if($detailData['duration'] >= 600)
             {
