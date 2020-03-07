@@ -17,7 +17,7 @@
 
     <div class="row justify-content-center css-dibbling">
         <div class="col-12">
-            <span class="bd-content-title text-secondary">{{ __('web.dibbling.Dibbling') }}</span>
+            <span class="bd-content-title text-secondary"><i class="fas fa-search-plus"></i> {{ __('web.dibbling.Dibbling') }}</span>
             <div class="card">
                 <div class="card-body bg-light">
                     <div class="input-group">

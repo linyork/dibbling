@@ -13,7 +13,7 @@
                     <span class="css-video-interface-name-text">{{ $playing['name'] }}</span>
                 </div>
                 <div class="row justify-content-center css-video-interface-next">
-                    <span>》下一首: {{ $next['title'] }}</span>
+                    <span><i class="fas fa-angle-double-right"></i>下一首: {{ $next['title'] }}</span>
                 </div>
                 <div class="row justify-content-center css-video-interface-btn-group">
                     <button id="play" type="button" class="col css-video-interface-btn btn btn-light">
@@ -35,13 +35,13 @@
                     </button>
                 </div>
                 <div class="row">
-                    <span class=" css-video-interface-voice">{{ __('web.controller.Voice') }}</span>
+                    <span class=" css-video-interface-voice"><i class="fas fa-volume-up"></i> {{ __('web.controller.Voice') }}</span>
                 </div>
                 <div class="row">
                     <input type="range" class="css-interface-scroll" min="0" max="100" step="5" value="100" id="voice" style="padding: unset;">
                 </div>
                 <div class="row">
-                    <span class=" css-video-interface-speed">{{ __('web.controller.Speed') }}</span>
+                    <span class=" css-video-interface-speed"><i class="fas fa-forward"></i> {{ __('web.controller.Speed') }}</span>
                 </div>
                 <div class="row">
                     <input type="range" class="css-interface-scroll" min="0.25" max="2" step="0.25" value="1" id="speed" style="padding: unset;">
