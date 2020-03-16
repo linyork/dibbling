@@ -23,21 +23,20 @@ otherRoom.on('connection', (socket) => {
     socket.on('intoDibbling', (data) => {
         socket.user = data;
         // console.log(new Date() + ' '+ socket.user.name + ' into dibbling page.');
-        log.info(socket.user.name + ' into dibbling page.');
-
+        // log.info(socket.user.name + ' into dibbling page.');
     });
 
     // command
     socket.on('command', (command) => {
         // console.log(new Date() + ' '+ socket.user.name + ' command: ' + command + '.');
-        log.info(socket.user.name + ' command: ' + command + '.');
+        // log.info(socket.user.name + ' command: ' + command + '.');
         playerRoom.emit('command', command);
     });
 
     // chart
     socket.on('chat', (chat) => {
         // console.log(new Date() + ' '+ socket.user.name + ': ' + chat + '.');
-        log.info(socket.user.name + ': ' + chat + '.');
+        // log.info(socket.user.name + ': ' + chat + '.');
         otherRoom.emit('chat', socket.user.name + ': ' + chat + '.');
     });
 });
