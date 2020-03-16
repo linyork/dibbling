@@ -30,6 +30,7 @@ services:
     networks:
       - frontend
       - backend
+    restart: always
     image: node:13
     ports:
       - "${DOCKER_NODE_PORT}:${DOCKER_NODE_PORT}"
