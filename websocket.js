@@ -17,29 +17,35 @@ const otherRoom = io.of('socket');
 otherRoom.on('connection', (socket) => {
     // disconnect
     socket.on('disconnect', () => {
-        // log.info(socket.name + ' disconnect.');
+        console.log(new Date() + ' '+ socket.user.name + ' disconnect.');
+        log.info(socket.user.name + ' disconnect.');
     });
 
     // log
     socket.on('intoDibbling', (data) => {
         socket.user = data;
-        // log.info(name + ' into dibbling page.');
+        console.log(new Date() + ' '+ socket.user.name + ' into dibbling page.');
+        log.info(socket.user.name + ' into dibbling page.');
+
     });
 
     // command
     socket.on('command', (command) => {
-        log.info('command: ' + command + '.');
+        console.log(new Date() + ' '+ socket.user.name + ' command: ' + command + '.');
+        log.info(socket.user.name + ' command: ' + command + '.');
         playerRoom.emit('command', command);
     });
 
     // chart
     socket.on('chat', (chat) => {
-       log.info(socket.name + ': ' + chat + '.');
+        console.log(new Date() + ' '+ socket.user.name + ': ' + chat + '.');
+        log.info(socket.user.name + ': ' + chat + '.');
         otherRoom.emit('chat', socket.user.name + ': ' + chat + '.');
     });
 });
 
 // 注意，這邊的 server 原本是 app
 server.listen(port, () => {
+    console.log(new Date() + ' '+  "Server Started. http://localhost:" + port + ".");
     log.info("Server Started. http://localhost:" + port + ".");
 });

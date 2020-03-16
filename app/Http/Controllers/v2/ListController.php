@@ -4,7 +4,6 @@ namespace App\Http\Controllers\v2;
 
 use App\Helper\YoutubeHelper;
 use App\Http\Controllers\Controller;
-use App\Model\LikeTable;
 use App\Model\RecordTable;
 use Illuminate\Http\Request;
 use App\Model\ListTable;
@@ -21,12 +20,12 @@ class ListController extends Controller
                 ->join('list', 'record.list_id', '=', 'list.id')
                 ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
                 ->where('record.record_type', '=', RecordTable::DIBBLING)
-                ->where('list.deleted_at','=', NULL)
+                ->where('list.deleted_at', '=', null)
                 ->orderBy('list.updated_at')
                 ->groupBy('record.id')
                 ->get();
             $likes = \DB::table('like')
-                ->where('user_id', '=',\Auth::user()->getAuthIdentifier())
+                ->where('user_id', '=', \Auth::user()->getAuthIdentifier())
                 ->get()
                 ->keyBy('list_id')
                 ->toArray();
@@ -50,14 +49,14 @@ class ListController extends Controller
                 ->join('list', 'record.list_id', '=', 'list.id')
                 ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
                 ->where('record.record_type', '=', RecordTable::DIBBLING)
-                ->where('list.deleted_at','!=', NULL)
+                ->where('list.deleted_at', '!=', null)
                 ->orderBy('list.updated_at', 'DESC')
                 ->groupBy('record.id')
                 ->limit($limit)
                 ->offset($offset)
                 ->get();
             $likes = \DB::table('like')
-                ->where('user_id', '=',\Auth::user()->getAuthIdentifier())
+                ->where('user_id', '=', \Auth::user()->getAuthIdentifier())
                 ->get()
                 ->keyBy('list_id')
                 ->toArray();
@@ -76,7 +75,7 @@ class ListController extends Controller
     public function insert(Request $request, YoutubeHelper $youtubeHelper)
     {
         $videoId_string = $request->input('videoId');
-        if(strlen($videoId_string) >= 12)
+        if ( strlen($videoId_string) >= 12 )
         {
             parse_str(parse_url($videoId_string, PHP_URL_QUERY), $get);
             $videoId = $get['v'];
@@ -149,10 +148,10 @@ class ListController extends Controller
         {
             $list = ListTable::withTrashed()->find($id);
 
-            if($request->input('real'))
+            if ( $request->input('real') )
             {
-                \DB::table('record')->where('list_id','=', $id)->delete();
-                \DB::table('like')->where('list_id','=', $id)->delete();
+                \DB::table('record')->where('list_id', '=', $id)->delete();
+                \DB::table('like')->where('list_id', '=', $id)->delete();
                 $list->forceDelete();
                 $result_test = 'Real delete success.';
             }
