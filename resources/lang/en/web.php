@@ -43,6 +43,11 @@ return [
         'Record' => 'Record',
         'Dibbling' => 'Dibbling',
         'Remove' => 'Remove',
+        'Reset' => 'Reset',
+        'Search' => 'Search',
+        'Name' => 'Name',
+        'Choose' => 'Choose',
+        'SongName' => 'Song Name',
     ],
     'controller' => [
         'Controller' => 'Controller',

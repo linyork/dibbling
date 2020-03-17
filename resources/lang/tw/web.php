@@ -44,6 +44,11 @@ return [
         'Record' => '紀錄',
         'Dibbling' => '點播',
         'Remove' => '移除',
+        'Reset' => '重設',
+        'Search' => '搜尋',
+        'Name' => '名稱',
+        'Choose' => '選擇',
+        'SongName' => '歌曲名稱',
     ],
     'controller' => [
         'Controller' => '控制器',
