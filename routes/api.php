@@ -43,7 +43,7 @@ Route::group(['prefix' => 'v2'], function ()
         // 取得點播清單
         Route::get('list', 'v2\ListController@list');
         // 取得已播清單
-        Route::get('list/played/{page}', 'v2\ListController@played');
+        Route::post('list/played', 'v2\ListController@played');
         // 取得正在播放
         Route::get('playing', 'v2\PlayingController@get');
         // 點讚
