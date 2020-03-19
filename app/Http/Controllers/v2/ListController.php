@@ -37,30 +37,36 @@ class ListController extends Controller
         return response()->view('common.list', ['list' => $list, 'likes' => $likes], 200);
     }
 
-    public function played(Request $request, $page)
+    public function played(Request $request)
     {
         try
         {
+            $user_id = $request->post('user_id');
+            $song_name = $request->post('song_name');
+            $page = $request->post('page');
             $limit = 20;
             $offset = ($page - 1) * $limit;
-            $records = \DB::table('record')
-                ->select('users.*', 'list.*', \DB::raw('count(like.list_id) as likes'))
-                ->join('users', 'record.user_id', '=', 'users.id')
-                ->join('list', 'record.list_id', '=', 'list.id')
-                ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
-                ->where('record.record_type', '=', RecordTable::DIBBLING)
-                ->where('list.deleted_at', '!=', null)
-                ->orderBy('list.updated_at', 'DESC')
-                ->groupBy('record.id')
-                ->limit($limit)
-                ->offset($offset)
-                ->get();
+
+            $records = \DB::table('record');
+            $records->select('users.*', 'list.*', \DB::raw('count(like.list_id) as likes'));
+            $records->join('users', 'record.user_id', '=', 'users.id');
+            $records->join('list', 'record.list_id', '=', 'list.id');
+            $records->leftJoin('like', 'record.list_id', '=', 'like.list_id');
+            if( $user_id ) $records->where('users.id', '=', $user_id);
+            if( $song_name )  $records->where('list.title', 'like', "%$song_name%");
+            $records->where('record.record_type', '=', RecordTable::DIBBLING);
+            $records->where('list.deleted_at', '!=', null);
+            $records->orderBy('list.updated_at', 'DESC');
+            $records->groupBy('record.id');
+            $records->limit($limit);
+            $records->offset($offset);
+
             $likes = \DB::table('like')
                 ->where('user_id', '=', \Auth::user()->getAuthIdentifier())
                 ->get()
                 ->keyBy('list_id')
                 ->toArray();
-            if ( ! $records )
+            if ( ! $records->get() )
             {
                 return response()->json([]);
             }
@@ -69,7 +75,7 @@ class ListController extends Controller
         {
             $records = [];
         }
-        return response()->view('common.record', ['records' => $records, 'likes' => $likes], 200);
+        return response()->view('common.record', ['records' => $records->get(), 'likes' => $likes], 200);
     }
 
     public function insert(Request $request, YoutubeHelper $youtubeHelper)

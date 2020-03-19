@@ -44,6 +44,12 @@ return [
         'Record' => '再生履歴',
         'Dibbling' => 'リクエスト',
         'Remove' => '削除',
+        'SearchBar' => 'SearchBar',
+        'Search' => 'Search',
+        'Reset' => 'Reset',
+        'UserName' => 'User Name',
+        'Choose' => 'Choose',
+        'SongName' => 'Song Name',
     ],
     'controller' => [
         'Controller' => 'リモコン',

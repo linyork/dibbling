@@ -1,4 +1,23 @@
-$(function() {
+$(function () {
+    var page = 1;
+    var isAjax = false;
+
+    // reset search bar
+    $(document).on('click', '#reset', function () {
+        page = 1;
+        $("#record-list").empty();
+        $("#user_id").val(0);
+        $("#song_name").val("");
+        refreshListPlayed();
+    });
+
+    // search search bar
+    $(document).on('click', '#search', function () {
+        page = 1;
+        $("#record-list").empty();
+        refreshListPlayed();
+    });
+
     // played dibbling
     $(document).on('click', '.js-dibbling', function () {
         redibbling($(this).attr('data-uid'));
@@ -16,13 +35,13 @@ $(function() {
         like($(this).attr('data-uid'), this);
     });
 
-    var isAjax = false;
-    $(window).scroll(function(){
+    // scroll
+    $(window).scroll(function () {
         if (isAjax) return;
-        if ($(document).height() - $(this).scrollTop() - $(this).height()<100) refreshListPlayedPage();
+        if ($(document).height() - $(this).scrollTop() - $(this).height() < 100) refreshListPlayed();
     });
 
-    function redibbling(id){
+    function redibbling(id) {
         $.ajax({
             url: 'api/v2/list/' + id,
             headers: {
@@ -35,33 +54,24 @@ $(function() {
     }
 
     function refreshListPlayed() {
-        let promise_get_list = $.ajax({
-            url: '/api/v2/list/played/1',
-            headers: {
-                'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content')
-            },
-            method: "GET"
-        });
-        promise_get_list.done(function (db_list) {
-            $("#record-list").empty();
-            $("#record-list").append(db_list)
-        });
-    }
-
-    var page = 2;
-    function refreshListPlayedPage() {
         isAjax = true;
         let promise_get_list = $.ajax({
-            url: '/api/v2/list/played/'+page,
+            url: '/api/v2/list/played',
             headers: {
-                'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content')
+                'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            method: "GET"
+            method: "POST",
+            data: {
+                'page': page,
+                'user_id': $("#user_id").val(),
+                'song_name': $("#song_name").val(),
+            },
         });
         promise_get_list.done(function (db_list) {
             isAjax = false;
             $("#record-list").append(db_list);
-            if(db_list) page = page +1;
+            if (db_list) page++;
         });
     }
 
@@ -95,13 +105,13 @@ $(function() {
             },
         });
         like.done(function (result) {
-            if(result['like']) {
-                button.find('span').text(parseInt(button.find('span').text())+1);
+            if (result['like']) {
+                button.find('span').text(parseInt(button.find('span').text()) + 1);
                 button.find('i').removeClass('fas');
                 button.find('i').removeClass('far');
                 button.find('i').addClass('fas');
             } else {
-                button.find('span').text(parseInt(button.find('span').text())-1);
+                button.find('span').text(parseInt(button.find('span').text()) - 1);
                 button.find('i').removeClass('fas');
                 button.find('i').removeClass('far');
                 button.find('i').addClass('far');

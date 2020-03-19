@@ -43,6 +43,12 @@ return [
         'Record' => 'Record',
         'Dibbling' => 'Dibbling',
         'Remove' => 'Remove',
+        'Reset' => 'Reset',
+        'SearchBar' => 'SearchBar',
+        'Search' => 'Search',
+        'UserName' => 'User Name',
+        'Choose' => 'Choose',
+        'SongName' => 'Song Name',
     ],
     'controller' => [
         'Controller' => 'Controller',

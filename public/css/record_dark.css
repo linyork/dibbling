@@ -84,3 +84,34 @@
     float: right;
     margin-left: 10px;
 }
+
+.css-record-search-bar {
+    background-color: #222222;
+    border-radius: 3px !important;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3) !important;
+    border: solid 1px #cccccc !important;
+}
+
+.input-group-text {
+    color: white;
+    background-color: #222222;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+    border: solid 1px #cccccc;
+}
+
+.custom-select {
+    color: white;
+    background-color: #222222;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+    border: solid 1px #cccccc;
+}
+
+.form-control {
+    color: white !important;
+    background-color: #222222 !important;
+    border-radius: 3px !important;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3) !important;
+    border: solid 1px #cccccc !important;
+}
