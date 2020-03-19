@@ -1,5 +1,6 @@
-$(function() {
+$(function () {
     var page = 1;
+    var isAjax = false;
 
     // reset search bar
     $(document).on('click', '#reset', function () {
@@ -34,13 +35,13 @@ $(function() {
         like($(this).attr('data-uid'), this);
     });
 
-    var isAjax = false;
-    $(window).scroll(function(){
+    // scroll
+    $(window).scroll(function () {
         if (isAjax) return;
-        if ($(document).height() - $(this).scrollTop() - $(this).height()<100) refreshListPlayed();
+        if ($(document).height() - $(this).scrollTop() - $(this).height() < 100) refreshListPlayed();
     });
 
-    function redibbling(id){
+    function redibbling(id) {
         $.ajax({
             url: 'api/v2/list/' + id,
             headers: {
@@ -53,6 +54,7 @@ $(function() {
     }
 
     function refreshListPlayed() {
+        isAjax = true;
         let promise_get_list = $.ajax({
             url: '/api/v2/list/played',
             headers: {
@@ -61,15 +63,16 @@ $(function() {
             },
             method: "POST",
             data: {
-                'page': page ,
+                'page': page,
                 'user_id': $("#user_id").val(),
                 'song_name': $("#song_name").val(),
             },
         });
         promise_get_list.done(function (db_list) {
-            $("#record-list").append(db_list)
+            isAjax = false;
+            $("#record-list").append(db_list);
+            if (db_list) page++;
         });
-        page++;
     }
 
     function realRemove(id) {
@@ -102,13 +105,13 @@ $(function() {
             },
         });
         like.done(function (result) {
-            if(result['like']) {
-                button.find('span').text(parseInt(button.find('span').text())+1);
+            if (result['like']) {
+                button.find('span').text(parseInt(button.find('span').text()) + 1);
                 button.find('i').removeClass('fas');
                 button.find('i').removeClass('far');
                 button.find('i').addClass('fas');
             } else {
-                button.find('span').text(parseInt(button.find('span').text())-1);
+                button.find('span').text(parseInt(button.find('span').text()) - 1);
                 button.find('i').removeClass('fas');
                 button.find('i').removeClass('far');
                 button.find('i').addClass('far');
