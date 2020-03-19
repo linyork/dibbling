@@ -1,6 +1,6 @@
 $(function () {
-    var page = 1;
-    var isAjax = false;
+    let page = 1;
+    let isAjax = false;
 
     // reset search bar
     $(document).on('click', '#reset', function () {
@@ -76,7 +76,7 @@ $(function () {
     }
 
     function realRemove(id) {
-        promise_remove = $.ajax({
+        $.ajax({
             url: 'api/v2/list/' + id,
             headers: {
                 'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
@@ -91,8 +91,8 @@ $(function () {
     }
 
     function like(id, obj) {
-        var button = $(obj);
-        var like = $.ajax({
+        let button = $(obj);
+        let like = $.ajax({
             url: 'api/v2/like',
             headers: {
                 'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
