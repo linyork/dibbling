@@ -6,7 +6,7 @@ $(function () {
     $(document).on('click', '#reset', function () {
         page = 1;
         $("#record-list").empty();
-        $("#user_name").val(0);
+        $("#user_id").val(0);
         $("#song_name").val("");
         refreshListPlayed();
     });
