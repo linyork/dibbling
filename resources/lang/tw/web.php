@@ -33,6 +33,7 @@ return [
         'PleaseEnterUrl' => '請輸入 youtube code 或者網址',
         'Enter' => '確認',
         'Random' => '隨機',
+        'Next' => '下一首',
     ],
     'list' => [
         'List' => '清單',

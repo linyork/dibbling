@@ -13,7 +13,7 @@
                     <span class="css-video-interface-name-text">{{ $playing['name'] }}</span>
                 </div>
                 <div class="row justify-content-center css-video-interface-next">
-                    <span><i class="fas fa-angle-double-right"></i>下一首: {{ $next['title'] }}</span>
+                    <span><i class="fas fa-angle-double-right"></i>{{ __('web.dibbling.Next') }}: {{ $next['title'] }}</span>
                 </div>
                 <div class="row justify-content-center css-video-interface-btn-group">
                     <button id="play" type="button" class="col css-video-interface-btn btn btn-light">

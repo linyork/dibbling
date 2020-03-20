@@ -32,6 +32,7 @@ return [
         'PleaseEnterUrl' => 'Please enter youtube video code or url.',
         'Enter' => 'Enter',
         'Random' => 'Random',
+        'Next' => 'Coming up',
     ],
     'list' => [
         'List' => 'List',

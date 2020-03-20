@@ -32,7 +32,8 @@ return [
         'Dibbling' => 'リクエスト',
         'PleaseEnterUrl' => 'youtube code またはURLをご入力ください',
         'Enter' => '確認',
-        'Random' => 'Random',
+        'Random' => 'ランダム',
+        'Next' => '次の演奏曲',
     ],
     'list' => [
         'List' => 'プレイリスト',
