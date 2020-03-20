@@ -31,7 +31,7 @@ return [
         'Dibbling' => 'Dibbling',
         'PleaseEnterUrl' => 'Please enter youtube video code or url.',
         'Enter' => 'Enter',
-        'Random' => 'Random',
+        'Random' => 'Shuffle play',
         'Next' => 'Coming up',
     ],
     'list' => [

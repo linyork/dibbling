@@ -32,7 +32,7 @@ return [
         'Dibbling' => '點播',
         'PleaseEnterUrl' => '請輸入 youtube code 或者網址',
         'Enter' => '確認',
-        'Random' => '隨機',
+        'Random' => '隨機播放',
         'Next' => '下一首',
     ],
     'list' => [
