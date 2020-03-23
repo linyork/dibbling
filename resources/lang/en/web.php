@@ -10,6 +10,7 @@ return [
         'Record' => 'Record',
         'Controller' => 'Controller',
         'Setting' => 'Setting',
+        'AdminInterface' => 'Admin interface',
         'Logout' => 'Logout',
     ],
     'login' => [
@@ -65,5 +66,10 @@ return [
         'Mode' => 'Mode',
         'Default' => 'Default',
         'Dark' => 'Dark',
+    ],
+    'admin' => [
+        'Name' => 'Name',
+        'Email' => 'E-mail',
+        'Delete' => 'Delete',
     ],
 ];

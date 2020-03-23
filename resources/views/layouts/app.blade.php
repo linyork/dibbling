@@ -102,6 +102,9 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    @can('admin')
+                                        <a class="dropdown-item" href="{{ route('admin_interface') }}">{{ __('web.app.AdminInterface') }}</a>
+                                    @endcan
                                     <a class="dropdown-item" href="{{ route('setting') }}">{{ __('web.app.Setting') }}</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

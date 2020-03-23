@@ -61,21 +61,23 @@ class ListController extends Controller
             $records->limit($limit);
             $records->offset($offset);
 
+            if ( ! $records->get() )
+            {
+                return response()->json([]);
+            }
+
             $likes = \DB::table('like')
                 ->where('user_id', '=', \Auth::user()->getAuthIdentifier())
                 ->get()
                 ->keyBy('list_id')
                 ->toArray();
-            if ( ! $records->get() )
-            {
-                return response()->json([]);
-            }
+            $record_data = ['records' => $records->get(), 'likes' => $likes];
         }
         catch (\Exception $e)
         {
-            $records = [];
+            $record_data = ['records' => [], 'likes' => []];
         }
-        return response()->view('common.record', ['records' => $records->get(), 'likes' => $likes], 200);
+        return response()->view('common.record', $record_data, 200);
     }
 
     public function insert(Request $request, YoutubeHelper $youtubeHelper)
@@ -152,6 +154,7 @@ class ListController extends Controller
     {
         try
         {
+            \DB::beginTransaction();
             $list = ListTable::withTrashed()->find($id);
 
             if ( $request->input('real') )
@@ -172,9 +175,11 @@ class ListController extends Controller
             }
 
             $record->save();
+            \DB::commit();
         }
         catch (\Exception $e)
         {
+            \DB::rollback();
             $result_test = $e;
         }
         return response()->json($result_test);

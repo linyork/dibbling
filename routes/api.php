@@ -48,6 +48,8 @@ Route::group(['prefix' => 'v2'], function ()
         Route::get('playing', 'v2\PlayingController@get');
         // 點讚
         Route::post('like', 'v2\LikeController@like');
+        // 移除使用者
+        Route::delete('user/delete/{id}', 'v2\AdminController@deleteUser')->middleware('can:admin');
     });
     // dibbling player
     Route::get('/next', 'v2\PlayerController@next');
