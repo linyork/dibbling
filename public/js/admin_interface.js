@@ -7,18 +7,19 @@ $(function () {
     });
 
     function deleteUser(id) {
-        let test = $.ajax({
+        let deleteUser = $.ajax({
             url: 'api/v2/user/delete/' + id,
             headers: {
                 'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            type: "DELETE",
-            dataType: "json"
+            type: "DELETE"
         });
 
-        test.done(function (result) {
-            console.log(result);
+        deleteUser.done(function (result) {
+            if(result !== '0'){
+                $("#user-"+id).remove();
+            }
         });
 
     }
