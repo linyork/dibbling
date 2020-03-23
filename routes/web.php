@@ -27,5 +27,6 @@ Route::middleware($userMiddlewareArray)->group(function () {
     Route::get('dibbling_list','DibblingList@index')->name('dibbling_list');
     Route::get('dibbling_record','DibblingRecord@index')->name('dibbling_record');
     Route::get('setting', 'Setting@index')->name('setting');
+    Route::get('admin_interface', 'AdminInterface@index')->middleware('can:admin')->name('admin_interface');
 });
 Auth::routes(['verify' => \App::environment('production')]);

@@ -9,9 +9,9 @@ return [
         'List' => '清單',
         'Record' => '紀錄',
         'Setting' => '設定',
+        'AdminInterface' => '管理者介面',
         'Controller' => '控制器',
         'Logout' => '登出',
-
     ],
     'login' => [
         'Login' => '登入',
@@ -66,5 +66,10 @@ return [
         'Mode' => '模式',
         'Default' => '預設',
         'Dark' => '深色',
+    ],
+    'admin' => [
+        'Name' => '名稱',
+        'Email' => 'E-mail',
+        'Delete' => '刪除',
     ],
 ];

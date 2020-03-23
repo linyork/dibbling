@@ -9,9 +9,9 @@ return [
         'List' => 'プレイリスト',
         'Record' => '再生履歴',
         'Setting' => '設定',
+        'AdminInterface' => 'Admin interface',
         'Controller' => 'リモコン',
         'Logout' => 'ログアウト',
-
     ],
     'login' => [
         'Login' => 'ログイン',
@@ -66,5 +66,10 @@ return [
         'Mode' => 'テーマ',
         'Default' => 'デフォルト',
         'Dark' => 'ダーク',
+    ],
+    'admin' => [
+        'Name' => '名前',
+        'Email' => 'E-mail',
+        'Delete' => 'Delete',
     ],
 ];
