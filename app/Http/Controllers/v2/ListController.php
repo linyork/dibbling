@@ -154,7 +154,6 @@ class ListController extends Controller
     {
         try
         {
-            \DB::beginTransaction();
             $list = ListTable::withTrashed()->find($id);
 
             if ( $request->input('real') )
@@ -175,11 +174,9 @@ class ListController extends Controller
             }
 
             $record->save();
-            \DB::commit();
         }
         catch (\Exception $e)
         {
-            \DB::rollback();
             $result_test = $e;
         }
         return response()->json($result_test);
