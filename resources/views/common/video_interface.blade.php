@@ -1,19 +1,19 @@
 <div class="row justify-content-center card-margin-bottom css-video-interface">
-    <div class="css-video-interface-bg" style="background-image: url('{{ $playing['seal'] }}');"></div>
+    <div class="css-video-interface-bg" style="background-image: url('{{ $playing->seal }}');"></div>
     <div class="container css-video-interface-con">
         <div class="justify-content-center">
             <div class="container col-lg-5 justify-content-center ">
                 <div class="row justify-content-center css-video-interface-seal">
-                    <img src="{{ $playing['seal'] }}" style="margin-top: -32px; max-width: 336px;">
+                    <img src="{{ $playing->seal }}" style="margin-top: -32px; max-width: 336px;">
                 </div>
                 <div class="row justify-content-center css-video-interface-title">
-                    <span>{{ $playing['title'] }}</span>
+                    <span>{{ $playing->title }}</span>
                 </div>
                 <div class="row justify-content-center css-video-interface-name">
-                    <span class="css-video-interface-name-text">{{ $playing['name'] }}</span>
+                    <span class="css-video-interface-name-text">{{ $playing->name }}</span>
                 </div>
                 <div class="row justify-content-center css-video-interface-next">
-                    <span><i class="fas fa-angle-double-right"></i>{{ __('web.dibbling.Next') }}: {{ $next['title'] }}</span>
+                    <span><i class="fas fa-angle-double-right"></i>{{ __('web.dibbling.Next') }}: {{ $next->title ?? __('web.dibbling.Random') }}</span>
                 </div>
                 <div class="row justify-content-center css-video-interface-btn-group">
                     <button id="play" type="button" class="col css-video-interface-btn btn btn-light">
@@ -25,7 +25,7 @@
                     <button id="cut" type="button" class="col css-video-interface-btn btn btn-light" style="margin-left: 10px;margin-right: 20px;">
                         {{ __('web.controller.Cut') }}
                     </button>
-                    <button id="like" type="button" class="col css-video-interface-btn btn btn-light" data-id="{{ $playing['id'] }}">
+                    <button id="like" type="button" class="col css-video-interface-btn btn btn-light" data-id="{{ $playing->id }}">
                         <span>{{ count($likes) }}</span>
                         @if($isLike)
                             <i class="fas fa-thumbs-up"></i>
