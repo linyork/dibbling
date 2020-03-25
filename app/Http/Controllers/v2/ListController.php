@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v2;
 
 use App\Helper\YoutubeHelper;
 use App\Http\Controllers\Controller;
+use App\Model\LikeTable;
 use App\Model\RecordTable;
 use Illuminate\Http\Request;
 use App\Model\ListTable;
@@ -44,34 +45,35 @@ class ListController extends Controller
             $user_id = $request->post('user_id');
             $song_name = $request->post('song_name');
             $page = $request->post('page');
-            $limit = 20;
+            $limit = 8;
             $offset = ($page - 1) * $limit;
 
-            $records = \DB::table('record');
-            $records->select('users.*', 'list.*', \DB::raw('count(like.list_id) as likes'));
-            $records->join('users', 'record.user_id', '=', 'users.id');
-            $records->join('list', 'record.list_id', '=', 'list.id');
-            $records->leftJoin('like', 'record.list_id', '=', 'like.list_id');
-            if( $user_id ) $records->where('users.id', '=', $user_id);
-            if( $song_name )  $records->where('list.title', 'like', "%$song_name%");
-            $records->where('record.record_type', '=', RecordTable::DIBBLING);
-            $records->where('list.deleted_at', '!=', null);
-            $records->orderBy('list.updated_at', 'DESC');
-            $records->groupBy('record.id');
-            $records->limit($limit);
-            $records->offset($offset);
+            $records = \DB::table('record')
+                ->select(\DB::raw('users.id as user_id'),'users.*', 'list.*', \DB::raw('count(like.list_id) as likes'))
+                ->join('users', 'record.user_id', '=', 'users.id')
+                ->join('list', 'record.list_id', '=', 'list.id')
+                ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
+                ->when($user_id, function ($query, $user_id) {
+                    return $query->where('users.id', '=', $user_id);
+                })
+                ->when($song_name, function ($query, $song_name) {
+                    return $query->where('list.title', 'like', "%$song_name%");
+                })
+                ->where('record.record_type', '=', RecordTable::DIBBLING)
+                ->where('list.deleted_at', '!=', null)
+                ->orderBy('list.updated_at', 'DESC')
+                ->groupBy('record.id')
+                ->limit($limit)
+                ->offset($offset)
+                ->get();
 
-            if ( ! $records->get() )
+            if ( ! $records )
             {
                 return response()->json([]);
             }
 
-            $likes = \DB::table('like')
-                ->where('user_id', '=', \Auth::user()->getAuthIdentifier())
-                ->get()
-                ->keyBy('list_id')
-                ->toArray();
-            $record_data = ['records' => $records->get(), 'likes' => $likes];
+            $likes = LikeTable::with('user')->get();
+            $record_data = ['records' => $records, 'likes' => $likes];
         }
         catch (\Exception $e)
         {

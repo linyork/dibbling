@@ -71,6 +71,7 @@ $(function () {
         promise_get_list.done(function (db_list) {
             isAjax = false;
             $("#record-list").append(db_list);
+            $(".js-like").tooltip();
             if (db_list) page++;
         });
     }

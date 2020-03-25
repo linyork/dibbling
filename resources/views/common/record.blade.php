@@ -16,9 +16,15 @@
                 <button data-uid="{{ $record->id }}" type="button" class="btn btn-sm btn-outline-danger js-remove css-record-btn">
                     {{ __('web.record.Remove') }}
                 </button>
-                <button data-uid="{{ $record->id }}" type="button" class="btn btn-sm btn-outline-primary js-like css-record-btn">
+                <button data-uid="{{ $record->id }}"
+                        type="button"
+                        class="btn btn-sm btn-outline-primary js-like css-record-btn"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        @if( ($record->name == Auth::user()->name || Auth::user()->role == \App\User::ROLE_ADMIN) && $record->likes )title="@foreach($likes as $like)@if($like->list_id == $record->id){{ $like->user->name }} @endif @endforeach"@endif
+                >
                     <span>{{ $record->likes }}</span>
-                    @if(array_key_exists($record->id, $likes))
+                    @if(array_key_exists($record->id, $likes->where('user_id', Auth::user()->id)->keyBy('list_id')->toArray()))
                         <i class="fas fa-thumbs-up"></i>
                     @else
                         <i class="far fa-thumbs-up"></i>

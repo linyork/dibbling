@@ -2,13 +2,11 @@
 
 namespace App\Model;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RecordTable extends Model
 {
-    use SoftDeletes;
-
     public const DIBBLING = 1;
     public const RE_DIBBLING = 2;
     public const CUT = 3;
@@ -17,7 +15,7 @@ class RecordTable extends Model
     protected $primaryKey = 'id';
 
     /**
-     * @return BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function list()
     {
@@ -25,20 +23,10 @@ class RecordTable extends Model
     }
 
     /**
-     * @return BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
-    }
-
-    /**
-     * @param Builder $query
-     *
-     * @return Builder
-     */
-    public function scopeFirstOrder($query)
-    {
-        return $query->where('record_type', 1);
     }
 }

@@ -7,7 +7,6 @@ use App\Model\ListTable;
 use App\Model\RecordTable;
 use Illuminate\Http\Request;
 
-
 class PlayerController extends Controller
 {
     public function next()

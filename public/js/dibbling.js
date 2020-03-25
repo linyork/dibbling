@@ -91,7 +91,6 @@ $(document).on('click', '#like', function (e) {
     });
 });
 
-
 // playing
 function refreshPlaying() {
     let promise_get_playing = $.ajax({
@@ -105,6 +104,7 @@ function refreshPlaying() {
     promise_get_playing.done(function (data) {
         $("#video-interface").empty();
         $("#video-interface").append(data);
+        $('#like').tooltip();
     });
 
 }
@@ -116,6 +116,7 @@ $('#video-id').keydown(function (e) {
         $("#video-id").val("");
     }
 });
+
 $(document).on('click', '#dibbling-button', function () {
     dibbling($('#video-id').val());
     $("#video-id").val("");

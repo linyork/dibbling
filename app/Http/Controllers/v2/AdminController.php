@@ -17,8 +17,8 @@ class AdminController extends Controller
         {
             \DB::beginTransaction();
             // delete list
-            \DB::table(with(new ListTable)->getTable())->whereIn('id',
-                function ($query) use ($deleteUserId)
+            \DB::table(with(new ListTable)->getTable())
+                ->whereIn('id', function ($query) use ($deleteUserId)
                 {
                     $query->select('list_id')
                         ->from(with(new RecordTable)->getTable())
@@ -26,22 +26,12 @@ class AdminController extends Controller
                         ->where('record_type', RecordTable::DIBBLING);
                 }
             )->delete();
-
             // delete record
-            \DB::table(with(new RecordTable)->getTable())
-                ->where('user_id',$deleteUserId)
-                ->delete();
-
+            \DB::table(with(new RecordTable)->getTable())->where('user_id', $deleteUserId)->delete();
             // delete like
-            \DB::table(with(new LikeTable)->getTable())
-                ->where('user_id',$deleteUserId)
-                ->delete();
-
+            \DB::table(with(new LikeTable)->getTable())->where('user_id', $deleteUserId)->delete();
             // delete user
-            \DB::table(with(new User)->getTable())
-                ->where('id',$deleteUserId)
-                ->delete();
-
+            \DB::table(with(new User)->getTable())->where('id', $deleteUserId)->delete();
             \DB::commit();
         }
         catch (\Exception $e)

@@ -12,7 +12,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12">
-                <table class="table {{ (Request::cookie('mode') === 'Dark') ? 'table-dark' : ''}}">
+                <table class="table table-sm table-hover {{ (Request::cookie('mode') === 'Dark') ? 'table-dark' : ''}}">
                     <thead>
                     <tr>
                         <th scope="col">{{ __('web.admin.Name') }}</th>
@@ -26,7 +26,7 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
-                                <button type="button" class="btn btn-danger {{ ($user->id == Auth::user()->id) ? 'disabled' : 'delete' }}" value="{{ $user->id }}">
+                                <button type="button" class="btn btn-sm btn-danger {{ ($user->id == Auth::user()->id) ? 'disabled' : 'delete' }}" value="{{ $user->id }}">
                                     {{ __('web.admin.Delete') }}
                                 </button>
                             </td>
