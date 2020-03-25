@@ -21,7 +21,7 @@
                         class="btn btn-sm btn-outline-primary js-like css-record-btn"
                         data-toggle="tooltip"
                         data-placement="top"
-                        @if(($record->name == Auth::user()->name && $record->likes) || (Auth::user()->role == \App\User::ROLE_ADMIN) )title="@foreach($likes as $like)@if($like->list_id == $record->id){{ $like->user->name }} @endif @endforeach"@endif
+                        @if( ($record->name == Auth::user()->name || Auth::user()->role == \App\User::ROLE_ADMIN) && $record->likes )title="@foreach($likes as $like)@if($like->list_id == $record->id){{ $like->user->name }} @endif @endforeach"@endif
                 >
                     <span>{{ $record->likes }}</span>
                     @if(array_key_exists($record->id, $likes->where('user_id', Auth::user()->id)->keyBy('list_id')->toArray()))
