@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Model\LikeTable;
 use App\Model\ListTable;
 use App\Model\PlayingTable;
+use App\User;
 
 
 class PlayingController extends Controller
@@ -17,7 +18,7 @@ class PlayingController extends Controller
             $playingResult = PlayingTable::firstOrFail();
             $playingVideo = ListTable::withDibblingById($playingResult['video_id'])->first();
             $nextVideo = ListTable::next()->first();
-            $likes = LikeTable::where('list_id', '=', $playingResult['video_id'])->get();
+            $likes = LikeTable::with('user')->where('list_id', '=', $playingResult['video_id'])->get();
             $isLike = LikeTable::where('user_id', '=', \Auth::user()->getAuthIdentifier())
                 ->where('list_id', '=', $playingResult['video_id'])->first();
 

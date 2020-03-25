@@ -25,7 +25,14 @@
                     <button id="cut" type="button" class="col css-video-interface-btn btn btn-light" style="margin-left: 10px;margin-right: 20px;">
                         {{ __('web.controller.Cut') }}
                     </button>
-                    <button id="like" type="button" class="col css-video-interface-btn btn btn-light" data-id="{{ $playing->id }}">
+                    <button id="like"
+                            type="button"
+                            class="col css-video-interface-btn btn btn-light"
+                            data-id="{{ $playing->list_id }}"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            @if($playing->user_id == Auth::user()->id)title="@foreach($likes as $like){{ $like->user->name }} @endforeach"@endif
+                    >
                         <span>{{ count($likes) }}</span>
                         @if($isLike)
                             <i class="fas fa-thumbs-up"></i>

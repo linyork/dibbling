@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v2;
 
 use App\Helper\YoutubeHelper;
 use App\Http\Controllers\Controller;
+use App\Model\LikeTable;
 use App\Model\RecordTable;
 use Illuminate\Http\Request;
 use App\Model\ListTable;
@@ -44,7 +45,7 @@ class ListController extends Controller
             $user_id = $request->post('user_id');
             $song_name = $request->post('song_name');
             $page = $request->post('page');
-            $limit = 20;
+            $limit = 8;
             $offset = ($page - 1) * $limit;
 
             $records = \DB::table('record')
@@ -71,11 +72,7 @@ class ListController extends Controller
                 return response()->json([]);
             }
 
-            $likes = \DB::table('like')
-                ->where('user_id', '=', \Auth::user()->getAuthIdentifier())
-                ->get()
-                ->keyBy('list_id')
-                ->toArray();
+            $likes = LikeTable::with('user')->get();
             $record_data = ['records' => $records, 'likes' => $likes];
         }
         catch (\Exception $e)
