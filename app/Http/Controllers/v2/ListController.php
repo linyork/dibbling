@@ -49,7 +49,7 @@ class ListController extends Controller
             $offset = ($page - 1) * $limit;
 
             $records = \DB::table('record')
-                ->select('users.*', 'list.*', \DB::raw('count(like.list_id) as likes'))
+                ->select(\DB::raw('users.id as user_id'),'users.*', 'list.*', \DB::raw('count(like.list_id) as likes'))
                 ->join('users', 'record.user_id', '=', 'users.id')
                 ->join('list', 'record.list_id', '=', 'list.id')
                 ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
