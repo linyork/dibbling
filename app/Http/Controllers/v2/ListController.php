@@ -45,7 +45,7 @@ class ListController extends Controller
             $user_id = $request->post('user_id');
             $song_name = $request->post('song_name');
             $page = $request->post('page');
-            $limit = 8;
+            $limit = 12;
             $offset = ($page - 1) * $limit;
 
             $records = \DB::table('record')
