@@ -13,7 +13,7 @@
                     </div>
                     <select class="custom-select" id="user_id">
                         <option selected value="0">{{ __('web.record.Choose') }}...</option>
-                        @foreach(\App\User::select(\DB::raw('count(record.user_id) as count'), \DB::raw('users.*'))->leftJoin('record', 'users.id', '=', 'record.user_id')->groupBy('users.id')->orderBy('count', 'DESC')->get() as $user)
+                        @foreach(\App\User::select(\DB::raw('count(record.user_id) as count'), \DB::raw('users.*'))->leftJoin('record', 'users.id', '=', 'record.user_id')->where('record.record_type', '=', \App\Model\RecordTable::DIBBLING)->groupBy('users.id')->orderBy('count', 'DESC')->get() as $user)
                             <option value="{{ $user->id }}">{{ $user->name }}</option>
                         @endforeach
                     </select>
