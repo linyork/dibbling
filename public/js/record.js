@@ -18,6 +18,13 @@ $(function () {
         refreshListPlayed();
     });
 
+    $(document).on('click', '.js-record-name', function () {
+        page = 1;
+        $("#record-list").empty();
+        $("#user_id").val($(this).attr('data-uid'));
+        refreshListPlayed();
+    });
+
     // played dibbling
     $(document).on('click', '.js-dibbling', function () {
         redibbling($(this).attr('data-uid'));
