@@ -69,6 +69,7 @@ return [
     ],
     'admin' => [
         'Name' => '名前',
+        'Amount' => 'Amount',
         'Email' => 'E-mail',
         'Delete' => 'Delete',
     ],

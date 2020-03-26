@@ -69,6 +69,7 @@ return [
     ],
     'admin' => [
         'Name' => '名稱',
+        'Amount' => '點播數',
         'Email' => 'E-mail',
         'Delete' => '刪除',
     ],
