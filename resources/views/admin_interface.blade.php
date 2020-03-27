@@ -22,7 +22,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach(\App\User::select(\DB::raw('count(record.user_id) as count'), \DB::raw('users.*'))->leftJoin('record', 'users.id', '=', 'record.user_id')->where('record.record_type', '=', \App\Model\RecordTable::DIBBLING)->groupBy('users.id')->get() as $user)
+                    @foreach(\App\User::select(\DB::raw('count(record.user_id) as count'), \DB::raw('users.*'))->leftJoin('record', 'users.id', '=', 'record.user_id')->where('record.record_type', \App\Model\RecordTable::DIBBLING)->orWhere('record.record_type', NULL)->groupBy('users.id')->get() as $user)
                         <tr id="user-{{ $user->id }}">
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->count }}</td>
