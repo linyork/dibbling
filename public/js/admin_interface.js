@@ -1,9 +1,15 @@
 $(function () {
 
-    // delete
+    // Delete
     $(document).on('click', '.delete', function () {
         let id = $(this).val();
         deleteUser(id);
+    });
+
+    // Broadcast
+    $(document).on('click', '#broadcast-button', function () {
+        broadcast($('#broadcast').val());
+        $('#broadcastMP3').attr("src","broadcast.mp3?"+Date.now());
     });
 
     function deleteUser(id) {
@@ -21,6 +27,23 @@ $(function () {
                 $("#user-"+id).remove();
             }
         });
+    }
 
+    function broadcast (str) {
+        let broadcast = $.ajax({
+            url: 'api/v2/broadcast',
+            headers: {
+                'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            method: "POST",
+            data: {
+                'text': str,
+            }
+        });
+
+        broadcast.done(function (result) {
+            console.log(result);
+        });
     }
 });
