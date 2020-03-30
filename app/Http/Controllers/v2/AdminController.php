@@ -51,7 +51,7 @@ class AdminController extends Controller
             ],
             'voice' => [
                 'languageCode' => 'cmn-CN',
-                'name' => 'cmn-CN-Wavenet-D'
+                'name' => 'cmn-CN-Standard-D'
             ],
             'audioConfig' => [
                 'audioEncoding' => 'MP3',
