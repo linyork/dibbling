@@ -39,6 +39,11 @@ otherRoom.on('connection', (socket) => {
         // log.info(socket.user.name + ': ' + chat + '.');
         otherRoom.emit('chat', socket.user.name + ': ' + chat + '.');
     });
+
+    // broadcast
+    socket.on('broadcast', (result) => {
+        playerRoom.emit('broadcast', result);
+    });
 });
 
 // 注意，這邊的 server 原本是 app

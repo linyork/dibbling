@@ -1,4 +1,17 @@
 $(function () {
+    // web socket
+    var socket;
+    let promise_get_playing = $.ajax({
+        url: 'api/v2/user',
+        headers: {
+            'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content')
+        },
+        method: "GET"
+    });
+    promise_get_playing.done(function (data) {
+        socket = io(document.location.protocol + '//' + domain + '/socket');
+        socket.emit('intoDibbling', data);
+    });
 
     // Delete
     $(document).on('click', '.delete', function () {
@@ -9,7 +22,6 @@ $(function () {
     // Broadcast
     $(document).on('click', '#broadcast-button', function () {
         broadcast($('#broadcast').val());
-        $('#broadcastMP3').attr("src","broadcast.mp3?"+Date.now());
     });
 
     function deleteUser(id) {
@@ -43,7 +55,7 @@ $(function () {
         });
 
         broadcast.done(function (result) {
-            console.log(result);
+            socket.emit('broadcast', result);
         });
     }
 });

@@ -75,7 +75,7 @@ class AdminController extends Controller
 
 
         $fileData = json_decode($response_texttospeech->getBody()->getContents(), true);
-        file_put_contents('broadcast.mp3', base64_decode($fileData['audioContent']));
-        return response($response);
+//        file_put_contents('broadcast.mp3', base64_decode($fileData['audioContent']));
+        return response("data:audio/wav;base64,".$fileData['audioContent']);
     }
 }

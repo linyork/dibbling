@@ -9,9 +9,6 @@
 @endsection
 
 @section('content')
-    <audio controls>
-        <source id='broadcastMP3' src="broadcast.mp3" type="audio/mpeg">
-    </audio>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12">
