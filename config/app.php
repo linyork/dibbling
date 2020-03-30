@@ -2,7 +2,7 @@
 
 return [
     // my config
-    'youtube_api_key' => env('YOUTUBE_API_KEY', ''),
+    'google_api_key' => env('GOOGLE_API_KEY', ''),
 
     /*
     |--------------------------------------------------------------------------

@@ -72,5 +72,8 @@ return [
         'Amount' => '點播數',
         'Email' => 'E-mail',
         'Delete' => '刪除',
+        'Broadcast' => '廣播',
+        'PleaseEnter' => '請輸入',
+        'Member' => '成員',
     ],
 ];

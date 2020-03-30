@@ -12,6 +12,22 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12">
+                <span class="bd-content-title text-secondary">{{ __('web.admin.Broadcast') }}</span>
+                <div class="card">
+                    <div class="card-body bg-light">
+                        <div class="input-group">
+                            <input id="broadcast" type="text" class="form-control" placeholder="{{ __('web.admin.PleaseEnter') }}">
+                            <div class="input-group-append">
+                                <button id="broadcast-button" type="button" class="btn btn-secondary">{{ __('web.admin.Broadcast') }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <span class="bd-content-title text-secondary">{{ __('web.admin.Member') }}</span>
                 <table class="table table-sm table-hover {{ (Request::cookie('mode') === 'Dark') ? 'table-dark' : ''}}">
                     <thead>
                     <tr>

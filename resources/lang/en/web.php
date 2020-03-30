@@ -72,5 +72,8 @@ return [
         'Amount' => 'Amount',
         'Email' => 'E-mail',
         'Delete' => 'Delete',
+        'Broadcast' => 'Broadcast',
+        'PleaseEnter' => 'Please Enter',
+        'Member' => 'Member',
     ],
 ];
