@@ -50,6 +50,7 @@ Route::group(['prefix' => 'v2'], function ()
         Route::post('like', 'v2\LikeController@like');
         // 移除使用者
         Route::delete('user/delete/{id}', 'v2\AdminController@deleteUser')->middleware('can:admin');
+        Route::post('broadcast', 'v2\AdminController@broadcast')->middleware('can:admin');
     });
     // dibbling player
     Route::get('/next', 'v2\PlayerController@next');

@@ -17,6 +17,8 @@
     <div class="row">
         <div class="col-sm-12 col-md-12 col-sm-12">
             <h1>廣播系統</h1>
+            <div id="broadcast-div">
+            </div>
             <span class="badge badge-primary">Interface</span>
             <span class="badge badge-secondary">v2.0</span>
             <div class="card">

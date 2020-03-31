@@ -3,7 +3,6 @@ var socket = io(document.location.protocol+'//'+domain+'/socket/player');
 socket.on('connect', function(){});
 socket.on('disconnect', function(){});
 socket.on('command', function(command){
-    console.log(command);
     var commandOptions = JSON.parse(command);
     switch(commandOptions.command)
     {
@@ -23,6 +22,16 @@ socket.on('command', function(command){
             player_ref.setPlaybackRate(parseFloat(commandOptions.value));
             break;
     }
+});
+socket.on('broadcast', function (result){
+    player_ref.pauseVideo();
+    $("#broadcast-div").empty();
+    $("#broadcast-div").append("<audio id='broadcast-audio'><source src='"+result+"' type='audio/mpeg'></audio>");
+    var audio = document.getElementById("broadcast-audio");
+    audio.play();
+    audio.addEventListener('ended', function(){
+        player_ref.playVideo();
+    }, false);
 });
 
 // init YT Player

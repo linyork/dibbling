@@ -18,7 +18,7 @@ class YoutubeHelper
         try
         {
             $detailData = \VideoApi::setType(VideoApi::YOUTUBE)
-                ->setKey(\Config::get('app.youtube_api_key'))
+                ->setKey(\Config::get('app.google_api_key'))
                 ->getVideoDetail($videoId);
 
             if($detailData['duration'] >= 600)
