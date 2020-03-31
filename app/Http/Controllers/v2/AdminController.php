@@ -33,6 +33,15 @@ class AdminController extends Controller
             \DB::table(with(new LikeTable)->getTable())->where('user_id', $deleteUserId)->delete();
             // delete user
             \DB::table(with(new User)->getTable())->where('id', $deleteUserId)->delete();
+
+            // TODO
+            //SELECT *
+            //FROM record as r
+            //         LEFT JOIN users u on r.user_id = u.id
+            //         LEFT JOIN list l on r.list_id = l.id
+            //WHERE r.user_id NOT IN (SELECT id FROM users)
+            //   OR r.list_id NOT IN (SELECT id FROM list)
+
             \DB::commit();
         }
         catch (\Exception $e)
