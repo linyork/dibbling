@@ -20,6 +20,10 @@
     border-radius: 0.25rem !important;;
 }
 
+#video-id, #danmu-text{
+    color: white;
+}
+
 .form-control {
     border-radius: 3px !important;
     border: solid 1px #cccccc !important;
@@ -28,6 +32,12 @@
 }
 
 #dibbling-button {
+    border-radius: 3px !important;
+    border: solid 1px #cccccc !important;
+    background-color: #222222 !important;
+}
+
+#danmu-button {
     border-radius: 3px !important;
     border: solid 1px #cccccc !important;
     background-color: #222222 !important;

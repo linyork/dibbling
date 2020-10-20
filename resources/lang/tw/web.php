@@ -34,6 +34,8 @@ return [
         'Enter' => '確認',
         'Random' => '隨機播放',
         'Next' => '下一首',
+        'Danmu' => '彈幕',
+        'Saysomething' => '說點什麼',
     ],
     'list' => [
         'List' => '清單',

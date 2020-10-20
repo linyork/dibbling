@@ -33,6 +33,13 @@ otherRoom.on('connection', (socket) => {
         playerRoom.emit('command', command);
     });
 
+    // danmu
+    socket.on('danmu', (message) => {
+        // console.log(new Date() + ' '+ socket.user.name + ' message: ' + message + '.');
+        // log.info(socket.user.name + ' message: ' + message + '.');
+        otherRoom.emit('danmu', socket.user.name + ': ' + message);
+    });
+
     // chart
     socket.on('chat', (chat) => {
         // console.log(new Date() + ' '+ socket.user.name + ': ' + chat + '.');

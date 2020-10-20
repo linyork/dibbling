@@ -15,6 +15,10 @@ promise_get_playing.done(function (data) {
         refresh();
     });
 
+    socket.on('danmu', function (m) {
+        showDanmu(m);
+    });
+
     // chart
     socket.on('chat', function( chat ) {
         console.log(chat);
@@ -122,6 +126,11 @@ $(document).on('click', '#dibbling-button', function () {
     $("#video-id").val("");
 });
 
+$(document).on('click', '#danmu-button', function () {
+    danmu($('#danmu-text').val());
+    $("#danmu-text").val("");
+});
+
 function refresh() {
     refreshPlaying();
 }
@@ -144,6 +153,23 @@ function dibbling(videoId) {
     promise_post_list.fail(FailMethod);
 }
 
+function danmu(m) {
+    if (m === '') return;
+    socket.emit('danmu', m);
+}
+
+function showDanmu(m) {
+    var item = {
+        info: m,  //文字
+        close: true,  //顯示關閉按鈕
+        speed: 8,  //延遲,單位秒,默認8
+        bottom: 70,  //距離底部高度,單位px,默認隨機
+        color: '#fff',  //顏色,默認白色
+        old_ie_color: '# 000000',  //ie低版兼容色,不能與網頁背景相同,默認黑色
+    }
+    $('body').barrager(item);
+}
+
 function SuccessMethod(e) {
     if (e['status'] === false) {
         alert(e.msg);
@@ -157,3 +183,15 @@ function FailMethod(e) {
 }
 
 refresh();
+var item = {
+    img: 'static/heisenberg.png',  //圖片
+    info: '123',  //文字
+    href: 'http://www.yaseng.org',  //鏈接
+    close: true,  //顯示關閉按鈕
+    speed: 8,  //延遲,單位秒,默認8
+    bottom: 70,  //距離底部高度,單位px,默認隨機
+    color: '#fff',  //顏色,默認白色
+    old_ie_color: '# 000000',  //ie低版兼容色,不能與網頁背景相同,默認黑色
+}
+console.log($('blog').barrager);
+// $('body').barrager(item);

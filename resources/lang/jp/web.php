@@ -34,6 +34,8 @@ return [
         'Enter' => '確認',
         'Random' => 'シャッフル再生',
         'Next' => '次の演奏曲',
+        'Danmu' => 'Danmu',
+        'Saysomething' => 'Say something',
     ],
     'list' => [
         'List' => 'プレイリスト',
