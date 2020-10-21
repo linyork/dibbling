@@ -36,7 +36,7 @@ otherRoom.on('connection', (socket) => {
     // danmu
     socket.on('danmu', (message) => {
         // console.log(new Date() + ' '+ socket.user.name + ' message: ' + message + '.');
-        // log.info(socket.user.name + ' message: ' + message + '.');
+        log.info(new Date() + ' '+ socket.user.name + ' : ' + message);
         otherRoom.emit('danmu', socket.user.name + ' : ' + message);
     });
 
