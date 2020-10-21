@@ -34,6 +34,8 @@ return [
         'Enter' => 'Enter',
         'Random' => 'Shuffle play',
         'Next' => 'Coming up',
+        'Danmu' => 'Danmu',
+        'Saysomething' => 'Say something',
     ],
     'list' => [
         'List' => 'List',

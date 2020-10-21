@@ -20,6 +20,10 @@
     border-radius: 0.25rem !important;;
 }
 
+#video-id, #danmu-text{
+    color: white;
+}
+
 .form-control {
     border-radius: 3px !important;
     border: solid 1px #cccccc !important;
@@ -27,8 +31,8 @@
     color: #cccccc;
 }
 
-#dibbling-button {
+#dibbling-button , #danmu-button{
     border-radius: 3px !important;
     border: solid 1px #cccccc !important;
-    background-color: #222222 !important;
+    background-color: #666666 !important;
 }

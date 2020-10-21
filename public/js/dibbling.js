@@ -15,6 +15,10 @@ promise_get_playing.done(function (data) {
         refresh();
     });
 
+    socket.on('danmu', function (m) {
+        showDanmu(m);
+    });
+
     // chart
     socket.on('chat', function( chat ) {
         console.log(chat);
@@ -104,7 +108,6 @@ function refreshPlaying() {
     promise_get_playing.done(function (data) {
         $("#video-interface").empty();
         $("#video-interface").append(data);
-        $('#like').tooltip();
     });
 
 }
@@ -120,6 +123,11 @@ $('#video-id').keydown(function (e) {
 $(document).on('click', '#dibbling-button', function () {
     dibbling($('#video-id').val());
     $("#video-id").val("");
+});
+
+$(document).on('click', '#danmu-button', function () {
+    danmu($('#danmu-text').val());
+    $("#danmu-text").val("");
 });
 
 function refresh() {
@@ -142,6 +150,21 @@ function dibbling(videoId) {
     });
     promise_post_list.done(SuccessMethod);
     promise_post_list.fail(FailMethod);
+}
+
+function danmu(m) {
+    if (m === '') return;
+    socket.emit('danmu', m);
+}
+
+function showDanmu(m) {
+    $('body').barrager({
+        info: m,
+        close: true,
+        speed: 17,
+        color: '#fff',
+        old_ie_color: '# 000000',
+    });
 }
 
 function SuccessMethod(e) {
