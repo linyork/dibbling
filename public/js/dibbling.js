@@ -161,7 +161,7 @@ function showDanmu(m) {
     $('body').barrager({
         info: m,
         close: true,
-        speed: 17,
+        speed: 30,
         color: '#fff',
         old_ie_color: '# 000000',
     });
