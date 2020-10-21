@@ -108,7 +108,6 @@ function refreshPlaying() {
     promise_get_playing.done(function (data) {
         $("#video-interface").empty();
         $("#video-interface").append(data);
-        $('#like').tooltip();
     });
 
 }
@@ -159,15 +158,13 @@ function danmu(m) {
 }
 
 function showDanmu(m) {
-    var item = {
-        info: m,  //文字
-        close: true,  //顯示關閉按鈕
-        speed: 8,  //延遲,單位秒,默認8
-        bottom: 70,  //距離底部高度,單位px,默認隨機
-        color: '#fff',  //顏色,默認白色
-        old_ie_color: '# 000000',  //ie低版兼容色,不能與網頁背景相同,默認黑色
-    }
-    $('body').barrager(item);
+    $('body').barrager({
+        info: m,
+        close: true,
+        speed: 17,
+        color: '#fff',
+        old_ie_color: '# 000000',
+    });
 }
 
 function SuccessMethod(e) {
@@ -183,15 +180,3 @@ function FailMethod(e) {
 }
 
 refresh();
-var item = {
-    img: 'static/heisenberg.png',  //圖片
-    info: '123',  //文字
-    href: 'http://www.yaseng.org',  //鏈接
-    close: true,  //顯示關閉按鈕
-    speed: 8,  //延遲,單位秒,默認8
-    bottom: 70,  //距離底部高度,單位px,默認隨機
-    color: '#fff',  //顏色,默認白色
-    old_ie_color: '# 000000',  //ie低版兼容色,不能與網頁背景相同,默認黑色
-}
-console.log($('blog').barrager);
-// $('body').barrager(item);

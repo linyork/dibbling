@@ -21,7 +21,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js').'?'.time() }}" defer></script>
+    <script src="{{ asset('js/app.js').'?'.time() }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
