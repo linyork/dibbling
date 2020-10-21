@@ -21,7 +21,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js').'?'.time() }}"></script>
+    <script src="{{ asset('js/app.js').'?'.time() }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -37,7 +37,7 @@
     <link rel="stylesheet" href="{{ asset('css/common/barrager.css') }}">
 
     <script src="{{ asset('js/common/jquery-3.4.1.js') }}"></script>
-    <script src="{{ asset('js/common/jquery.barrager.min.js') }}"></script>
+    <script src="{{ asset('js/common/jquery.barrager.min.js') }}" defer></script>
     <script src="{{ asset('js/socket.js') }}"></script>
     <script type="text/javascript">
         var web = @json(__('web'));
