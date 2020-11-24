@@ -53,5 +53,8 @@ Route::group(['prefix' => 'v2'], function ()
         Route::post('broadcast', 'v2\AdminController@broadcast')->middleware('can:admin');
     });
     // dibbling player
-    Route::get('/next', 'v2\PlayerController@next');
+    Route::get('next', 'v2\PlayerController@next');
+
+    // dibbling extension
+    Route::post('list/extension','v2\ListController@insert')->middleware('youtube', 'web');
 });

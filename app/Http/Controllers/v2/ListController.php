@@ -84,52 +84,62 @@ class ListController extends Controller
 
     public function insert(Request $request, YoutubeHelper $youtubeHelper)
     {
-        $videoId_string = $request->input('videoId');
-        if ( strlen($videoId_string) >= 12 )
+        try
         {
-            parse_str(parse_url($videoId_string, PHP_URL_QUERY), $get);
-            $videoId = $get['v'];
+
+            $t =  \Session::get('dibbling_session', 'york');
+            return response()->json($t);
+            $videoId_string = $request->input('videoId');
+            if ( strlen($videoId_string) >= 12 )
+            {
+                parse_str(parse_url($videoId_string, PHP_URL_QUERY), $get);
+                $videoId = $get['v'];
+            }
+            else
+            {
+                $videoId = $videoId_string;
+            }
+
+            $returnJson = [
+                'videoId' => $videoId,
+                'status' => true,
+                'title' => '點播成功',
+                'msg' => '',
+            ];
+
+            $youtubeHelper->paser($videoId);
+            if ( $youtubeHelper->getStatus() )
+            {
+                $returnJson['title'] = $youtubeHelper->getTitle();
+
+                $list = new ListTable;
+                $list->video_id = $videoId;
+                $list->title = $youtubeHelper->getTitle();
+                $list->seal = $youtubeHelper->getSeal();
+                $list->duration = $youtubeHelper->getDuration();
+                $list->ip = request()->ip();
+                $list->created_at = now();
+                $list->updated_at = now();
+                $list->save();
+
+                $record = new RecordTable;
+                $record->user_id = \Auth::user()->id;
+                $record->list_id = $list->id;
+                $record->record_type = RecordTable::DIBBLING;
+                $record->save();
+            }
+            else
+            {
+                $returnJson['status'] = false;
+                $returnJson['title'] = '點播失敗';
+                $returnJson['msg'] = $youtubeHelper->getErrMsg();
+            }
+            return response()->json($returnJson);
         }
-        else
+        catch (\Exception $e)
         {
-            $videoId = $videoId_string;
+            return response()->json($e->getMessage());
         }
-
-        $returnJson = [
-            'videoId' => $videoId,
-            'status' => true,
-            'title' => '點播成功',
-            'msg' => '',
-        ];
-
-        $youtubeHelper->paser($videoId);
-        if ( $youtubeHelper->getStatus() )
-        {
-            $returnJson['title'] = $youtubeHelper->getTitle();
-
-            $list = new ListTable;
-            $list->video_id = $videoId;
-            $list->title = $youtubeHelper->getTitle();
-            $list->seal = $youtubeHelper->getSeal();
-            $list->duration = $youtubeHelper->getDuration();
-            $list->ip = request()->ip();
-            $list->created_at = now();
-            $list->updated_at = now();
-            $list->save();
-
-            $record = new RecordTable;
-            $record->user_id = \Auth::user()->id;
-            $record->list_id = $list->id;
-            $record->record_type = RecordTable::DIBBLING;
-            $record->save();
-        }
-        else
-        {
-            $returnJson['status'] = false;
-            $returnJson['title'] = '點播失敗';
-            $returnJson['msg'] = $youtubeHelper->getErrMsg();
-        }
-        return response()->json($returnJson);
     }
 
     public function redibbling($id)
