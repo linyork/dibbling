@@ -137,7 +137,7 @@ function refresh() {
 function dibbling(videoId) {
     if (videoId === '') return;
     let promise_post_list = $.ajax({
-        url: 'api/v2/list',
+        url: 'api/v2/list/extension',
         headers: {
             'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

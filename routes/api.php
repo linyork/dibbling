@@ -56,5 +56,5 @@ Route::group(['prefix' => 'v2'], function ()
     Route::get('next', 'v2\PlayerController@next');
 
     // dibbling extension
-    Route::post('list/extension','v2\ListController@insert')->middleware('youtube', 'web');
+    Route::post('list/extension','v2\ListController@insert');
 });
