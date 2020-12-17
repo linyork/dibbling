@@ -108,8 +108,17 @@ class ListController extends Controller
             $youtubeHelper->paser($videoId);
             if ( $youtubeHelper->getStatus() )
             {
-                $returnJson['title'] = $youtubeHelper->getTitle();
-
+                $list = \DB::table('list')
+                    ->where('video_id', '=',$videoId)
+                    ->limit(1)
+                    ->get()
+                    ->toArray();
+                if($list){
+                    $returnJson['msg'] = '此影片已有人點過';
+                    $returnJson['status'] = false;
+                    $returnJson['title'] = '重複';
+                    return response()->json($returnJson);
+                }
                 $list = new ListTable;
                 $list->video_id = $videoId;
                 $list->title = $youtubeHelper->getTitle();
@@ -119,6 +128,8 @@ class ListController extends Controller
                 $list->created_at = now();
                 $list->updated_at = now();
                 $list->save();
+                $returnJson['msg'] = '成功點播"' . $youtubeHelper->getTitle() . '"';
+                $returnJson['title'] = $youtubeHelper->getTitle();
 
                 $record = new RecordTable;
                 $record->user_id = \Auth::user()->id;

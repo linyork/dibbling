@@ -40,6 +40,6 @@ class LoginController extends Controller
     }
 
     public function authenticated(Request $request, $user) {
-        Cookie::queue('dibbling_token', $user->api_token, 10);
+        Cookie::queue('dibbling_token', $user->api_token, 120);
     }
 }
