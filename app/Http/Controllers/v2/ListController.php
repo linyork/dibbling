@@ -88,8 +88,6 @@ class ListController extends Controller
         try
         {
             $videoId_string = $request->input('videoId');
-            // TODO 取得進來的身份 或者拿到 dibbling_session 可以幹嘛得查
-            return response()->json($videoId_string);
             if ( strlen($videoId_string) >= 12 )
             {
                 parse_str(parse_url($videoId_string, PHP_URL_QUERY), $get);

@@ -13,6 +13,7 @@ class EncryptCookies extends Middleware
      */
     protected $except = [
         'locale',
-        'mode'
+        'mode',
+        'dibbling_token'
     ];
 }
