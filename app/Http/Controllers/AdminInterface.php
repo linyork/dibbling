@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+
 class AdminInterface extends Controller
 {
     /**
@@ -9,6 +12,7 @@ class AdminInterface extends Controller
      */
     public function index()
     {
+        Cookie::queue('dibbling_token', Auth::user()->api_token, 120);
         return view('admin_interface');
     }
 }
