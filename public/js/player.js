@@ -37,7 +37,7 @@ socket.on('broadcast', function (result){
 // init YT Player
 function onYouTubeIframeAPIReady() {
     new YT.Player('YouTubeVideoPlayer', {
-        videoId: 'H4vrIS2gc4k',     // YouTube 影片ID
+        videoId: 'hKRUPYrAQoE',     // YouTube 影片ID
         // width: 560,                 // 播放器寬度 (px)
         // height: 316,                // 播放器高度 (px)
         playerVars: {
