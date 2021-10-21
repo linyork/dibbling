@@ -17,6 +17,14 @@ $(function () {
         $("#record-list").empty();
         refreshListPlayed();
     });
+    $(document).on('keydown', '#song_name', function (e) {
+        if (e.which === 13) {
+            page = 1;
+            $("#record-list").empty();
+            refreshListPlayed();
+        }
+    });
+    
 
     $(document).on('click', '.js-record-name', function () {
         page = 1;

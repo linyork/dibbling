@@ -113,22 +113,28 @@ function refreshPlaying() {
 }
 
 // dibbling
-$('#video-id').keydown(function (e) {
-    if (e.keyCode == 13) {
-        dibbling($('#video-id').val());
-        $("#video-id").val("");
-    }
-});
-
 $(document).on('click', '#dibbling-button', function () {
     dibbling($('#video-id').val());
     $("#video-id").val("");
+});
+$(document).on('keydown', '#video-id', function (e) {
+    if (e.which === 13){
+        dibbling($('#video-id').val());
+        $("#video-id").val("");
+    }
 });
 
 $(document).on('click', '#danmu-button', function () {
     danmu($('#danmu-text').val());
     $("#danmu-text").val("");
 });
+$(document).on('keydown', '#danmu-text', function (e) {
+    if (e.which === 13) {
+        danmu($('#danmu-text').val());
+        $("#danmu-text").val("");
+    }
+});
+
 
 function refresh() {
     refreshPlaying();
