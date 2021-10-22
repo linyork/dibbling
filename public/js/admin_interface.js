@@ -15,8 +15,12 @@ $(function () {
 
     // Delete
     $(document).on('click', '.delete', function () {
-        let id = $(this).val();
-        deleteUser(id);
+        let name = $("#user-" + this.value + " td:first-child").text()
+        if (confirm('你確定要把' + name + '刪掉嗎')) {
+            deleteUser(this.value);
+        } else {
+            alert('還好我有做提醒功能了!');
+        }
     });
 
     // Broadcast

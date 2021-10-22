@@ -46,9 +46,11 @@
                             <td>{{ $user->re_count ?? 0}}</td>
                             <td>{{ $user->email }}</td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-danger {{ ($user->id == Auth::user()->id) ? 'disabled' : 'delete' }}" value="{{ $user->id }}">
-                                    {{ __('web.admin.Delete') }}
-                                </button>
+                                @if ($user->id != Auth::user()->id)
+                                    <button type="button" class="btn btn-sm btn-danger delete" value="{{ $user->id }}">
+                                        {{ __('web.admin.Delete') }}
+                                    </button>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
