@@ -24,6 +24,13 @@ $(function () {
             refreshListPlayed();
         }
     });
+    $(document).on('keydown', '#user_id', function (e) {
+        if (e.which === 13) {
+            page = 1;
+            $("#record-list").empty();
+            refreshListPlayed();
+        }
+    });
     
 
     $(document).on('click', '.js-record-name', function () {
