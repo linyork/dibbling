@@ -32,16 +32,18 @@
                     <thead>
                     <tr>
                         <th scope="col">{{ __('web.admin.Name') }}</th>
-                        <th scope="col">{{ __('web.admin.Amount') }}</th>
+                        <th scope="col">{{ __('web.admin.DiCount') }}</th>
+                        <th scope="col">{{ __('web.admin.ReCount') }}</th>
                         <th scope="col">{{ __('web.admin.Email') }}</th>
                         <th scope="col">{{ __('web.admin.Delete') }}</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach(\App\User::select(\DB::raw('count(record.user_id) as count'), \DB::raw('users.*'))->leftJoin('record', 'users.id', '=', 'record.user_id')->groupBy('users.id')->get() as $user)
+                    @foreach($users as $user)
                         <tr id="user-{{ $user->id }}">
                             <td>{{ $user->name }}</td>
-                            <td>{{ $user->count }}</td>
+                            <td>{{ $user->dibbling_count ?? 0}}</td>
+                            <td>{{ $user->re_count ?? 0}}</td>
                             <td>{{ $user->email }}</td>
                             <td>
                                 <button type="button" class="btn btn-sm btn-danger {{ ($user->id == Auth::user()->id) ? 'disabled' : 'delete' }}" value="{{ $user->id }}">

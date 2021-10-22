@@ -39,4 +39,9 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function recode()
+    {
+        $this->hasOne('App\Model\RecordTable', 'user_id', 'id');
+    }
 }

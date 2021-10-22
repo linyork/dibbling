@@ -71,11 +71,12 @@ return [
     ],
     'admin' => [
         'Name' => '名前',
-        'Amount' => 'Amount',
+        'DiCount' => 'リクエスト数',
+        'ReCount' => '再生数',
         'Email' => 'E-mail',
-        'Delete' => 'Delete',
-        'Broadcast' => 'Broadcast',
-        'PleaseEnter' => 'Please Enter',
-        'Member' => 'Member',
+        'Delete' => '削除',
+        'Broadcast' => 'アナウンス',
+        'PleaseEnter' => '入力してください',
+        'Member' => 'メンバー',
     ],
 ];

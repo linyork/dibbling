@@ -71,7 +71,8 @@ return [
     ],
     'admin' => [
         'Name' => '名稱',
-        'Amount' => '點播數',
+        'DiCount' => '點播數',
+        'ReCount' => '再點播數',
         'Email' => 'E-mail',
         'Delete' => '刪除',
         'Broadcast' => '廣播',

@@ -71,7 +71,8 @@ return [
     ],
     'admin' => [
         'Name' => 'Name',
-        'Amount' => 'Amount',
+        'DiCount' => 'Dibbling Count',
+        'ReCount' => 'Redibbling Count',
         'Email' => 'E-mail',
         'Delete' => 'Delete',
         'Broadcast' => 'Broadcast',
