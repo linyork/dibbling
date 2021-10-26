@@ -7,7 +7,6 @@ use App\Model\ListTable;
 use App\Model\RecordTable;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Yish\Generators\Foundation\Service\Service;
 
 class ListService extends Service
@@ -65,7 +64,6 @@ class ListService extends Service
             ->get();
     }
 
-
     /**
      * @param int $listId
      * @param int $userId
@@ -77,5 +75,45 @@ class ListService extends Service
             ->where('user_id', '=', $userId)
             ->where('list_id', '=', $listId)
             ->first();
+    }
+
+    /**
+     * @param int $page
+     * @param int $userId
+     * @param string $songName
+     * @return mixed
+     */
+    public function getPlayed($page, $userId, $songName)
+    {
+        $limit = 12;
+        $offset = ($page - 1) * $limit;
+
+        return \DB::table('record')
+            ->select(\DB::raw('users.id as user_id'),'users.*', 'list.*', \DB::raw('count(like.list_id) as likes'))
+            ->join('users', 'record.user_id', '=', 'users.id')
+            ->join('list', 'record.list_id', '=', 'list.id')
+            ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
+            ->when($userId, function ($query, $user_id) {
+                return $query->where('users.id', '=', $user_id);
+            })
+            ->when($songName, function ($query, $song_name) {
+                return $query->where('list.title', 'like', "%$song_name%");
+            })
+            ->where('record.record_type', '=', RecordTable::DIBBLING)
+            ->where('list.deleted_at', '!=', null)
+            ->orderBy('list.updated_at', 'DESC')
+            ->groupBy('record.id')
+            ->limit($limit)
+            ->offset($offset)
+            ->get();
+    }
+
+    /**
+     * @param array $listIds
+     * @return mixed
+     */
+    public function getLikes(array $listIds)
+    {
+        return $this->like->whereIn('list_id', $listIds)->with('user')->get();
     }
 }

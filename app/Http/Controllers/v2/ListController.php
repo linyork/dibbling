@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Model\ListTable;
 use App\Model\LikeTable;
 use App\Model\RecordTable;
+use App\Services\ListService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ListController extends Controller
 {
@@ -38,48 +40,26 @@ class ListController extends Controller
         return response()->view('common.list', ['list' => $list, 'likes' => $likes], 200);
     }
 
-    public function played(Request $request)
+    public function played(Request $request, ListService $listService)
     {
         try
         {
-            $user_id = $request->post('user_id');
-            $song_name = $request->post('song_name');
-            $page = $request->post('page');
-            $limit = 12;
-            $offset = ($page - 1) * $limit;
+            $user_id = $request->post( 'user_id' );
+            $song_name = $request->post( 'song_name' );
+            $page = $request->post( 'page' );
+            $records = $listService->getPlayed( $page, $user_id, $song_name );
 
-            $records = \DB::table('record')
-                ->select(\DB::raw('users.id as user_id'),'users.*', 'list.*', \DB::raw('count(like.list_id) as likes'))
-                ->join('users', 'record.user_id', '=', 'users.id')
-                ->join('list', 'record.list_id', '=', 'list.id')
-                ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
-                ->when($user_id, function ($query, $user_id) {
-                    return $query->where('users.id', '=', $user_id);
-                })
-                ->when($song_name, function ($query, $song_name) {
-                    return $query->where('list.title', 'like', "%$song_name%");
-                })
-                ->where('record.record_type', '=', RecordTable::DIBBLING)
-                ->where('list.deleted_at', '!=', null)
-                ->orderBy('list.updated_at', 'DESC')
-                ->groupBy('record.id')
-                ->limit($limit)
-                ->offset($offset)
-                ->get();
-
-            if ( ! $records )
-            {
-                return response()->json([]);
-            }
-
-            $likes = LikeTable::with('user')->get();
-            $record_data = ['records' => $records, 'likes' => $likes];
+            $record_data = [
+                'records' => $records,
+                'likes' => $listService->getLikes(array_keys($records->keyBy('id')->toArray())),
+            ];
         }
         catch (\Exception $e)
         {
-            $record_data = ['records' => [], 'likes' => []];
+            $record_data = [ 'records' => [], 'likes' => [] ];
         }
-        return response()->view('common.record', $record_data, 200);
+
+        return response()->view('common.record', $record_data, Response::HTTP_OK);
     }
 
     public function insert(Request $request, YoutubeHelper $youtubeHelper)
