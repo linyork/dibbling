@@ -10,7 +10,7 @@
                     <span>{{ $playing->title }}</span>
                 </div>
                 <div class="row justify-content-center css-video-interface-name">
-                    <span class="css-video-interface-name-text">{{ $playing->name }}</span>
+                    <span class="css-video-interface-name-text">{{ $dibblingUser->name }}</span>
                 </div>
                 <div class="row justify-content-center css-video-interface-next">
                     <span><i class="fas fa-angle-double-right"></i>{{ __('web.dibbling.Next') }}: {{ $next->title ?? __('web.dibbling.Random') }}</span>
@@ -28,13 +28,15 @@
                     <button id="like"
                             type="button"
                             class="col css-video-interface-btn btn btn-light"
-                            data-id="{{ $playing->list_id }}"
+                            data-id="{{ $playing->id }}"
                             data-toggle="tooltip"
                             data-placement="top"
-                            @if( ($playing->user_id == Auth::user()->id || Auth::user()->role == \App\User::ROLE_ADMIN) && count($likes))title="@foreach($likes as $like){{ "#".$like->user->name }} @endforeach"@endif
+                            @if( ($dibblingUser->id == Auth::user()->id || Auth::user()->role == \App\User::ROLE_ADMIN) && count($likes))
+                                title="@foreach($likes as $like){{ "#".$like->user->name }} @endforeach"
+                            @endif
                     >
                         <span>{{ count($likes) }}</span>
-                        @if($isLike)
+                        @if( $isLike )
                             <i class="fas fa-thumbs-up"></i>
                         @else
                             <i class="far fa-thumbs-up"></i>

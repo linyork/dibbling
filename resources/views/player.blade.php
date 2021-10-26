@@ -1,15 +1,16 @@
 <html>
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="css/common/bootstrap.css">
-    <script src="js/common/jquery-3.4.1.js"></script>
-    <script src="js/common/bootstrap.js"></script>
+    <link rel="stylesheet" href="{{ asset('/css/common/bootstrap.css') }}">
+    <script src="{{ asset('/js/common/jquery-3.4.1.js') }}"></script>
+    <script src="{{ asset('/js/common/bootstrap.js') }}"></script>
     <script async src="//www.youtube.com/iframe_api"></script>
-    <script src="js/socket.js"></script>
+    <script src="{{ asset('/js/socket.js') }}"></script>
+
     <script type="text/javascript">
         var domain = "{{ config('app.domain') }}";
     </script>
-    <script src="js/player.js?{{ time() }}"></script>
+    <script src="{{ asset('/js/player.js?').time() }}"></script>
 
 </head>
 <body>

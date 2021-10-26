@@ -3,36 +3,32 @@
 namespace App\Http\Controllers\v2;
 
 use App\Http\Controllers\Controller;
-use App\Model\LikeTable;
-use App\Model\ListTable;
 use App\Model\PlayingTable;
-use App\User;
-
+use App\Services\ListService;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class PlayingController extends Controller
 {
-    public function get()
+    public function get(ListService $listService)
     {
         try
         {
-            $playingResult = PlayingTable::firstOrFail();
-            $playingVideo = ListTable::withDibblingById($playingResult['video_id'])->first();
-            $nextVideo = ListTable::next()->first();
-            $likes = LikeTable::with('user')->where('list_id', '=', $playingResult['video_id'])->get();
-            $isLike = LikeTable::where('user_id', '=', \Auth::user()->getAuthIdentifier())
-                ->where('list_id', '=', $playingResult['video_id'])->first();
+            $video_id = PlayingTable::firstOrFail()->video_id;
 
             $data = [
-                'playing' => $playingVideo,
-                'next' => $nextVideo,
-                'likes' => $likes,
-                'isLike' => $isLike,
+                'playing' => $listService->getPlaying( $video_id ),
+                'dibblingUser' => $listService->getDibblingUser( $video_id ),
+                'next' => $listService->next(),
+                'likes' => $listService->getLikeUsers( $video_id ),
+                'isLike' => $listService->getUserIsLike( $video_id, Auth::user()->getAuthIdentifier()),
             ];
         }
         catch (\Exception $e)
         {
             $data = [];
         }
-        return response()->view('common.video_interface', $data, 200);
+
+        return response()->view('common.video_interface', $data, Response::HTTP_OK);
     }
 }
