@@ -50,7 +50,7 @@ class ListService extends Service
      */
     public function next()
     {
-        return $this->list->next()->firstOrFail();
+        return $this->list->next()->first();
     }
 
     /**
