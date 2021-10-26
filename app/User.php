@@ -5,8 +5,6 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Model\RecordTable;
-use App\Model\LikeTable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -15,10 +13,6 @@ class User extends Authenticatable implements MustVerifyEmail
     const ROLE_ADMIN = 'admin';
     const ROLE_MANAGER = 'manager';
     const ROLE_USER = 'user';
-
-    protected $table = 'users';
-    protected $primaryKey = 'id';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -46,13 +40,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function records()
+    public function recode()
     {
-        return $this->hasMany(RecordTable::class, 'user_id', 'id');
-    }
-
-    public function likes()
-    {
-        return $this->hasMany(LikeTable::class, 'user_id', 'id');
+        $this->hasOne('App\Model\RecordTable', 'user_id', 'id');
     }
 }

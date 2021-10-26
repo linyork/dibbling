@@ -2,7 +2,7 @@
 
 @section('pageCss')
     <link rel="stylesheet" href="{{ asset('css/common/fontawesome.css') }}">
-    <link rel="stylesheet" href="{{ asset('/css/list_').strtolower( Request::cookie('mode') ?? 'default' ).'css?'.time() }}">
+    <link rel="stylesheet" href="/css/list_{{ strtolower( Request::cookie('mode') ?? 'default' ) }}.css?{{ time() }}">
 @endsection
 
 @section('pageJs')

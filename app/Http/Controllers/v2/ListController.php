@@ -4,10 +4,11 @@ namespace App\Http\Controllers\v2;
 
 use App\Helper\YoutubeHelper;
 use App\Http\Controllers\Controller;
-use App\Model\ListTable;
 use App\Model\LikeTable;
 use App\Model\RecordTable;
 use Illuminate\Http\Request;
+use App\Model\ListTable;
+
 
 class ListController extends Controller
 {

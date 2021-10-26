@@ -14,18 +14,19 @@ class RecordTable extends Model
     protected $table = 'record';
     protected $primaryKey = 'id';
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function list()
     {
         return $this->belongsTo(ListTable::class, 'list_id', 'id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
-    }
-
-    public function scopeDibbling( $q )
-    {
-        return $q->where( 'record_type', RecordTable::DIBBLING );
     }
 }

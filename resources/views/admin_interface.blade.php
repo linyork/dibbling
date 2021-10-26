@@ -5,7 +5,7 @@
 @endsection
 
 @section('pageJs')
-    <script src="{{ asset('/js/admin_interface.js?'.time()) }}"></script>
+    <script src="/js/admin_interface.js?{{ time() }}"></script>
 @endsection
 
 @section('content')

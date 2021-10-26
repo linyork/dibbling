@@ -12,14 +12,25 @@ class ListTable extends Model
     protected $table = 'list';
     protected $primaryKey = 'id';
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function records()
     {
         return $this->hasMany(RecordTable::class, 'list_id', 'id');
     }
 
-    public function like()
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeWithDibblingById ($query, $id)
     {
-        return $this->hasMany(LikeTable::class, 'list_id', 'id')->where();
+        return $query->withTrashed()
+            ->join('record', 'record.list_id', '=', 'list.id')
+            ->join('users', 'users.id', '=', 'record.user_id')
+            ->where('record.record_type', '=', RecordTable::DIBBLING)
+            ->where('list.id', '=', $id);
     }
 
     /**
