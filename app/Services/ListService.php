@@ -9,6 +9,7 @@ use App\Model\RecordModel;
 use App\Model\UserModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Yish\Generators\Foundation\Service\Service;
 
 class ListService extends Service
@@ -43,7 +44,7 @@ class ListService extends Service
 
         // 新增 record table
         $this->recordModel->user_id = Auth::user()->id;
-        $this->recordModel->list_id = $ytHelper->getVideoId();
+        $this->recordModel->list_id = $this->listModel->id;
         $this->recordModel->record_type = RecordModel::DIBBLING;
         $this->recordModel->save();
 
@@ -61,6 +62,41 @@ class ListService extends Service
         $this->recordModel->record_type = RecordModel::RE_DIBBLING;
         $this->recordModel->save();
         return $result;
+    }
+
+    /**
+     * @param int $id
+     * @return string
+     */
+    public function realDelete(int $id) : string
+    {
+        $list = $this->listModel->withTrashed()->find($id);
+        $list->forceDelete();
+        DB::table('record')->where('list_id', '=', $id)->delete();
+        DB::table('like')->where('list_id', '=', $id)->delete();
+        return 'Real delete success.';
+    }
+
+    /**
+     * softDelete
+     *
+     * @param int $id
+     * @return string
+     */
+    public function softDelete(int $id) : string
+    {
+        $list = $this->listModel->withTrashed()->find($id);
+        $list->delete();
+        $softDelete = $list->trashed();
+        if($softDelete)
+        {
+            $this->recordModel->user_id = Auth::user()->id;
+            $this->recordModel->list_id = $id;
+            $this->recordModel->record_type = RecordModel::CUT;
+            $this->recordModel->save();
+        }
+
+        return $softDelete ? 'Soft delete success.' : 'Soft delete error.';
     }
 
     /**

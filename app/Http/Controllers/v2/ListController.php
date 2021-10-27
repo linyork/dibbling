@@ -69,7 +69,7 @@ class ListController extends Controller
             $youtubeHelper->paser($videoId);
             if ( $youtubeHelper->getStatus() )
             {
-                if($listService->getSongByVideoId($videoId)) throw new \Exception('此影片已有人點過');
+                if($listService->getSongByVideoId($videoId)->toArray()) throw new \Exception('此影片已有人點過');
 
                 $listService->dibbling( $youtubeHelper);
                 $returnJson['msg'] = '成功點播"' . $youtubeHelper->getTitle() . '"';
@@ -96,7 +96,7 @@ class ListController extends Controller
      * @param ListService $listService
      * @return \Illuminate\Http\JsonResponse
      */
-    public function redibbling($id, ListService $listService)
+    public function redibbling(ListService $listService, $id)
     {
         try
         {
@@ -109,30 +109,18 @@ class ListController extends Controller
         return response()->json($result);
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, ListService $listService, $id)
     {
         try
         {
-            $list = ListModel::withTrashed()->find($id);
-
             if ( $request->input('real') )
             {
-                \DB::table('record')->where('list_id', '=', $id)->delete();
-                \DB::table('like')->where('list_id', '=', $id)->delete();
-                $list->forceDelete();
-                $result_test = 'Real delete success.';
+                $result_test = $listService->realDelete($id);
             }
             else
             {
-                $record = new RecordModel;
-                $record->user_id = \Auth::user()->id;
-                $record->list_id = $id;
-                $record->record_type = RecordModel::CUT;
-                $list->delete();
-                $result_test = ($list->trashed()) ? 'Soft delete success.' : 'Soft delete error.';
+                $result_test = $listService->softDelete($id);
             }
-
-            $record->save();
         }
         catch (\Exception $e)
         {
