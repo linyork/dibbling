@@ -14,7 +14,7 @@ class ListModel extends Model
 
     public function records()
     {
-        return $this->hasMany(RecordTable::class, 'list_id', 'id');
+        return $this->hasMany(RecordModel::class, 'list_id', 'id');
     }
 
     public function like()
@@ -31,7 +31,7 @@ class ListModel extends Model
         return $query->withTrashed()
             ->join('record', 'record.list_id', '=', 'list.id')
             ->join('users', 'users.id', '=', 'record.user_id')
-            ->where('record.record_type', '=', RecordTable::DIBBLING)
+            ->where('record.record_type', '=', RecordModel::DIBBLING)
             ->where('list.deleted_at', NULL)
             ->orderBy('list.updated_at');
     }

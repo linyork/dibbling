@@ -5,7 +5,7 @@ namespace App\Model;
 use App\Model\UserModel;
 use Illuminate\Database\Eloquent\Model;
 
-class RecordTable extends Model
+class RecordModel extends Model
 {
     public const DIBBLING = 1;
     public const RE_DIBBLING = 2;
@@ -26,6 +26,6 @@ class RecordTable extends Model
 
     public function scopeDibbling( $q )
     {
-        return $q->where( 'record_type', RecordTable::DIBBLING );
+        return $q->where( 'record_type', RecordModel::DIBBLING );
     }
 }

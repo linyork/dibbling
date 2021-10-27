@@ -46,7 +46,7 @@ class UserModel extends Authenticatable implements MustVerifyEmail
 
     public function records()
     {
-        return $this->hasMany(RecordTable::class, 'user_id', 'id');
+        return $this->hasMany(RecordModel::class, 'user_id', 'id');
     }
 
     public function likes()

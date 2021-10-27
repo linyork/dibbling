@@ -6,7 +6,7 @@ use App\Helper\YoutubeHelper;
 use App\Http\Controllers\Controller;
 use App\Model\ListModel;
 use App\Model\LikeModel;
-use App\Model\RecordTable;
+use App\Model\RecordModel;
 use App\Services\ListService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -22,7 +22,7 @@ class ListController extends Controller
                 ->join('users', 'record.user_id', '=', 'users.id')
                 ->join('list', 'record.list_id', '=', 'list.id')
                 ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
-                ->where('record.record_type', '=', RecordTable::DIBBLING)
+                ->where('record.record_type', '=', RecordModel::DIBBLING)
                 ->where('list.deleted_at', '=', null)
                 ->orderBy('list.updated_at')
                 ->groupBy('record.id')
@@ -110,10 +110,10 @@ class ListController extends Controller
                 $returnJson['msg'] = '成功點播"' . $youtubeHelper->getTitle() . '"';
                 $returnJson['title'] = $youtubeHelper->getTitle();
 
-                $record = new RecordTable;
+                $record = new RecordModel;
                 $record->user_id = \Auth::user()->id;
                 $record->list_id = $list->id;
-                $record->record_type = RecordTable::DIBBLING;
+                $record->record_type = RecordModel::DIBBLING;
                 $record->save();
             }
             else
@@ -136,10 +136,10 @@ class ListController extends Controller
         {
             $list = ListModel::onlyTrashed()->find($id);
             $result = $list->restore();
-            $record = new RecordTable;
+            $record = new RecordModel;
             $record->user_id = \Auth::user()->id;
             $record->list_id = $list->id;
-            $record->record_type = RecordTable::RE_DIBBLING;
+            $record->record_type = RecordModel::RE_DIBBLING;
             $record->save();
         }
         catch (\Exception $e)
@@ -165,10 +165,10 @@ class ListController extends Controller
             }
             else
             {
-                $record = new RecordTable;
+                $record = new RecordModel;
                 $record->user_id = \Auth::user()->id;
                 $record->list_id = $id;
-                $record->record_type = RecordTable::CUT;
+                $record->record_type = RecordModel::CUT;
                 $list->delete();
                 $result_test = ($list->trashed()) ? 'Soft delete success.' : 'Soft delete error.';
             }

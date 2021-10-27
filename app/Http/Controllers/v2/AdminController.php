@@ -5,7 +5,7 @@ namespace App\Http\Controllers\v2;
 use App\Http\Controllers\Controller;
 use App\Model\LikeModel;
 use App\Model\ListModel;
-use App\Model\RecordTable;
+use App\Model\RecordModel;
 use App\Model\UserModel;
 use Illuminate\Http\Request;
 use GuzzleHttp;
@@ -22,13 +22,13 @@ class AdminController extends Controller
                 ->whereIn('id', function ($query) use ($deleteUserId)
                 {
                     $query->select('list_id')
-                        ->from(with(new RecordTable)->getTable())
+                        ->from(with(new RecordModel)->getTable())
                         ->where('user_id', $deleteUserId)
-                        ->where('record_type', RecordTable::DIBBLING);
+                        ->where('record_type', RecordModel::DIBBLING);
                 }
             )->delete();
             // delete record
-            \DB::table(with(new RecordTable)->getTable())->where('user_id', $deleteUserId)->delete();
+            \DB::table(with(new RecordModel)->getTable())->where('user_id', $deleteUserId)->delete();
             // delete like
             \DB::table(with(new LikeModel)->getTable())->where('user_id', $deleteUserId)->delete();
             // delete user

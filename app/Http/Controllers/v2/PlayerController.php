@@ -4,7 +4,7 @@ namespace App\Http\Controllers\v2;
 
 use App\Http\Controllers\Controller;
 use App\Model\ListModel;
-use App\Model\RecordTable;
+use App\Model\RecordModel;
 use Illuminate\Http\Request;
 
 class PlayerController extends Controller
@@ -17,7 +17,7 @@ class PlayerController extends Controller
             $playedList = \DB::table('record')
                 ->join('users', 'record.user_id', '=', 'users.id')
                 ->join('list', 'record.list_id', '=', 'list.id')
-                ->where('record.record_type', '=', RecordTable::DIBBLING)
+                ->where('record.record_type', '=', RecordModel::DIBBLING)
                 ->where('list.deleted_at','=', NULL)
                 ->orderBy('list.updated_at')
                 ->get()

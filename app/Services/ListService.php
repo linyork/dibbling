@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Model\LikeModel;
 use App\Model\ListModel;
-use App\Model\RecordTable;
+use App\Model\RecordModel;
 use App\Model\UserModel;
 use Illuminate\Database\Eloquent\Model;
 use Yish\Generators\Foundation\Service\Service;
@@ -99,7 +99,7 @@ class ListService extends Service
             ->when($songName, function ($query, $song_name) {
                 return $query->where('list.title', 'like', "%$song_name%");
             })
-            ->where('record.record_type', '=', RecordTable::DIBBLING)
+            ->where('record.record_type', '=', RecordModel::DIBBLING)
             ->where('list.deleted_at', '!=', null)
             ->orderBy('list.updated_at', 'DESC')
             ->groupBy('record.id')
