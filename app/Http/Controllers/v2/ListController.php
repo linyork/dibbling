@@ -59,6 +59,7 @@ class ListController extends Controller
      * 點播歌曲
      * @param Request $request
      * @param YoutubeHelper $youtubeHelper
+     * @param ListService $listService
      * @return \Illuminate\Http\JsonResponse
      */
     public function insert(Request $request, YoutubeHelper $youtubeHelper, ListService $listService)
@@ -92,8 +93,8 @@ class ListController extends Controller
 
     /**
      * 再點播
-     * @param $id
      * @param ListService $listService
+     * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function redibbling(ListService $listService, $id)
@@ -109,6 +110,12 @@ class ListController extends Controller
         return response()->json($result);
     }
 
+    /**
+     * @param Request $request
+     * @param ListService $listService
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy(Request $request, ListService $listService, $id)
     {
         try
@@ -128,5 +135,4 @@ class ListController extends Controller
         }
         return response()->json($result_test);
     }
-
 }
