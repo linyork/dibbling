@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\v2;
 
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Model\UserModel;
 
 
 class UserController extends Controller
@@ -12,7 +12,7 @@ class UserController extends Controller
     {
         try
         {
-            $result = User::find(\Auth::user()->getAuthIdentifier())->toArray();
+            $result = UserModel::find(\Auth::user()->getAuthIdentifier())->toArray();
         }
         catch (\Exception $e)
         {

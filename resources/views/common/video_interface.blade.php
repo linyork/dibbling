@@ -31,7 +31,7 @@
                             data-id="{{ $playing->id }}"
                             data-toggle="tooltip"
                             data-placement="top"
-                            @if( ($dibblingUser->id == Auth::user()->id || Auth::user()->role == \App\User::ROLE_ADMIN) && count($likes))
+                            @if( ($dibblingUser->id == Auth::user()->id || Auth::user()->role == \App\Model\UserModel::ROLE_ADMIN) && count($likes))
                                 title="@foreach($likes as $like){{ "#".$like->user->name }} @endforeach"
                             @endif
                     >

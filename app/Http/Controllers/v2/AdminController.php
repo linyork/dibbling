@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Model\LikeTable;
 use App\Model\ListTable;
 use App\Model\RecordTable;
-use App\User;
+use App\Model\UserModel;
 use Illuminate\Http\Request;
 use GuzzleHttp;
 
@@ -32,7 +32,7 @@ class AdminController extends Controller
             // delete like
             \DB::table(with(new LikeTable)->getTable())->where('user_id', $deleteUserId)->delete();
             // delete user
-            \DB::table(with(new User)->getTable())->where('id', $deleteUserId)->delete();
+            \DB::table(with(new UserModel)->getTable())->where('id', $deleteUserId)->delete();
 
             // TODO
             //SELECT *

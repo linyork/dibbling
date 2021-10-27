@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-use App\User;
+use App\Model\UserModel;
 use Illuminate\Database\Eloquent\Model;
 
 class RecordTable extends Model
@@ -21,7 +21,7 @@ class RecordTable extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(UserModel::class, 'user_id', 'id');
     }
 
     public function scopeDibbling( $q )

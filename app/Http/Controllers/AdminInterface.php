@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Model\UserModel;
 use App\Model\RecordTable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -25,7 +25,7 @@ class AdminInterface extends Controller
             ->where( 'record_type', '=', RecordTable::RE_DIBBLING )
             ->groupBy( 'record.user_id' );
 
-        $users = User::select( 'users.*', 'rd.dibbling_count', 'rd.dibbling_count', 're.re_count' )
+        $users = UserModel::select( 'users.*', 'rd.dibbling_count', 'rd.dibbling_count', 're.re_count' )
             ->leftJoin( DB::raw( "({$record_dibbling_query->toSql()}) as rd" ), function( $join ) use ( $record_dibbling_query )
             {
                 $join->on('users.id', '=', 'rd.user_id')->addBinding( $record_dibbling_query->getBindings() );

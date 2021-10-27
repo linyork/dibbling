@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Model\LikeTable;
 use App\Model\ListTable;
 use App\Model\RecordTable;
-use App\User;
+use App\Model\UserModel;
 use Illuminate\Database\Eloquent\Model;
 use Yish\Generators\Foundation\Service\Service;
 
@@ -15,7 +15,7 @@ class ListService extends Service
     protected $user;
     protected $like;
 
-    public function __construct(ListTable $list, User $user, LikeTable $like)
+    public function __construct(ListTable $list, UserModel $user, LikeTable $like)
     {
         $this->list = $list;
         $this->user = $user;
@@ -33,15 +33,15 @@ class ListService extends Service
 
     /**
      * @param int $listId
-     * @return User
+     * @return UserModel
      */
-    public function getDibblingUser(int $listId) : User
+    public function getDibblingUser(int $listId) : UserModel
     {
         $listModel = $this->list->withTrashed()->with( [ 'records' => function( $query ) {
             $query->dibbling();
         } ] )->find( $listId );
 
-        return User::find( $listModel->records->first()->user_id );
+        return UserModel::find( $listModel->records->first()->user_id );
     }
 
     /**
