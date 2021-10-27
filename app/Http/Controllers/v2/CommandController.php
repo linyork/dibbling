@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\v2;
 
 use App\Http\Controllers\Controller;
-use App\Model\CommandTable;
+use App\Model\CommandModel;
 use Illuminate\Http\Request;
 
 class CommandController extends Controller
@@ -12,7 +12,7 @@ class CommandController extends Controller
     {
         try
         {
-            $command = new CommandTable;
+            $command = new CommandModel;
             $command->command = $request->input('command');
             $command->save();
             $result = true;

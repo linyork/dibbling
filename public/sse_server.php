@@ -21,7 +21,7 @@ require __DIR__ . "/../vendor/autoload.php";
 $app = require __DIR__ . "/../bootstrap/app.php";
 $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
-use App\Model\CommandTable;
+use App\Model\CommandModel;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +31,7 @@ use App\Model\CommandTable;
 // 設定 last id
 $last_id = 0;
 // 砍掉所有資料
-CommandTable::truncate();
+CommandModel::truncate();
 // 讓迴圈無限執行
 while (true)
 {
@@ -43,7 +43,7 @@ while (true)
         ];
 
         // 取得大於 last id 的資料
-        $command_list = CommandTable::where('id', '>', $last_id)->get();
+        $command_list = CommandModel::where('id', '>', $last_id)->get();
 
         // 如果 command 有資料
         if ( ! $command_list->isEmpty() )
@@ -54,7 +54,7 @@ while (true)
             $last_id = $last_command['id'];
 
             // 移除該批 command
-            CommandTable::where('id', '<=', $last_id)->forceDelete();
+            CommandModel::where('id', '<=', $last_id)->forceDelete();
 
             // response
             $response["status"] = true;

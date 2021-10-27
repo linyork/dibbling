@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CommandTable extends Model
+class CommandModel extends Model
 {
     protected $table = 'command';
     protected $primaryKey = 'id';
