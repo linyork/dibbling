@@ -5,7 +5,6 @@ namespace App\Http\Controllers\v2;
 use App\Helper\YoutubeHelper;
 use App\Http\Controllers\Controller;
 use App\Model\ListModel;
-use App\Model\LikeModel;
 use App\Model\RecordModel;
 use App\Services\ListService;
 use Illuminate\Http\Request;
@@ -13,53 +12,36 @@ use Illuminate\Http\Response;
 
 class ListController extends Controller
 {
-    public function list()
+    public function list(ListService $listService)
     {
         try
         {
-            $list = \DB::table('record')
-                ->select('users.*', 'list.*', \DB::raw('count(like.list_id) as likes'))
-                ->join('users', 'record.user_id', '=', 'users.id')
-                ->join('list', 'record.list_id', '=', 'list.id')
-                ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
-                ->where('record.record_type', '=', RecordModel::DIBBLING)
-                ->where('list.deleted_at', '=', null)
-                ->orderBy('list.updated_at')
-                ->groupBy('record.id')
-                ->get();
-            $likes = \DB::table('like')
-                ->where('user_id', '=', \Auth::user()->getAuthIdentifier())
-                ->get()
-                ->keyBy('list_id')
-                ->toArray();
+            $record_data['list'] = $listService->getList();
+            $record_data['likes'] = $listService->getLikes( array_keys( $record_data['list']->keyBy( 'id' )->toArray() ) );
         }
         catch (\Exception $e)
         {
-            $list = [];
+            $record_data = [ 'list' => [], 'likes' => [] ];
         }
-        return response()->view('common.list', ['list' => $list, 'likes' => $likes], 200);
+        return response()->view( 'common.list', $record_data, Response::HTTP_OK );
     }
 
     public function played(Request $request, ListService $listService)
     {
         try
         {
+            $page = $request->post( 'page' );
             $user_id = $request->post( 'user_id' );
             $song_name = $request->post( 'song_name' );
-            $page = $request->post( 'page' );
-            $records = $listService->getPlayed( $page, $user_id, $song_name );
 
-            $record_data = [
-                'records' => $records,
-                'likes' => $listService->getLikes(array_keys($records->keyBy('id')->toArray())),
-            ];
+            $record_data['records'] = $listService->getPlayed( $page, $user_id, $song_name );
+            $record_data['likes'] = $listService->getLikes( array_keys( $record_data['records']->keyBy( 'id' )->toArray() ) );
         }
         catch (\Exception $e)
         {
             $record_data = [ 'records' => [], 'likes' => [] ];
         }
-
-        return response()->view('common.record', $record_data, Response::HTTP_OK);
+        return response()->view( 'common.record', $record_data, Response::HTTP_OK );
     }
 
     public function insert(Request $request, YoutubeHelper $youtubeHelper)

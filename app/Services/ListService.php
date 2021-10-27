@@ -78,6 +78,23 @@ class ListService extends Service
     }
 
     /**
+     * @return mixed
+     */
+    public function getList()
+    {
+        return \DB::table('record')
+            ->select('users.*', 'list.*', \DB::raw('count(like.list_id) as likes'))
+            ->join('users', 'record.user_id', '=', 'users.id')
+            ->join('list', 'record.list_id', '=', 'list.id')
+            ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
+            ->where('record.record_type', '=', RecordModel::DIBBLING)
+            ->where('list.deleted_at', '=', null)
+            ->orderBy('list.updated_at')
+            ->groupBy('record.id')
+            ->get();
+    }
+
+    /**
      * @param int $page
      * @param int $userId
      * @param string $songName

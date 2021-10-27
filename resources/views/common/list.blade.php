@@ -16,9 +16,15 @@
                 <button data-uid="{{ $video->id }}" type="button" class="btn btn-sm btn-outline-secondary js-cut css-record-btn">
                     {{ __('web.list.Cut') }}
                 </button>
-                <button data-uid="{{ $video->id }}" type="button" class="btn btn-sm btn-outline-primary js-like css-record-btn">
+                <button data-uid="{{ $video->id }}"
+                        type="button"
+                        class="btn btn-sm btn-outline-primary js-like css-record-btn "
+                        @if( ($video->name == Auth::user()->name || Auth::user()->role == \App\Model\UserModel::ROLE_ADMIN) && $video->likes )
+                        title="@foreach($likes as $like)@if($like->list_id == $video->id){{ "#".$like->user->name }} @endif @endforeach"
+                        @endif
+                >
                     <span>{{ $video->likes }}</span>
-                    @if(array_key_exists($video->id, $likes))
+                    @if(array_key_exists($video->id, $likes->where('user_id', Auth::user()->id)->keyBy('list_id')->toArray()))
                         <i class="fas fa-thumbs-up"></i>
                     @else
                         <i class="far fa-thumbs-up"></i>
