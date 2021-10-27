@@ -11,15 +11,15 @@ use Yish\Generators\Foundation\Service\Service;
 
 class ListService extends Service
 {
-    protected $list;
-    protected $user;
-    protected $like;
+    protected $listModel;
+    protected $userModel;
+    protected $likeModel;
 
-    public function __construct(ListModel $list, UserModel $user, LikeModel $like)
+    public function __construct(ListModel $listModle, UserModel $userModel, LikeModel $likeModel)
     {
-        $this->list = $list;
-        $this->user = $user;
-        $this->like = $like;
+        $this->listModel = $listModle;
+        $this->userModel = $userModel;
+        $this->likeModel = $likeModel;
     }
 
     /**
@@ -28,7 +28,7 @@ class ListService extends Service
      */
     public function getPlaying(int $listId)
     {
-        return $this->list->withTrashed()->find($listId);
+        return $this->listModel->withTrashed()->find($listId);
     }
 
     /**
@@ -37,7 +37,7 @@ class ListService extends Service
      */
     public function getDibblingUser(int $listId) : UserModel
     {
-        $listModel = $this->list->withTrashed()->with( [ 'records' => function( $query ) {
+        $listModel = $this->listModel->withTrashed()->with( [ 'records' => function( $query ) {
             $query->dibbling();
         } ] )->find( $listId );
 
@@ -49,7 +49,7 @@ class ListService extends Service
      */
     public function next()
     {
-        return $this->list->next()->first();
+        return $this->listModel->next()->first();
     }
 
     /**
@@ -58,7 +58,7 @@ class ListService extends Service
      */
     public function getLikeUsers(int $listId)
     {
-        return $this->like
+        return $this->likeModel
             ->with('user')
             ->where('list_id', '=', $listId)
             ->get();
@@ -71,7 +71,7 @@ class ListService extends Service
      */
     public function getUserIsLike(int $listId, int $userId)
     {
-        return $this->like
+        return $this->likeModel
             ->where('user_id', '=', $userId)
             ->where('list_id', '=', $listId)
             ->first();
@@ -114,6 +114,6 @@ class ListService extends Service
      */
     public function getLikes(array $listIds)
     {
-        return $this->like->whereIn('list_id', $listIds)->with('user')->get();
+        return $this->likeModel->whereIn('list_id', $listIds)->with('user')->get();
     }
 }
