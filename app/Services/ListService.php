@@ -2,24 +2,51 @@
 
 namespace App\Services;
 
+use App\Helper\YoutubeHelper;
 use App\Model\LikeModel;
 use App\Model\ListModel;
 use App\Model\RecordModel;
 use App\Model\UserModel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Yish\Generators\Foundation\Service\Service;
 
 class ListService extends Service
 {
     protected $listModel;
+    protected $recordModel;
     protected $userModel;
     protected $likeModel;
 
-    public function __construct(ListModel $listModle, UserModel $userModel, LikeModel $likeModel)
+    public function __construct(ListModel $listModel,RecordModel $recordModel, UserModel $userModel, LikeModel $likeModel)
     {
-        $this->listModel = $listModle;
+        $this->listModel = $listModel;
+        $this->recordModel = $recordModel;
         $this->userModel = $userModel;
         $this->likeModel = $likeModel;
+    }
+
+    /**
+     * @param YoutubeHelper $ytHelper
+     */
+    public function dibbling(YoutubeHelper $ytHelper)
+    {
+        // 新增 list table
+        $this->listModel->video_id = $ytHelper->getVideoId();
+        $this->listModel->title = $ytHelper->getTitle();
+        $this->listModel->seal = $ytHelper->getSeal();
+        $this->listModel->duration = $ytHelper->getDuration();
+        $this->listModel->ip = request()->ip();
+        $this->listModel->created_at = now();
+        $this->listModel->updated_at = now();
+        $this->listModel->save();
+
+        // 新增 record table
+        $this->recordModel->user_id = Auth::user()->id;
+        $this->recordModel->list_id = $ytHelper->getVideoId();
+        $this->recordModel->record_type = RecordModel::DIBBLING;
+        $this->recordModel->save();
+
     }
 
     /**
@@ -29,6 +56,18 @@ class ListService extends Service
     public function getPlaying(int $listId)
     {
         return $this->listModel->withTrashed()->find($listId);
+    }
+
+    /**
+     * @param string $videoId
+     * @return mixed
+     */
+    public function getSongByVideoId(string $videoId)
+    {
+        return $this->listModel
+            ->where('video_id', '=',$videoId)
+            ->limit(1)
+            ->get();
     }
 
     /**

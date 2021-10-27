@@ -12,6 +12,11 @@ use Illuminate\Http\Response;
 
 class ListController extends Controller
 {
+    /**
+     * 清單頁面
+     * @param ListService $listService
+     * @return Response
+     */
     public function list(ListService $listService)
     {
         try
@@ -26,6 +31,12 @@ class ListController extends Controller
         return response()->view( 'common.list', $record_data, Response::HTTP_OK );
     }
 
+    /**
+     * 紀錄頁面
+     * @param Request $request
+     * @param ListService $listService
+     * @return Response
+     */
     public function played(Request $request, ListService $listService)
     {
         try
@@ -44,72 +55,39 @@ class ListController extends Controller
         return response()->view( 'common.record', $record_data, Response::HTTP_OK );
     }
 
-    public function insert(Request $request, YoutubeHelper $youtubeHelper)
+    /**
+     * 點播歌曲
+     * @param Request $request
+     * @param YoutubeHelper $youtubeHelper
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function insert(Request $request, YoutubeHelper $youtubeHelper, ListService $listService)
     {
         try
         {
-            $videoId_string = $request->input('videoId');
-            if ( strlen($videoId_string) >= 12 )
-            {
-                parse_str(parse_url($videoId_string, PHP_URL_QUERY), $get);
-                $videoId = $get['v'];
-            }
-            else
-            {
-                $videoId = $videoId_string;
-            }
-
-            $returnJson = [
-                'videoId' => $videoId,
-                'status' => true,
-                'title' => '點播成功',
-                'msg' => '',
-            ];
-
+            $videoId = $request->input('videoId');
             $youtubeHelper->paser($videoId);
             if ( $youtubeHelper->getStatus() )
             {
-                $list = \DB::table('list')
-                    ->where('video_id', '=',$videoId)
-                    ->limit(1)
-                    ->get()
-                    ->toArray();
-                if($list){
-                    $returnJson['msg'] = '此影片已有人點過';
-                    $returnJson['status'] = false;
-                    $returnJson['title'] = '重複';
-                    return response()->json($returnJson);
-                }
-                $list = new ListModel;
-                $list->video_id = $videoId;
-                $list->title = $youtubeHelper->getTitle();
-                $list->seal = $youtubeHelper->getSeal();
-                $list->duration = $youtubeHelper->getDuration();
-                $list->ip = request()->ip();
-                $list->created_at = now();
-                $list->updated_at = now();
-                $list->save();
+                if($listService->getSongByVideoId($videoId)) throw new \Exception('此影片已有人點過');
+
+                $listService->dibbling( $youtubeHelper);
                 $returnJson['msg'] = '成功點播"' . $youtubeHelper->getTitle() . '"';
                 $returnJson['title'] = $youtubeHelper->getTitle();
-
-                $record = new RecordModel;
-                $record->user_id = \Auth::user()->id;
-                $record->list_id = $list->id;
-                $record->record_type = RecordModel::DIBBLING;
-                $record->save();
             }
             else
             {
-                $returnJson['status'] = false;
-                $returnJson['title'] = '點播失敗';
+                $returnJson['status'] = $youtubeHelper->getStatus();
+                $returnJson['title'] = $youtubeHelper->getTitle();
                 $returnJson['msg'] = $youtubeHelper->getErrMsg();
             }
-            return response()->json($returnJson);
         }
         catch (\Exception $e)
         {
-            return response()->json($e->getMessage());
+            $returnJson['status'] = false;
+            $returnJson['msg'] = $e->getMessage();
         }
+        return response()->json($returnJson);
     }
 
     public function redibbling($id)

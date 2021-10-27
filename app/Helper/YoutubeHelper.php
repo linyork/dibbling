@@ -7,6 +7,7 @@ use \Sseffa\VideoApi\VideoApi;
 class YoutubeHelper
 {
     private $status;
+    private $videoId;
     private $title;
     private $duration;
     private $seal;
@@ -17,6 +18,13 @@ class YoutubeHelper
     {
         try
         {
+            // 判斷如果是網址的話就只擷取videoId
+            if ( strlen($videoId) >= 12 )
+            {
+                parse_str(parse_url($videoId, PHP_URL_QUERY), $get);
+                $videoId = $get['v'];
+            }
+
             $detailData = \VideoApi::setType(VideoApi::YOUTUBE)
                 ->setKey(\Config::get('app.google_api_key'))
                 ->getVideoDetail($videoId);
@@ -27,6 +35,7 @@ class YoutubeHelper
             }
             else
             {
+                $this->videoId = $videoId;
                 $this->title = $detailData['title'];
                 $this->seal = $detailData['thumbnail_large'];
                 $this->duration = $detailData['duration'];
@@ -35,7 +44,9 @@ class YoutubeHelper
         }
         catch (\Exception $e)
         {
+            $this->status = false;
             $this->errMsg = "無法解析ID點播失敗";
+            $this->title = "點播失敗";
         }
     }
 
@@ -44,14 +55,19 @@ class YoutubeHelper
         return $this->errMsg ?? '';
     }
 
+    public function getVideoId() : string
+    {
+        return $this->videoId ?? '';
+    }
+
     public function getTitle() : string
     {
         return $this->title ?? '';
     }
 
-    public function getStatus() : string
+    public function getStatus() : bool
     {
-        return $this->title ?? '';
+        return $this->status ?? false;
     }
 
     public function getSeal() : string
