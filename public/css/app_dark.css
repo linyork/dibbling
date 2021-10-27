@@ -25,6 +25,11 @@
     color: #bbbbbb !important;
 }
 
+.navbar-light .navbar-toggler {
+    border-color: white;
+    background-color: white;
+}
+
 .current-page {
     color: #fa6400 !important;
 }
