@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\v2;
 
 use App\Http\Controllers\Controller;
-use App\Model\PlayingTable;
+use App\Model\PlayingModel;
 use App\Services\ListService;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +14,7 @@ class PlayingController extends Controller
     {
         try
         {
-            $video_id = PlayingTable::firstOrFail()->video_id;
+            $video_id = PlayingModel::firstOrFail()->video_id;
 
             $data = [
                 'playing' => $listService->getPlaying( $video_id ),

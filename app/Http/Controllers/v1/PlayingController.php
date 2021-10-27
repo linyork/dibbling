@@ -4,7 +4,7 @@ namespace App\Http\Controllers\v1;
 
 use DB;
 use App\Model\ListModel;
-use App\Model\PlayingTable;
+use App\Model\PlayingModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -52,7 +52,7 @@ class PlayingController extends Controller
      */
     public function show()
     {
-        $playingResult = PlayingTable::find(1);
+        $playingResult = PlayingModel::find(1);
         $listResult = ListModel::withTrashed()
             ->where('id', '=', $playingResult['video_id'])
             ->first();
