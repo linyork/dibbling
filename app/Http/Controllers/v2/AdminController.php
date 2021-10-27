@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\v2;
 
 use App\Http\Controllers\Controller;
-use App\Model\LikeTable;
+use App\Model\LikeModel;
 use App\Model\ListTable;
 use App\Model\RecordTable;
 use App\Model\UserModel;
@@ -30,7 +30,7 @@ class AdminController extends Controller
             // delete record
             \DB::table(with(new RecordTable)->getTable())->where('user_id', $deleteUserId)->delete();
             // delete like
-            \DB::table(with(new LikeTable)->getTable())->where('user_id', $deleteUserId)->delete();
+            \DB::table(with(new LikeModel)->getTable())->where('user_id', $deleteUserId)->delete();
             // delete user
             \DB::table(with(new UserModel)->getTable())->where('id', $deleteUserId)->delete();
 

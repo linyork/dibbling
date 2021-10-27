@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\v2;
 
 use App\Http\Controllers\Controller;
-use App\Model\LikeTable;
+use App\Model\LikeModel;
 use Illuminate\Http\Request;
 
 class LikeController extends Controller
@@ -30,7 +30,7 @@ class LikeController extends Controller
             }
             else
             {
-                $like = new LikeTable();
+                $like = new LikeModel();
                 $like->user_id = $userId;
                 $like->list_id = $videoId;
                 $like->created_at = now();

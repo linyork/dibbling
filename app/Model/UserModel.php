@@ -51,6 +51,6 @@ class UserModel extends Authenticatable implements MustVerifyEmail
 
     public function likes()
     {
-        return $this->hasMany(LikeTable::class, 'user_id', 'id');
+        return $this->hasMany(LikeModel::class, 'user_id', 'id');
     }
 }

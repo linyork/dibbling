@@ -5,7 +5,7 @@ namespace App\Model;
 use App\Model\UserModel;
 use Illuminate\Database\Eloquent\Model;
 
-class LikeTable extends Model
+class LikeModel extends Model
 {
     protected $table = 'like';
     protected $primaryKey = 'id';

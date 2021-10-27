@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Model\LikeTable;
+use App\Model\LikeModel;
 use App\Model\ListTable;
 use App\Model\RecordTable;
 use App\Model\UserModel;
@@ -15,7 +15,7 @@ class ListService extends Service
     protected $user;
     protected $like;
 
-    public function __construct(ListTable $list, UserModel $user, LikeTable $like)
+    public function __construct(ListTable $list, UserModel $user, LikeModel $like)
     {
         $this->list = $list;
         $this->user = $user;
@@ -54,7 +54,7 @@ class ListService extends Service
 
     /**
      * @param int $listId
-     * @return LikeTable[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     * @return LikeModel[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
     public function getLikeUsers(int $listId)
     {
