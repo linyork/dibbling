@@ -130,7 +130,7 @@
         </main>
     </div>
     <!-- App Js -->
-    <script src="/js/layout-app.js?{{ time() }}"></script>
+    <script src="{{ asset('/js/layout-app.js?'.time()) }}"></script>
     <!-- Page Js-->
     @yield('pageJs')
 </body>

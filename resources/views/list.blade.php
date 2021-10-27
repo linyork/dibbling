@@ -6,7 +6,7 @@
 @endsection
 
 @section('pageJs')
-    <script src="/js/list.js?{{ time() }}"></script>
+    <script src="{{ asset('/js/list.js?'.time()) }}"></script>
 @endsection
 
 @section('content')
