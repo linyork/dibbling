@@ -16,7 +16,7 @@ class RecordTable extends Model
 
     public function list()
     {
-        return $this->belongsTo(ListTable::class, 'list_id', 'id');
+        return $this->belongsTo(ListModel::class, 'list_id', 'id');
     }
 
     public function user()

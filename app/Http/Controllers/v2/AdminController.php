@@ -4,7 +4,7 @@ namespace App\Http\Controllers\v2;
 
 use App\Http\Controllers\Controller;
 use App\Model\LikeModel;
-use App\Model\ListTable;
+use App\Model\ListModel;
 use App\Model\RecordTable;
 use App\Model\UserModel;
 use Illuminate\Http\Request;
@@ -18,7 +18,7 @@ class AdminController extends Controller
         {
             \DB::beginTransaction();
             // delete list
-            \DB::table(with(new ListTable)->getTable())
+            \DB::table(with(new ListModel)->getTable())
                 ->whereIn('id', function ($query) use ($deleteUserId)
                 {
                     $query->select('list_id')

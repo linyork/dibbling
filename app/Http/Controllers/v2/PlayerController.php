@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\v2;
 
 use App\Http\Controllers\Controller;
-use App\Model\ListTable;
+use App\Model\ListModel;
 use App\Model\RecordTable;
 use Illuminate\Http\Request;
 
@@ -24,12 +24,12 @@ class PlayerController extends Controller
                 ->first();
             if ( $playedList )
             {
-                ListTable::withTrashed()->find($playedList->list_id)->delete();
+                ListModel::withTrashed()->find($playedList->list_id)->delete();
                 $listResult = $playedList;
             }
             else
             {
-                $listResult = ListTable::onlyTrashed()->inRandomOrder()->first();
+                $listResult = ListModel::onlyTrashed()->inRandomOrder()->first();
             }
 
             if ( \DB::table('playing')->first() )

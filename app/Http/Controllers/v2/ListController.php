@@ -4,7 +4,7 @@ namespace App\Http\Controllers\v2;
 
 use App\Helper\YoutubeHelper;
 use App\Http\Controllers\Controller;
-use App\Model\ListTable;
+use App\Model\ListModel;
 use App\Model\LikeModel;
 use App\Model\RecordTable;
 use App\Services\ListService;
@@ -98,7 +98,7 @@ class ListController extends Controller
                     $returnJson['title'] = '重複';
                     return response()->json($returnJson);
                 }
-                $list = new ListTable;
+                $list = new ListModel;
                 $list->video_id = $videoId;
                 $list->title = $youtubeHelper->getTitle();
                 $list->seal = $youtubeHelper->getSeal();
@@ -134,7 +134,7 @@ class ListController extends Controller
     {
         try
         {
-            $list = ListTable::onlyTrashed()->find($id);
+            $list = ListModel::onlyTrashed()->find($id);
             $result = $list->restore();
             $record = new RecordTable;
             $record->user_id = \Auth::user()->id;
@@ -154,7 +154,7 @@ class ListController extends Controller
     {
         try
         {
-            $list = ListTable::withTrashed()->find($id);
+            $list = ListModel::withTrashed()->find($id);
 
             if ( $request->input('real') )
             {

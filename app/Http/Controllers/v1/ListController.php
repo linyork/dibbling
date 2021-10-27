@@ -5,7 +5,7 @@ namespace App\Http\Controllers\v1;
 use DB;
 use DateTime;
 use DateInterval;
-use App\Model\ListTable;
+use App\Model\ListModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -21,7 +21,7 @@ class ListController extends Controller
 
     public function index()
     {
-        $dbResult = ListTable::where('deleted_at', '=', null)
+        $dbResult = ListModel::where('deleted_at', '=', null)
             ->orderBy('updated_at')
             ->get();
         return response()->json($dbResult);
@@ -45,7 +45,7 @@ class ListController extends Controller
             return response()->json($returnJson);
         }
     
-        $videoIdResult = ListTable::where('video_id', '=', $videoId)->first();
+        $videoIdResult = ListModel::where('video_id', '=', $videoId)->first();
 
         if($videoIdResult)
         {
@@ -96,12 +96,12 @@ class ListController extends Controller
     {
         if($action === 'played')
         {
-            $request = ListTable::onlyTrashed()->orderBy('updated_at', 'DESC')->get();
+            $request = ListModel::onlyTrashed()->orderBy('updated_at', 'DESC')->get();
         }
     
         if($action === 'random')
         {
-            $request = ListTable::onlyTrashed()->inRandomOrder()->first();
+            $request = ListModel::onlyTrashed()->inRandomOrder()->first();
         }
         
         return response()->json($request);
@@ -116,7 +116,7 @@ class ListController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = ListTable::onlyTrashed()->find($id);
+        $data = ListModel::onlyTrashed()->find($id);
         
         return response()->json($data->restore());
     }
@@ -135,7 +135,7 @@ class ListController extends Controller
             DB::table('list')->where('id', '=', $id)->delete();
             return response()->json('Real delete success.');
         } else {
-            $list = ListTable::find($id);
+            $list = ListModel::find($id);
             $list->delete();
             if ( $list->trashed() )
             {

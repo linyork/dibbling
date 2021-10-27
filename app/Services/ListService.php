@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Model\LikeModel;
-use App\Model\ListTable;
+use App\Model\ListModel;
 use App\Model\RecordTable;
 use App\Model\UserModel;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +15,7 @@ class ListService extends Service
     protected $user;
     protected $like;
 
-    public function __construct(ListTable $list, UserModel $user, LikeModel $like)
+    public function __construct(ListModel $list, UserModel $user, LikeModel $like)
     {
         $this->list = $list;
         $this->user = $user;

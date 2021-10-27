@@ -5,7 +5,7 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ListTable extends Model
+class ListModel extends Model
 {
     use SoftDeletes;
 

@@ -2,7 +2,6 @@
 
 namespace App\Model;
 
-use App\Model\UserModel;
 use Illuminate\Database\Eloquent\Model;
 
 class LikeModel extends Model
