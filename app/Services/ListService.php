@@ -50,6 +50,20 @@ class ListService extends Service
     }
 
     /**
+     * @param int $id
+     * @return bool|null
+     */
+    public function reDibbling(int $id)
+    {
+        $result = $this->listModel::onlyTrashed()->find($id)->restore();
+        $this->recordModel->user_id = Auth::user()->id;
+        $this->recordModel->list_id = $id;
+        $this->recordModel->record_type = RecordModel::RE_DIBBLING;
+        $this->recordModel->save();
+        return $result;
+    }
+
+    /**
      * @param int $listId
      * @return \Illuminate\Database\Eloquent\Collection|Model
      */

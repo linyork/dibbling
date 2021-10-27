@@ -90,23 +90,22 @@ class ListController extends Controller
         return response()->json($returnJson);
     }
 
-    public function redibbling($id)
+    /**
+     * 再點播
+     * @param $id
+     * @param ListService $listService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function redibbling($id, ListService $listService)
     {
         try
         {
-            $list = ListModel::onlyTrashed()->find($id);
-            $result = $list->restore();
-            $record = new RecordModel;
-            $record->user_id = \Auth::user()->id;
-            $record->list_id = $list->id;
-            $record->record_type = RecordModel::RE_DIBBLING;
-            $record->save();
+            $result = $listService->reDibbling($id);
         }
         catch (\Exception $e)
         {
             $result = false;
         }
-
         return response()->json($result);
     }
 
