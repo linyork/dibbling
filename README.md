@@ -3,10 +3,13 @@
 ## 安裝所需
 - docker
 - docker-compose
-- php:^7.3.6
+- php:^7.1.3
 - composer:^1.9.2
 - node:13.7.0
 - npm:6.13.6
+
+## PHP
+要先讓本機的PHP版本為7.1.X
 
 ## composer
 
@@ -25,6 +28,16 @@ npm install
 ## .env 設定
 
 複製一個.env 從 .env.local
+
+## GOOGLE_API_KEY 設定
+
+在有 .env 有一個 key 叫做 GOOGLE_API_KEY 可以自行使用自己的 google 帳號申請
+
+或跟 york 借
+
+```
+GOOGLE_API_KEY = {{GOOGLE_API_KEY}}
+```
 
 ## hosts 設定
 
@@ -47,7 +60,7 @@ php artisan migrate
 ```
 將所需的DB建立起來
 
-## Log
+## Log 在哪？
 
 Nginx log: docker/nginx
 
