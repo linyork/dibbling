@@ -178,7 +178,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        'Sseffa\VideoApi\VideoApiServiceProvider',
 
     ],
 
@@ -230,8 +229,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'VideoApi' => 'Sseffa\VideoApi\Facades\VideoApi',
-
     ],
 
 ];

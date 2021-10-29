@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -31,29 +31,31 @@ Route::group(['prefix' => 'v2'], function ()
     // dibbling client
     Route::middleware($middleware)->group(function () {
         // 取得使用者
-        Route::get('user','v2\UserController@index');
+        Route::get('user', [\App\Http\Controllers\v2\UserController::class, 'index']);
         // 點播
-        Route::post('list','v2\ListController@insert');
+        Route::post('list', [\App\Http\Controllers\v2\ListController::class, 'insert']);
         // 重新點歌
-        Route::put('list/{id}', 'v2\ListController@redibbling');
+        Route::put('list/{id}', [\App\Http\Controllers\v2\ListController::class, 'redibbling']);
         // 切歌 & 移除
-        Route::delete('list/{id}', 'v2\ListController@destroy');
+        Route::delete('list/{id}', [\App\Http\Controllers\v2\ListController::class, 'destroy']);
         // 控制器指令
-        Route::post('command', 'v2\CommandController@index');
+        Route::post('command', [\App\Http\Controllers\v2\CommandController::class, 'index']);
         // 取得點播清單
-        Route::get('list', 'v2\ListController@list');
+        Route::get('list', [\App\Http\Controllers\v2\ListController::class, 'list']);
         // 取得已播清單
-        Route::post('list/played', 'v2\ListController@played');
+        Route::post('list/played', [\App\Http\Controllers\v2\ListController::class, 'played']);
         // 取得正在播放
-        Route::get('playing', 'v2\PlayingController@get');
+        Route::get('playing', [\App\Http\Controllers\v2\PlayingController::class, 'get']);
         // 點讚
-        Route::post('like', 'v2\LikeController@like');
+        Route::post('like', [\App\Http\Controllers\v2\LikeController::class, 'like']);
         // 移除使用者
-        Route::delete('user/delete/{id}', 'v2\AdminController@deleteUser')->middleware('can:admin');
-        Route::post('broadcast', 'v2\AdminController@broadcast')->middleware('can:admin');
+        Route::delete('user/delete/{id}', [\App\Http\Controllers\v2\AdminController::class, 'deleteUser'])
+            ->middleware('can:admin');
+        Route::post('broadcast', [\App\Http\Controllers\v2\AdminController::class, 'broadcast'])
+            ->middleware('can:admin');
 
         // dibbling extension
-        Route::post('list/extension','v2\ListController@insert');
+        Route::post('list/extension', [\App\Http\Controllers\v2\ListController::class, 'insert']);
     });
     // dibbling player
     Route::get('next', 'v2\PlayerController@next');

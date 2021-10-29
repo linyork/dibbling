@@ -45,7 +45,7 @@ services:
     container_name: php
     networks:
       - backend
-    image: tinayork/php
+    image: tinayork/php:8.0-fpm
     expose:
       - 9000
     tty: true
