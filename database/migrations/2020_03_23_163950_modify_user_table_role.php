@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use App\Model\UserModel;
 
 class ModifyUserTableRole extends Migration
 {
@@ -13,8 +13,9 @@ class ModifyUserTableRole extends Migration
      */
     public function up()
     {
+
         Schema::table('users', function($table) {
-            $table->string('role')->default(\App\User::ROLE_USER)->after('name');
+            $table->string('role')->default(UserModel::ROLE_USER)->after('name');
         });
     }
 
