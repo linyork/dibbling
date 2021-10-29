@@ -1,28 +1,32 @@
 // web socket
 var socket;
-let promise_get_playing = $.ajax({
+$.ajax({
     url: 'api/v2/user',
     headers: {
         'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content')
     },
     method: "GET"
-});
-
-promise_get_playing.done(function (data) {
+}).done(function (data) {
     socket = io(document.location.protocol + '//' + domain + '/socket');
+    
+    /* 發送事件 */
     socket.emit('intoDibbling', data);
+    
+    /* 接收事件 */
+    // playing
     socket.on('playing', function () {
         refresh();
     });
-
+    // danmu
     socket.on('danmu', function (m) {
         showDanmu(m);
     });
-
     // chart
     socket.on('chat', function( chat ) {
         console.log(chat);
     });
+    
+    /* 綁定事件 */
     // play
     $(document).on('click', '#play', function (e) {
         var command = {
@@ -97,15 +101,13 @@ $(document).on('click', '#like', function (e) {
 
 // playing
 function refreshPlaying() {
-    let promise_get_playing = $.ajax({
+    $.ajax({
         url: 'api/v2/playing',
         headers: {
             'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content')
         },
         method: "GET"
-    });
-
-    promise_get_playing.done(function (data) {
+    }).done(function (data) {
         $("#video-interface").empty();
         $("#video-interface").append(data);
     });
@@ -142,7 +144,7 @@ function refresh() {
 
 function dibbling(videoId) {
     if (videoId === '') return;
-    let promise_post_list = $.ajax({
+    $.ajax({
         url: 'api/v2/list',
         headers: {
             'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
@@ -153,9 +155,7 @@ function dibbling(videoId) {
         data: {
             'videoId': videoId,
         },
-    });
-    promise_post_list.done(SuccessMethod);
-    promise_post_list.fail(FailMethod);
+    }).done(SuccessMethod).fail(FailMethod);
 }
 
 function danmu(m) {

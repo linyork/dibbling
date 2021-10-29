@@ -1,14 +1,13 @@
 $(function () {
     // web socket
     var socket;
-    let promise_get_playing = $.ajax({
+    $.ajax({
         url: 'api/v2/user',
         headers: {
             'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content')
         },
         method: "GET"
-    });
-    promise_get_playing.done(function (data) {
+    }).done(function (data) {
         socket = io(document.location.protocol + '//' + domain + '/socket');
         socket.emit('intoDibbling', data);
     });
@@ -29,16 +28,14 @@ $(function () {
     });
 
     function deleteUser(id) {
-        let deleteUser = $.ajax({
+        $.ajax({
             url: 'api/v2/user/delete/' + id,
             headers: {
                 'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "DELETE"
-        });
-
-        deleteUser.done(function (result) {
+        }).done(function (result) {
             if(result !== '0'){
                 $("#user-"+id).remove();
             }
@@ -46,7 +43,7 @@ $(function () {
     }
 
     function broadcast (str) {
-        let broadcast = $.ajax({
+        $.ajax({
             url: 'api/v2/broadcast',
             headers: {
                 'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
@@ -56,9 +53,7 @@ $(function () {
             data: {
                 'text': str,
             }
-        });
-
-        broadcast.done(function (result) {
+        }).done(function (result) {
             socket.emit('broadcast', result);
         });
     }

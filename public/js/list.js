@@ -17,15 +17,13 @@ $(function() {
     });
 
     function refreshList() {
-        let list = $.ajax({
+        $.ajax({
             url: '/api/v2/list',
             headers: {
                 'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content')
             },
             method: "GET"
-        });
-
-        list.done(function (db_list) {
+        }).done(function (db_list) {
             $("#list").empty();
             $("#list").append(db_list)
         });
@@ -61,7 +59,7 @@ $(function() {
 
     function like(id, obj) {
         var button = $(obj);
-        var like = $.ajax({
+        $.ajax({
             url: 'api/v2/like',
             headers: {
                 'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
@@ -72,8 +70,7 @@ $(function() {
             data: {
                 'videoId': id,
             },
-        });
-        like.done(function (result) {
+        }).done(function (result) {
             if(result['like']) {
                 button.find('span').text(parseInt(button.find('span').text())+1);
                 button.find('i').removeClass('fas');

@@ -77,7 +77,7 @@ $(function () {
 
     function refreshListPlayed() {
         isAjax = true;
-        let promise_get_list = $.ajax({
+        $.ajax({
             url: '/api/v2/list/played',
             headers: {
                 'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
@@ -89,8 +89,7 @@ $(function () {
                 'user_id': $("#user_id").val(),
                 'song_name': $("#song_name").val(),
             },
-        });
-        promise_get_list.done(function (db_list) {
+        }).done(function (db_list) {
             isAjax = false;
             $("#record-list").append(db_list);
             $(".js-like").tooltip();
@@ -115,7 +114,7 @@ $(function () {
 
     function like(id, obj) {
         let button = $(obj);
-        let like = $.ajax({
+        $.ajax({
             url: 'api/v2/like',
             headers: {
                 'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
@@ -126,8 +125,7 @@ $(function () {
             data: {
                 'videoId': id,
             },
-        });
-        like.done(function (result) {
+        }).done(function (result) {
             if (result['like']) {
                 button.find('span').text(parseInt(button.find('span').text()) + 1);
                 button.find('i').removeClass('fas');

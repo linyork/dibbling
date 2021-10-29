@@ -81,12 +81,10 @@ function onError(event){
 }
 
 function playNext(event) {
-    var list = $.ajax({
+    $.ajax({
         url: '/api/v2/next',
         method: "GET"
-    });
-
-    list.done(function (next) {
+    }).done(function (next) {
         if (next.id) {
             // append video list
             $("#list").empty();
