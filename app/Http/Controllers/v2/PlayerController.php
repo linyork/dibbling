@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Model\ListModel;
 use App\Model\RecordModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PlayerController extends Controller
 {
@@ -13,8 +14,8 @@ class PlayerController extends Controller
     {
         try
         {
-            \DB::beginTransaction();
-            $playedList = \DB::table('record')
+            DB::beginTransaction();
+            $playedList = DB::table('record')
                 ->join('users', 'record.user_id', '=', 'users.id')
                 ->join('list', 'record.list_id', '=', 'list.id')
                 ->where('record.record_type', '=', RecordModel::DIBBLING)
@@ -32,19 +33,19 @@ class PlayerController extends Controller
                 $listResult = ListModel::onlyTrashed()->inRandomOrder()->first();
             }
 
-            if ( \DB::table('playing')->first() )
+            if ( DB::table('playing')->first() )
             {
-                \DB::table('playing')->update(['video_id' => $listResult->id]);
+                DB::table('playing')->update(['video_id' => $listResult->id]);
             }
             else
             {
-                \DB::table('playing')->insert(['video_id' => $listResult->id]);
+                DB::table('playing')->insert(['video_id' => $listResult->id]);
             }
-            \DB::commit();
+            DB::commit();
         }
         catch (\Exception $e)
         {
-            \DB::rollback();
+            DB::rollback();
             $listResult = [];
         }
         return response()->json($listResult);
