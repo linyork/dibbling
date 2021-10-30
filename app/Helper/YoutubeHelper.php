@@ -2,8 +2,11 @@
 
 namespace App\Helper;
 
+use Illuminate\Support\Facades\Config;
+
 class YoutubeHelper
 {
+    private $baseVideoUrl = 'https://www.googleapis.com/youtube/v3/videos?id={id}&key={key}&part=snippet,contentDetails,statistics';
     private $apiKey;
     private $status;
     private $videoId;
@@ -11,13 +14,6 @@ class YoutubeHelper
     private $duration;
     private $seal;
     private $errMsg;
-
-    /**
-     * Base Video Url
-     *
-     * @var String
-     */
-    private $baseVideoUrl = 'https://www.googleapis.com/youtube/v3/videos?id={id}&key={key}&part=snippet,contentDetails,statistics';
 
     private function setApiKey(string $apiKey)
     {
@@ -31,8 +27,6 @@ class YoutubeHelper
 
     public function getData($url)
     {
-        $json = null;
-
         if(extension_loaded('curl'))
         {
             $ch = curl_init(str_replace('{id}', $this->videoId, $url));
@@ -93,7 +87,8 @@ class YoutubeHelper
                 parse_str(parse_url($videoId, PHP_URL_QUERY), $get);
                 $videoId = $get['v'];
             }
-            $this->setApiKey( \Config::get('app.google_api_key'));
+
+            $this->setApiKey( Config::get('app.google_api_key'));
             $this->setVideoId( $videoId);
             $detailData = $this->getVideoDetail();
 

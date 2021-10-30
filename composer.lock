@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "773a3ee52680c3cdc8fc6f5ea5678d38",
+    "content-hash": "a605567b8658d32151e8b603dde2b628",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1994,60 +1994,6 @@
                 }
             ],
             "time": "2021-09-25T08:23:19+00:00"
-        },
-        {
-            "name": "madcoda/php-youtube-api",
-            "version": "v1.2.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/madcoda/php-youtube-api.git",
-                "reference": "70debe2a140339e145a57d64cd4e9e12f393332f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/madcoda/php-youtube-api/zipball/70debe2a140339e145a57d64cd4e9e12f393332f",
-                "reference": "70debe2a140339e145a57d64cd4e9e12f393332f",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "php": ">=7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.7"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Madcoda\\Youtube\\": "src"
-                },
-                "classmap": [
-                    "src/compat.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Madcoda",
-                    "email": "jason@madcoda.com"
-                }
-            ],
-            "description": "PHP wrapper for the Youtube Data API v3",
-            "keywords": [
-                "api",
-                "madcoda",
-                "video",
-                "youtube"
-            ],
-            "support": {
-                "email": "jason@madcoda.com",
-                "issues": "https://github.com/madcoda/php-youtube-api/issues",
-                "source": "https://github.com/madcoda/php-youtube-api/tree/v1.2.6"
-            },
-            "time": "2021-07-05T02:35:55+00:00"
         },
         {
             "name": "maximebf/debugbar",
@@ -8647,7 +8593,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.4"
+        "php": "^7.4",
+        "ext-json": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.1.0"

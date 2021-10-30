@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cookie;
+use App\Http\Controllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,9 +28,9 @@ if(App::environment('production')) $userMiddlewareArray[] = 'verified';
 Auth::routes(['verify' => App::environment('production')]);
 
 // set block
-Route::get('set_locale/{locale}', [\App\Http\Controllers\Set::class, 'locale'])
+Route::get('set_locale/{locale}', [Controllers\Set::class, 'locale'])
     ->name('set_locale');
-Route::get('set_mode/{mode}', [\App\Http\Controllers\Set::class, 'mode'])
+Route::get('set_mode/{mode}', [Controllers\Set::class, 'mode'])
     ->name('set_mode');
 // web block
 Route::get('/', function (){ return redirect('dibbling'); })
@@ -38,15 +39,15 @@ Route::get('player', function (){ return view('player'); })
     ->name('player');
 // user web block
 Route::middleware($userMiddlewareArray)->group(function () {
-    Route::get('dibbling', [\App\Http\Controllers\Dibbling::class, 'index'])
+    Route::get('dibbling', [Controllers\Dibbling::class, 'index'])
         ->name('dibbling');
-    Route::get('dibbling_list', [\App\Http\Controllers\DibblingList::class, 'index'])
+    Route::get('dibbling_list', [Controllers\DibblingList::class, 'index'])
         ->name('dibbling_list');
-    Route::get('dibbling_record', [\App\Http\Controllers\DibblingRecord::class, 'index'])
+    Route::get('dibbling_record', [Controllers\DibblingRecord::class, 'index'])
         ->name('dibbling_record');
-    Route::get('setting', [\App\Http\Controllers\Setting::class, 'index'])
+    Route::get('setting', [Controllers\Setting::class, 'index'])
         ->name('setting');
-    Route::get('admin_interface', [\App\Http\Controllers\AdminInterface::class, 'index'])
+    Route::get('admin_interface', [Controllers\AdminInterface::class, 'index'])
         ->middleware('can:admin')
         ->name('admin_interface');
 });
