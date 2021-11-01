@@ -68,7 +68,7 @@ class ListController extends Controller
             $youtubeHelper->paser($videoId);
             if ( $youtubeHelper->getStatus() )
             {
-                if($listService->getSongByVideoId($videoId)->toArray()) throw new \Exception('此影片已有人點過');
+                if( $listService->getSongByVideoId( $youtubeHelper->getVideoId() )->toArray() ) throw new \Exception( '此影片已有人點過' );
 
                 $listService->dibbling( $youtubeHelper);
                 $returnJson['msg'] = '成功點播"' . $youtubeHelper->getTitle() . '"';
