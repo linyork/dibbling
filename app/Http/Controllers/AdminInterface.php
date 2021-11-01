@@ -15,8 +15,6 @@ class AdminInterface extends Controller
      */
     public function index()
     {
-        Cookie::queue('dibbling_token', Auth::user()->api_token, 120);
-
         // get all user's dibbling record
         $record_dibbling_query = RecordModel::select( 'record.user_id', DB::raw( 'count(record.id) as dibbling_count' ) )
             ->where( 'record_type', '=', RecordModel::DIBBLING )
