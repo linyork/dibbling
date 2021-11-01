@@ -18,7 +18,7 @@ class AdminController extends Controller
     {
         try
         {
-            \B::beginTransaction();
+            DB::beginTransaction();
             // delete list
             DB::table(with(new ListModel)->getTable())
                 ->whereIn('id', function ($query) use ($deleteUserId)
@@ -82,7 +82,7 @@ class AdminController extends Controller
             $response = 1;
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             $errorMessage = 'Something went wrong: ' . $e->getMessage();
             $response = 0;
