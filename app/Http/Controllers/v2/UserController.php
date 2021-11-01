@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v2;
 
 use App\Http\Controllers\Controller;
 use App\Model\UserModel;
+use Illuminate\Support\Facades\Auth;
 
 
 class UserController extends Controller
@@ -12,7 +13,7 @@ class UserController extends Controller
     {
         try
         {
-            $result = UserModel::find(\Auth::user()->getAuthIdentifier())->toArray();
+            $result = UserModel::find(Auth::user()->getAuthIdentifier())->toArray();
         }
         catch (\Exception $e)
         {

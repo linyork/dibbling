@@ -3,8 +3,8 @@
 ## 安裝所需
 - docker
 - docker-compose
-- php:^7.1.3
-- composer:^1.9.2
+- php:^8.0
+- composer:^2.1
 - node:13.7.0
 - npm:6.13.6
 

@@ -1,4 +1,10 @@
 <?php
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cookie;
+use App\Http\Controllers;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes __construct
@@ -6,7 +12,7 @@
 */
 App::setLocale((Cookie::get('locale')) ?? 'en');
 $userMiddlewareArray = ['auth'];
-if(\App::environment('production')) $userMiddlewareArray[] = 'verified';
+if(App::environment('production')) $userMiddlewareArray[] = 'verified';
 
 /*
 |--------------------------------------------------------------------------
@@ -18,15 +24,30 @@ if(\App::environment('production')) $userMiddlewareArray[] = 'verified';
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('set_locale/{locale}', 'Set@locale')->name('set_locale');
-Route::get('set_mode/{mode}', 'Set@mode')->name('set_mode');
-Route::get('/', function (){ return redirect('dibbling'); })->name('home');
-Route::get('player', function (){ return view('player'); })->name('player');
+// auth
+Auth::routes(['verify' => App::environment('production')]);
+
+// set block
+Route::get('set_locale/{locale}', [Controllers\Set::class, 'locale'])
+    ->name('set_locale');
+Route::get('set_mode/{mode}', [Controllers\Set::class, 'mode'])
+    ->name('set_mode');
+// web block
+Route::get('/', function (){ return redirect('dibbling'); })
+    ->name('home');
+Route::get('player', function (){ return view('player'); })
+    ->name('player');
+// user web block
 Route::middleware($userMiddlewareArray)->group(function () {
-    Route::get('dibbling','Dibbling@index')->name('dibbling');
-    Route::get('dibbling_list','DibblingList@index')->name('dibbling_list');
-    Route::get('dibbling_record','DibblingRecord@index')->name('dibbling_record');
-    Route::get('setting', 'Setting@index')->name('setting');
-    Route::get('admin_interface', 'AdminInterface@index')->middleware('can:admin')->name('admin_interface');
+    Route::get('dibbling', [Controllers\Dibbling::class, 'index'])
+        ->name('dibbling');
+    Route::get('dibbling_list', [Controllers\DibblingList::class, 'index'])
+        ->name('dibbling_list');
+    Route::get('dibbling_record', [Controllers\DibblingRecord::class, 'index'])
+        ->name('dibbling_record');
+    Route::get('setting', [Controllers\Setting::class, 'index'])
+        ->name('setting');
+    Route::get('admin_interface', [Controllers\AdminInterface::class, 'index'])
+        ->middleware('can:admin')
+        ->name('admin_interface');
 });
-Auth::routes(['verify' => \App::environment('production')]);

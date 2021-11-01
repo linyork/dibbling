@@ -5,6 +5,8 @@ namespace App\Http\Controllers\v2;
 use App\Http\Controllers\Controller;
 use App\Model\LikeModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class LikeController extends Controller
 {
@@ -12,17 +14,17 @@ class LikeController extends Controller
     {
         try
         {
-            $userId = \Auth::user()->getAuthIdentifier();
+            $userId = Auth::user()->getAuthIdentifier();
             $videoId = $request->input('videoId');
-            \DB::beginTransaction();
-            $like = \DB::table('like')
+            DB::beginTransaction();
+            $like = DB::table('like')
                 ->where('user_id', '=', $userId)
                 ->where('list_id', '=', $videoId)
                 ->get()
                 ->first();
             if ( $like )
             {
-                \DB::table('like')
+                DB::table('like')
                     ->where('user_id', '=', $userId)
                     ->where('list_id', '=', $videoId)
                     ->delete();
@@ -39,11 +41,11 @@ class LikeController extends Controller
                 $result = ['like' => true];
             }
 
-            \DB::commit();
+            DB::commit();
         }
         catch (\Exception $e)
         {
-            \DB::rollback();
+            DB::rollback();
             $result = [];
         }
         return response()->json($result);

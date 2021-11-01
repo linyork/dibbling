@@ -4,8 +4,6 @@ namespace App\Http\Controllers\v2;
 
 use App\Helper\YoutubeHelper;
 use App\Http\Controllers\Controller;
-use App\Model\ListModel;
-use App\Model\RecordModel;
 use App\Services\ListService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
