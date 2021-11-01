@@ -115,6 +115,7 @@ class ListService extends Service
     public function getSongByVideoId(string $videoId)
     {
         return $this->listModel
+            ->withTrashed()
             ->where('video_id', '=',$videoId)
             ->limit(1)
             ->get();
@@ -171,8 +172,8 @@ class ListService extends Service
      */
     public function getList()
     {
-        return \DB::table('record')
-            ->select('users.*', 'list.*', \DB::raw('count(like.list_id) as likes'))
+        return DB::table('record')
+            ->select('users.*', 'list.*', DB::raw('count(like.list_id) as likes'))
             ->join('users', 'record.user_id', '=', 'users.id')
             ->join('list', 'record.list_id', '=', 'list.id')
             ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
@@ -194,8 +195,8 @@ class ListService extends Service
         $limit = 12;
         $offset = ($page - 1) * $limit;
 
-        return \DB::table('record')
-            ->select(\DB::raw('users.id as user_id'),'users.*', 'list.*', \DB::raw('count(like.list_id) as likes'))
+        return DB::table('record')
+            ->select(DB::raw('users.id as user_id'),'users.*', 'list.*', DB::raw('count(like.list_id) as likes'))
             ->join('users', 'record.user_id', '=', 'users.id')
             ->join('list', 'record.list_id', '=', 'list.id')
             ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
