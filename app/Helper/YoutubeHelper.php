@@ -25,7 +25,7 @@ class YoutubeHelper
         $this->videoId = $videoId;
     }
 
-    public function getData($url)
+    private function getData($url)
     {
         if(extension_loaded('curl'))
         {
@@ -46,7 +46,7 @@ class YoutubeHelper
         return json_decode($json);
     }
 
-    public function convert_time($time)
+    public function convert_time($time) : int
     {
         $reference = new \DateTimeImmutable;
         $endTime = $reference->add(new \DateInterval($time));

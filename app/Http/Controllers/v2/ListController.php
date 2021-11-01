@@ -68,7 +68,10 @@ class ListController extends Controller
             $youtubeHelper->paser($videoId);
             if ( $youtubeHelper->getStatus() )
             {
-                if( $listService->getSongByVideoId( $youtubeHelper->getVideoId() )->toArray() ) throw new \Exception( '此影片已有人點過' );
+                if( $this_video = $listService->getSongByVideoId( $youtubeHelper->getVideoId() )->first() )
+                {
+                    throw new \LogicException( '此影片已有人點過' );
+                }
 
                 $listService->dibbling( $youtubeHelper);
                 $returnJson['msg'] = '成功點播"' . $youtubeHelper->getTitle() . '"';
@@ -80,6 +83,12 @@ class ListController extends Controller
                 $returnJson['title'] = $youtubeHelper->getTitle();
                 $returnJson['msg'] = $youtubeHelper->getErrMsg();
             }
+        }
+        catch (\LogicException $e)
+        {
+            $returnJson['status'] = false;
+            $returnJson['redibbling_id'] = $this_video['id'];
+            $returnJson['msg'] = $e->getMessage();
         }
         catch (\Exception $e)
         {
