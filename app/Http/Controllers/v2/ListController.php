@@ -70,11 +70,11 @@ class ListController extends Controller
             {
                 if( $this_video = $listService->getSongByVideoId( $youtubeHelper->getVideoId() )->first() )
                 {
-                    throw new \LogicException( '此影片已有人點過' );
+                    throw new \LogicException( $this_video['title'].PHP_EOL.'此影片已有人點過你確定要再點一次嗎?' );
                 }
 
                 $listService->dibbling( $youtubeHelper);
-                $returnJson['msg'] = '成功點播"' . $youtubeHelper->getTitle() . '"';
+                $returnJson['msg'] = '成功點播'.PHP_EOL.$youtubeHelper->getTitle();
                 $returnJson['title'] = $youtubeHelper->getTitle();
             }
             else

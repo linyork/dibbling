@@ -188,11 +188,9 @@ function showDanmu(m) {
 }
 
 function SuccessMethod(e) {
-    if (e['status'] === false && e['redibbling_id']) {
-        if (confirm(name +'\n此影片已有人點過你確定要再點一次嗎?')) {
-            redibbling(e['redibbling_id'])
-        }
-    } else if(e['status'] === false) {
+    if (e.status === false && e.redibbling_id && confirm(e.msg)) {
+        redibbling(e.redibbling_id)
+    } else if(e.status === false) {
         alert(e.msg);
     }
     refresh();
