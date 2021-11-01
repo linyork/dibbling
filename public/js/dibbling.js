@@ -155,7 +155,21 @@ function dibbling(videoId) {
         data: {
             'videoId': videoId,
         },
-    }).done(SuccessMethod).fail(FailMethod);
+    })
+    .done(SuccessMethod)
+    .fail(FailMethod);
+}
+
+function redibbling(id) {
+    $.ajax({
+        url: 'api/v2/list/' + id,
+        headers: {
+            'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: "PUT",
+        dataType: "json",
+    });
 }
 
 function danmu(m) {
@@ -174,7 +188,9 @@ function showDanmu(m) {
 }
 
 function SuccessMethod(e) {
-    if (e['status'] === false) {
+    if (e.status === false && e.redibbling_id && confirm(e.msg)) {
+        redibbling(e.redibbling_id);
+    } else if (e.status === false && !e.redibbling_id) {
         alert(e.msg);
     }
     refresh();

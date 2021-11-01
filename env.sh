@@ -7,12 +7,11 @@ while :
 do
     echo "Choose the option you want:"
     echo "----------------------------------------"
-    echo -e "a.\t\tStart all containers"
-    echo -e "r.\t\tRestart all containers"
-    echo -e "l.\t\tList all containers"
-    echo -e "c.\t\tClose all containers"
-    echo -e "console.\tShow container console."
-    echo -e "i.\t\tInto container"
+    echo -e "a.\t\t啟動所有containers"
+    echo -e "r.\t\t重啟所有 containers"
+    echo -e "l.\t\t查看所有 containers"
+    echo -e "c.\t\t關閉所有 containers"
+    echo -e "i.\t\t進入 container"
     echo -e "q.\t\tExit"
     read -p "Input:" input
 
@@ -29,23 +28,12 @@ do
             docker-compose up -d
             ;;
         l)
-            # 查看目前的 container
+            # 查看
             docker ps -a --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}\t{{.ID}}"
             ;;
         c)
             # 關閉 container
             docker rm -f $(docker ps -a -q) | awk '{print "移除 \""$1"\" Container"}'
-            ;;
-        console)
-            docker ps -a --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}\t{{.ID}}"
-            echo "Enter Container Name"
-            read -p "Name:" containerName
-            clear
-            #  進入 container
-            if [[ ${containerName} ]]; then
-                docker logs $(docker ps -aq --filter name=${containerName})
-            fi
-            echo "----------------------------------------"
             ;;
         i)
             docker ps -a --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}\t{{.ID}}"

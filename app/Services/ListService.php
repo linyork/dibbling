@@ -110,14 +110,13 @@ class ListService extends Service
 
     /**
      * @param string $videoId
-     * @return mixed
+     * @return ListModel[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Query\Builder[]|\Illuminate\Support\Collection
      */
     public function getSongByVideoId(string $videoId)
     {
         return $this->listModel
             ->withTrashed()
             ->where('video_id', '=',$videoId)
-            ->limit(1)
             ->get();
     }
 

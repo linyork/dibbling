@@ -2,10 +2,12 @@
 
 namespace App\Helper;
 
-use \Sseffa\VideoApi\VideoApi;
+use Illuminate\Support\Facades\Config;
 
 class YoutubeHelper
 {
+    private $baseVideoUrl = 'https://www.googleapis.com/youtube/v3/videos?id={id}&key={key}&part=snippet,contentDetails,statistics';
+    private $apiKey;
     private $status;
     private $videoId;
     private $title;
@@ -13,6 +15,67 @@ class YoutubeHelper
     private $seal;
     private $errMsg;
 
+    private function setApiKey(string $apiKey)
+    {
+        $this->apiKey  = $apiKey;
+    }
+
+    private function setVideoId(string $videoId)
+    {
+        $this->videoId = $videoId;
+    }
+
+    private function getData($url)
+    {
+        if(extension_loaded('curl'))
+        {
+            $ch = curl_init(str_replace('{id}', $this->videoId, $url));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $json = curl_exec($ch);
+        }
+        else
+        {
+            $json = @file_get_contents(str_replace('{id}', $this->videoId, $url));
+        }
+
+        if(!$json)
+        {
+            throw new \Exception("Video or channel id is not found");
+        }
+
+        return json_decode($json);
+    }
+
+    public function convert_time($time) : int
+    {
+        $reference = new \DateTimeImmutable;
+        $endTime = $reference->add(new \DateInterval($time));
+        return $endTime->getTimestamp() - $reference->getTimestamp();
+    }
+
+    private function getVideoDetail() : array
+    {
+
+        $data = $this->getData(str_replace('{key}', $this->apiKey, $this->baseVideoUrl));
+
+        if(isset($data->error))
+        {
+            throw new \Exception("Video not found");
+        }
+        return [
+            'id'              => $data->items[0]->id,
+            'title'           => $data->items[0]->snippet->title,
+            'description'     => $data->items[0]->snippet->description,
+            'thumbnail_small' => $data->items[0]->snippet->thumbnails->default->url,
+            'thumbnail_large' => $data->items[0]->snippet->thumbnails->high->url,
+            'duration'        => $this->convert_time($data->items[0]->contentDetails->duration),
+            'upload_date'     => $data->items[0]->snippet->publishedAt,
+            'like_count'      => isset($data->items[0]->statistics->likeCount) ? $data->items[0]->statistics->likeCount : 0,
+            'view_count'      => isset($data->items[0]->statistics->viewCount) ? $data->items[0]->statistics->viewCount : 0,
+            'comment_count'   => isset($data->items[0]->statistics->commentCount) ? $data->items[0]->statistics->commentCount : 0,
+            'uploader'        => $data->items[0]->snippet->channelTitle
+        ];
+    }
 
     public function paser(string $videoId)
     {
@@ -25,9 +88,9 @@ class YoutubeHelper
                 $videoId = $get['v'];
             }
 
-            $detailData = \VideoApi::setType(VideoApi::YOUTUBE)
-                ->setKey(\Config::get('app.google_api_key'))
-                ->getVideoDetail($videoId);
+            $this->setApiKey( Config::get('app.google_api_key'));
+            $this->setVideoId( $videoId);
+            $detailData = $this->getVideoDetail();
 
             if($detailData['duration'] >= 600)
             {
@@ -45,7 +108,7 @@ class YoutubeHelper
         catch (\Exception $e)
         {
             $this->status = false;
-            $this->errMsg = "無法解析ID點播失敗";
+            $this->errMsg = $e->getMessage();
             $this->title = "點播失敗";
         }
     }

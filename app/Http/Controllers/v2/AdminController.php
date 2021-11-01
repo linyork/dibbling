@@ -8,6 +8,8 @@ use App\Model\ListModel;
 use App\Model\RecordModel;
 use App\Model\UserModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use GuzzleHttp;
 
 class AdminController extends Controller
@@ -16,9 +18,9 @@ class AdminController extends Controller
     {
         try
         {
-            \DB::beginTransaction();
+            DB::beginTransaction();
             // delete list
-            \DB::table(with(new ListModel)->getTable())
+            DB::table(with(new ListModel)->getTable())
                 ->whereIn('id', function ($query) use ($deleteUserId)
                 {
                     $query->select('list_id')
@@ -28,11 +30,11 @@ class AdminController extends Controller
                 }
             )->delete();
             // delete record
-            \DB::table(with(new RecordModel)->getTable())->where('user_id', $deleteUserId)->delete();
+            DB::table(with(new RecordModel)->getTable())->where('user_id', $deleteUserId)->delete();
             // delete like
-            \DB::table(with(new LikeModel)->getTable())->where('user_id', $deleteUserId)->delete();
+            DB::table(with(new LikeModel)->getTable())->where('user_id', $deleteUserId)->delete();
             // delete user
-            \DB::table(with(new UserModel)->getTable())->where('id', $deleteUserId)->delete();
+            DB::table(with(new UserModel)->getTable())->where('id', $deleteUserId)->delete();
 
             // TODO
             //SELECT *
@@ -42,18 +44,19 @@ class AdminController extends Controller
             //WHERE r.user_id NOT IN (SELECT id FROM users)
             //   OR r.list_id NOT IN (SELECT id FROM list)
 
-            \DB::commit();
+            DB::commit();
         }
         catch (\Exception $e)
         {
-            \DB::rollback();
+            DB::rollback();
             $deleteUserId = 0;
         }
         return response($deleteUserId);
     }
 
-    public function broadcast(Request $request) {
-        $googleAPIKey = \Config::get('app.google_api_key');
+    public function broadcast(Request $request)
+    {
+        $googleAPIKey = Config::get('app.google_api_key');
         $requestData = [
             'input' =>[
                 'text' => $request->post('text')
@@ -70,14 +73,17 @@ class AdminController extends Controller
         ];
 
 
-        try {
+        try
+        {
             $client = new GuzzleHttp\Client();
             $response_texttospeech = $client->request('POST', 'https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=' . $googleAPIKey, [
                 'json' => $requestData
             ]);
             $response = 1;
 
-        } catch (Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             $errorMessage = 'Something went wrong: ' . $e->getMessage();
             $response = 0;
         }

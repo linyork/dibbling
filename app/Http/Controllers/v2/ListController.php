@@ -4,8 +4,6 @@ namespace App\Http\Controllers\v2;
 
 use App\Helper\YoutubeHelper;
 use App\Http\Controllers\Controller;
-use App\Model\ListModel;
-use App\Model\RecordModel;
 use App\Services\ListService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -70,10 +68,13 @@ class ListController extends Controller
             $youtubeHelper->paser($videoId);
             if ( $youtubeHelper->getStatus() )
             {
-                if($listService->getSongByVideoId($videoId)->toArray()) throw new \Exception('此影片已有人點過');
+                if( $this_video = $listService->getSongByVideoId( $youtubeHelper->getVideoId() )->first() )
+                {
+                    throw new \LogicException( $this_video['title'].PHP_EOL.'此影片已有人點過你確定要再點一次嗎?' );
+                }
 
                 $listService->dibbling( $youtubeHelper);
-                $returnJson['msg'] = '成功點播"' . $youtubeHelper->getTitle() . '"';
+                $returnJson['msg'] = '成功點播'.PHP_EOL.$youtubeHelper->getTitle();
                 $returnJson['title'] = $youtubeHelper->getTitle();
             }
             else
@@ -82,6 +83,12 @@ class ListController extends Controller
                 $returnJson['title'] = $youtubeHelper->getTitle();
                 $returnJson['msg'] = $youtubeHelper->getErrMsg();
             }
+        }
+        catch (\LogicException $e)
+        {
+            $returnJson['status'] = false;
+            $returnJson['redibbling_id'] = $this_video['id'];
+            $returnJson['msg'] = $e->getMessage();
         }
         catch (\Exception $e)
         {
