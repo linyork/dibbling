@@ -189,8 +189,8 @@ function showDanmu(m) {
 
 function SuccessMethod(e) {
     if (e.status === false && e.redibbling_id && confirm(e.msg)) {
-        redibbling(e.redibbling_id)
-    } else if(e.status === false) {
+        redibbling(e.redibbling_id);
+    } else if (e.status === false && !e.redibbling_id) {
         alert(e.msg);
     }
     refresh();
