@@ -45,7 +45,7 @@ services:
     container_name: php
     networks:
       - backend
-    image: tinayork/php
+    image: tinayork/php:8.0-fpm
     expose:
       - 9000
     tty: true
@@ -73,6 +73,40 @@ services:
     volumes:
       - ./docker/mysql/local.cnf:/etc/mysql/conf.d/local.cnf
       - ./docker/mysql/data:/var/lib/mysql
+
+  # phpmyadmin
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin:4.8
+    networks:
+      - frontend
+      - backend
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_ARBITRARY=1
+      - MYSQL_USER=dibblinguser
+      - MYSQL_PASSWORD=dibblingpassword
+      - MYSQL_ROOT_PASSWORD=admin
+      - MAX_EXECUTION_TIME=600
+      - MEMORY_LIMIT=256M
+      - UPLOAD_LIMIT=2G
+    depends_on:
+      - mysql
+
+
+  # PMA dibbling
+  pma_dibbling:
+    container_name: pma_dibbling
+    image: phpmyadmin/phpmyadmin:4.8
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: 13.115.103.198
+      PMA_PORT: 3307
+      PMA_USER: dibblinguser
+      PMA_PASSWORD: dibblingpassword
 
 #  # cache
 #  cache:
