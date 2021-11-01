@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Model\UserModel;
 use App\Model\RecordModel;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 
 class AdminInterface extends Controller
