@@ -60,6 +60,11 @@ php artisan migrate
 ```
 將所需的DB建立起來
 
+```
+php artisan db:seed
+```
+將所需的資料建立起來
+
 ## Log 在哪？
 
 Nginx log: docker/nginx
