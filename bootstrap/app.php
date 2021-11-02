@@ -42,8 +42,8 @@ $app->singleton(
 );
 
 $app->singleton(
-    \App\Helper\YoutubeHelper::class,
-    \App\Helper\YoutubeHelper::class
+    \App\Helpers\YoutubeHelper::class,
+    \App\Helpers\YoutubeHelper::class
 );
 /*
 |--------------------------------------------------------------------------

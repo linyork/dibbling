@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v2;
 
-use App\Helper\YoutubeHelper;
+use App\Helpers\YoutubeHelper;
 use App\Http\Controllers\Controller;
 use App\Services\ListService;
 use Illuminate\Http\Request;
@@ -65,7 +65,7 @@ class ListController extends Controller
         try
         {
             $videoId = $request->input('videoId');
-            $youtubeHelper->paser($videoId);
+            $youtubeHelper->parser();
             if ( $youtubeHelper->getStatus() )
             {
                 if( $this_video = $listService->getSongByVideoId( $youtubeHelper->getVideoId() )->first() )
