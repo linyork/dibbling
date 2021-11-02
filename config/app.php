@@ -170,6 +170,7 @@ return [
          * Package Service Providers...
          */
         \Yish\Generators\GeneratorsServiceProvider::class,
+        Orangehill\Iseed\IseedServiceProvider::class,
         /*
          * Application Service Providers...
          */

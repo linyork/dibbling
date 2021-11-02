@@ -10,12 +10,13 @@
     "require": {
         "php": "^8.0",
         "ext-json": "*",
-        "barryvdh/laravel-debugbar": "^3.2",
+        "barryvdh/laravel-debugbar": "^3.6",
         "fideloper/proxy": "^4.0",
         "google/cloud-text-to-speech": "^0.6.1",
-        "laravel/framework": "^8.0",
-        "laravel/ui": "^3.0",
-        "yish/generators": "^3.1"
+        "laravel/framework": "^8.68",
+        "laravel/ui": "^3.3",
+        "orangehill/iseed": "^3.0",
+        "yish/generators": "^3.2"
     },
     "require-dev": {
         "doctrine/dbal": "^2.9",
@@ -39,12 +40,10 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
-        },
-        "classmap": [
-            "database/seeds",
-            "database/factories"
-        ]
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
     },
     "autoload-dev": {
         "psr-4": {
