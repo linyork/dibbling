@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Helper\YoutubeHelper;
+use App\Helpers\YoutubeHelper;
 use App\Model\LikeModel;
 use App\Model\ListModel;
 use App\Model\RecordModel;

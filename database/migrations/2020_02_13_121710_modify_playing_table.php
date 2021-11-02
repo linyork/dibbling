@@ -25,8 +25,5 @@ class ModifyPlayingTable extends Migration
      */
     public function down()
     {
-        Schema::table('list', function($table) {
-            $table->integer('id')->after('title');
-        });
     }
 }

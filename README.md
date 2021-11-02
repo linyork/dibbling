@@ -9,7 +9,7 @@
 - npm:6.13.6
 
 ## PHP
-要先讓本機的PHP版本為7.1.X
+要先讓本機的PHP版本為 8.* 以上
 
 ## composer
 
@@ -59,6 +59,11 @@ bash env.sh
 php artisan migrate
 ```
 將所需的DB建立起來
+
+```
+php artisan db:seed
+```
+將所需的資料建立起來
 
 ## Log 在哪？
 

@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Model\UserModel;
 use App\Model\RecordModel;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 
 class AdminInterface extends Controller
@@ -15,8 +13,6 @@ class AdminInterface extends Controller
      */
     public function index()
     {
-        Cookie::queue('dibbling_token', Auth::user()->api_token, 120);
-
         // get all user's dibbling record
         $record_dibbling_query = RecordModel::select( 'record.user_id', DB::raw( 'count(record.id) as dibbling_count' ) )
             ->where( 'record_type', '=', RecordModel::DIBBLING )

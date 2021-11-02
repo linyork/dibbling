@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helper;
+namespace App\Helpers;
 
 use Illuminate\Support\Facades\Config;
 
@@ -17,12 +17,12 @@ class YoutubeHelper
     private $seal;
     private $errMsg;
 
-    private function setApiKey(string $apiKey)
+    private function setApiKey(string $apiKey) : void
     {
         $this->apiKey  = $apiKey;
     }
 
-    private function setVideoId(string $videoId)
+    private function setVideoId(string $videoId) : void
     {
         $this->videoId = $videoId;
     }
@@ -79,23 +79,26 @@ class YoutubeHelper
         ];
     }
 
-    public function paser(string $videoId)
+    /**
+     * @param string $string videoId | url
+     */
+    public function parser(string $string) : void
     {
         try
         {
             // 判斷如果是網址的話就只擷取videoId
-            if ( strlen($videoId) >= 12 )
+            if ( strlen($string) >= 12 )
             {
-                parse_str(parse_url($videoId, PHP_URL_QUERY), $get);
+                parse_str(parse_url($string, PHP_URL_QUERY), $get);
                 if ($get){
-                    $videoId = $get['v'];
-                } elseif (($idx = strpos($videoId, 'youtu.be')) !== false){
-                    $videoId = substr($videoId, $idx + 9);
+                    $string = $get['v'];
+                } elseif (($idx = strpos($string, 'youtu.be')) !== false){
+                    $string = substr($string, $idx + 9);
                 }
             }
 
-            $this->setApiKey( Config::get('app.google_api_key'));
-            $this->setVideoId( $videoId);
+            $this->setApiKey( Config::get( 'app.google_api_key' ) );
+            $this->setVideoId( $string );
             $detailData = $this->getVideoDetail();
 
             if($detailData['duration'] >= 600)
@@ -104,7 +107,6 @@ class YoutubeHelper
             }
             else
             {
-                $this->videoId = $videoId;
                 $this->title = $detailData['title'];
                 $this->seal = $detailData['thumbnail_large'];
                 $this->duration = $detailData['duration'];

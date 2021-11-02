@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Helper\YoutubeHelper;
+use App\Helpers\YoutubeHelper;
 use App\Model\ListModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Console\Command;
@@ -43,7 +43,7 @@ class updateYoutube extends Command
         foreach (DB::table('list')->get() as $row)
         {
             $YoutubeHelper = new YoutubeHelper();
-            $YoutubeHelper->paser($row->video_id);
+            $YoutubeHelper->parser($row->video_id);
             $thisVideo = ListModel::withTrashed()->find($row->id);
             $thisVideo->duration = $YoutubeHelper->getDuration();
             $thisVideo->seal = $YoutubeHelper->getSeal();
