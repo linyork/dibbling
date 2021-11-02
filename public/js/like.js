@@ -16,16 +16,17 @@ $(function() {
         like($(this).attr('data-uid'), this);
     });
 
-    function refreshList() {
+    function refreshLike() {
         $.ajax({
-            url: '/api/v2/list',
+            url: '/api/v2/list/liked',
             headers: {
-                'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content')
+                'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            method: "GET"
+            method: "POST"
         }).done(function (db_list) {
-            $("#list").empty();
-            $("#list").append(db_list)
+            $("#like").empty();
+            $("#like").append(db_list)
             $(".js-like").tooltip();
         });
     }
@@ -87,7 +88,7 @@ $(function() {
     }
 
     function refresh() {
-        refreshList();
+        refreshLike();
     }
     refresh();
 });

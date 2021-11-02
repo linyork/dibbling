@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Config;
 
 class YoutubeHelper
 {
+    const YOUTUBE_LINK = 'https://www.youtube.com/watch?v=';
+    
     private $baseVideoUrl = 'https://www.googleapis.com/youtube/v3/videos?id={id}&key={key}&part=snippet,contentDetails,statistics';
     private $apiKey;
     private $status;
@@ -85,7 +87,11 @@ class YoutubeHelper
             if ( strlen($videoId) >= 12 )
             {
                 parse_str(parse_url($videoId, PHP_URL_QUERY), $get);
-                $videoId = $get['v'];
+                if ($get){
+                    $videoId = $get['v'];
+                } elseif (($idx = strpos($videoId, 'youtu.be')) !== false){
+                    $videoId = substr($videoId, $idx + 9);
+                }
             }
 
             $this->setApiKey( Config::get('app.google_api_key'));

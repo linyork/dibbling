@@ -7,6 +7,7 @@ return [
         'Register' => '登録',
         'Dibbling' => 'リクエスト',
         'List' => 'プレイリスト',
+        'Like' => 'お気に入り',
         'Record' => '再生履歴',
         'Setting' => '設定',
         'AdminInterface' => 'Admin interface',
@@ -42,6 +43,9 @@ return [
         'Cut' => '切る',
         'Remove' => '削除',
         'NoData' => 'データなし',
+    ],
+    'like' => [
+        'Like' => 'お気に入り',
     ],
     'record' => [
         'Record' => '再生履歴',

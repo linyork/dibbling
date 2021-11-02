@@ -54,6 +54,29 @@ class ListController extends Controller
     }
 
     /**
+     * 紀錄頁面
+     * @param Request $request
+     * @param ListService $listService
+     * @return Response
+     */
+    public function liked(Request $request, ListService $listService)
+    {
+        try
+        {
+            $page = $request->post( 'page' );
+
+            $liked_data['records'] = $listService->getLiked( $page );
+            $liked_data['likes'] = $listService->getLikes( array_keys( $liked_data['records']->keyBy( 'id' )->toArray() ) );
+        }
+        catch (\Exception $e)
+        {
+            $liked_data = [ 'records' => [], 'likes' => [] ];
+        }
+        //die(json_encode($liked_data));
+        return response()->view( 'common.record', $liked_data, Response::HTTP_OK );
+    }
+
+    /**
      * 點播歌曲
      * @param Request $request
      * @param YoutubeHelper $youtubeHelper
@@ -70,11 +93,11 @@ class ListController extends Controller
             {
                 if( $this_video = $listService->getSongByVideoId( $youtubeHelper->getVideoId() )->first() )
                 {
-                    throw new \LogicException( $this_video['title'].PHP_EOL.'此影片已有人點過你確定要再點一次嗎?' );
+                    throw new \LogicException( $this_video['title'].PHP_EOL.PHP_EOL.'此影片已有人點過，確定要再點一次嗎?' );
                 }
 
                 $listService->dibbling( $youtubeHelper);
-                $returnJson['msg'] = '成功點播'.PHP_EOL.$youtubeHelper->getTitle();
+                $returnJson['msg'] = '點播成功'.PHP_EOL.PHP_EOL.$youtubeHelper->getTitle();
                 $returnJson['title'] = $youtubeHelper->getTitle();
             }
             else

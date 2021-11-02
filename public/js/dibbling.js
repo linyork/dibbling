@@ -190,14 +190,14 @@ function showDanmu(m) {
 function SuccessMethod(e) {
     if (e.status === false && e.redibbling_id && confirm(e.msg)) {
         redibbling(e.redibbling_id);
-    } else if (e.status === false && !e.redibbling_id) {
+    } else if (!e.redibbling_id) {
         alert(e.msg);
     }
     refresh();
 }
 
 function FailMethod(e) {
-    alert(e);
+    alert(e.title + '\n\n' + e.msg);
     console.log(e);
 }
 

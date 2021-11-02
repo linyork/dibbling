@@ -7,6 +7,7 @@ return [
         'Login' => 'Login',
         'Register' => 'Register',
         'List' => 'List',
+        'Like' => 'Like',
         'Record' => 'Record',
         'Controller' => 'Controller',
         'Setting' => 'Setting',
@@ -42,6 +43,9 @@ return [
         'Cut' => 'Cut',
         'Remove' => 'Remove',
         'NoData' => 'No Data',
+    ],
+    'like' => [
+        'Like' => 'Like',
     ],
     'record' => [
         'Record' => 'Record',

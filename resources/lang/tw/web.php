@@ -8,6 +8,7 @@ return [
         'Dibbling' => '點播',
         'List' => '清單',
         'Record' => '紀錄',
+        'Like' => '喜歡',
         'Setting' => '設定',
         'AdminInterface' => '管理者介面',
         'Controller' => '控制器',
@@ -42,6 +43,9 @@ return [
         'Cut' => '切歌',
         'Remove' => '移除',
         'NoData' => '沒有點播歌曲',
+    ],
+    'like' => [
+        'Like' => '喜歡',
     ],
     'record' => [
         'Record' => '紀錄',
