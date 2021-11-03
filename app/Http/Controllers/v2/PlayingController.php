@@ -14,7 +14,7 @@ class PlayingController extends Controller
     {
         try
         {
-            $video_id = PlayingModel::firstOrFail()->video_id;
+            $video_id = (int)PlayingModel::firstOrFail()->video_id;
 
             $data = [
                 'playing' => $listService->getPlaying( $video_id ),

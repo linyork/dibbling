@@ -65,7 +65,7 @@ class ListController extends Controller
         try
         {
             $videoId = $request->input('videoId');
-            $youtubeHelper->parser();
+            $youtubeHelper->parser($videoId);
             if ( $youtubeHelper->getStatus() )
             {
                 if( $this_video = $listService->getSongByVideoId( $youtubeHelper->getVideoId() )->first() )
