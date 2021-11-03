@@ -15,11 +15,13 @@ class ListController extends Controller
      * @param ListService $listService
      * @return Response
      */
-    public function list(ListService $listService)
+    public function list(Request $request, ListService $listService)
     {
         try
         {
-            $record_data['list'] = $listService->getList();
+            $page = $request->post( 'page' );
+            $limit = $request->post( 'limit' );
+            $record_data['list'] = $listService->getList($page, $limit);
             $record_data['likes'] = $listService->getLikes( array_keys( $record_data['list']->keyBy( 'id' )->toArray() ) );
         }
         catch (\Exception $e)
@@ -40,10 +42,11 @@ class ListController extends Controller
         try
         {
             $page = $request->post( 'page' );
+            $limit = $request->post( 'limit' );
             $user_id = $request->post( 'user_id' );
             $song_name = $request->post( 'song_name' );
 
-            $record_data['records'] = $listService->getPlayed( $page, $user_id, $song_name );
+            $record_data['records'] = $listService->getPlayed( $page, $limit, $user_id, $song_name );
             $record_data['likes'] = $listService->getLikes( array_keys( $record_data['records']->keyBy( 'id' )->toArray() ) );
         }
         catch (\Exception $e)
@@ -64,8 +67,10 @@ class ListController extends Controller
         try
         {
             $page = $request->post( 'page' );
+            $limit = $request->post( 'limit' );
+            $user_id = $request->post( 'user_id' );
 
-            $liked_data['records'] = $listService->getLiked( $page );
+            $liked_data['records'] = $listService->getLiked( $page, $limit, $user_id );
             $liked_data['likes'] = $listService->getLikes( array_keys( $liked_data['records']->keyBy( 'id' )->toArray() ) );
         }
         catch (\Exception $e)
@@ -88,12 +93,12 @@ class ListController extends Controller
         try
         {
             $videoId = $request->input('videoId');
-            $youtubeHelper->parser();
+            $youtubeHelper->parser($videoId);
             if ( $youtubeHelper->getStatus() )
             {
                 if( $this_video = $listService->getSongByVideoId( $youtubeHelper->getVideoId() )->first() )
                 {
-                    throw new \LogicException( $this_video['title'].PHP_EOL.PHP_EOL.'此影片已有人點過，確定要再點一次嗎?' );
+                    throw new \LogicException( $this_video['title'].PHP_EOL.PHP_EOL."此影片 {$listService->getDibblingUser($this_video['id'])->name} 已經點過，確定要再點一次嗎?" );
                 }
 
                 $listService->dibbling( $youtubeHelper);

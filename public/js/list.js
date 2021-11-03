@@ -1,93 +1,145 @@
-$(function() {
-    // remove
-    $(document).on('click', '.js-cut', function () {
-        remove($(this).attr('data-uid'));
-        $(this).parents(".col-12").remove();
-    });
+var list = function () {
 
-    // real remove
-    $(document).on('click', '.js-remove', function () {
-        realRemove($(this).attr('data-uid'));
-        $(this).parents(".col-12").remove();
-    });
+    let page = 1
+    let limit = 12
+    let isAjax = false
+    let listContainer = '#record-list'
+    let activePage = 'list'
+    let user_id = 0
+    let headers = {
+        'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
 
-    // like
-    $(document).on('click', '.js-like', function () {
-        like($(this).attr('data-uid'), this);
-    });
+    // reset search bar
+    $(document).on('click', '#reset', function () {
+        $("#user_id").val(0)
+        $("#song_name").val("")
+        resetContainer()
+    })
+
+    // search search bar
+    $(document).on('click', '#search', function () {
+        resetContainer()
+    })
+    $(document).on('keydown', '#song_name', function (e) {
+        if (e.which === 13) {
+            resetContainer()
+        }
+    })
+    $(document).on('keydown', '#user_id', function (e) {
+        if (e.which === 13) {
+            resetContainer()
+        }
+    })
+
+    $(document).on('click', '.js-record-name', function () {
+        user_id = $(this).attr('data-uid')
+        $("#user_id").val(user_id)
+        resetContainer()
+    })
+
+    function resetContainer(){
+        page = 1
+        $(listContainer).empty()
+        ajaxContainer()
+    }
+    
+    function ajaxContainer(){
+        switch (activePage) {
+            case 'list':
+                refreshList()
+                break
+            case 'listPlayed':
+                refreshListPlayed()
+                break
+            case 'listLiked':
+                refreshListLiked()
+                break
+            default:
+                break
+        }
+    }
+    
+    // scroll
+    $(window).scroll(function () {
+        if (isAjax) return;
+        if ($(document).height() - $(this).scrollTop() - $(this).height() < 100) ajaxContainer();
+    })
+
 
     function refreshList() {
+        isAjax = true
         $.ajax({
-            url: '/api/v2/list',
-            headers: {
-                'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content')
-            },
-            method: "GET"
-        }).done(function (db_list) {
-            $("#list").empty();
-            $("#list").append(db_list)
-            $(".js-like").tooltip();
-        });
-    }
-
-    function remove(id) {
-        $.ajax({
-            url: 'api/v2/list/' + id,
-            headers: {
-                'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "DELETE",
-            dataType: "json",
-        });
-    }
-
-    function realRemove(id) {
-        $.ajax({
-            url: 'api/v2/list/' + id,
-            headers: {
-                'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "DELETE",
-            dataType: "json",
+            url: apiPath + 'list',
+            headers: headers,
+            method: "GET",
             data: {
-                'real': true,
-            },
-        });
-
-    }
-
-    function like(id, obj) {
-        var button = $(obj);
-        $.ajax({
-            url: 'api/v2/like',
-            headers: {
-                'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            method: "POST",
-            dataType: "json",
-            data: {
-                'videoId': id,
-            },
-        }).done(function (result) {
-            if(result['like']) {
-                button.find('span').text(parseInt(button.find('span').text())+1);
-                button.find('i').removeClass('fas');
-                button.find('i').removeClass('far');
-                button.find('i').addClass('fas');
-            } else {
-                button.find('span').text(parseInt(button.find('span').text())-1);
-                button.find('i').removeClass('fas');
-                button.find('i').removeClass('far');
-                button.find('i').addClass('far');
+                'page': page,
+                'limit': limit
             }
-        });
+        }).done(function (db_list) {
+            updatePageList(db_list)
+        })
     }
 
-    function refresh() {
-        refreshList();
+    function refreshListPlayed() {
+        isAjax = true
+        $.ajax({
+            url: apiPath + 'list/played',
+            headers: headers,
+            method: "POST",
+            data: {
+                'page': page,
+                'limit': limit,
+                'user_id': user_id,
+                'song_name': $("#song_name").val(),
+            }
+        }).done(function (db_list) {
+            updatePageList(db_list)
+        })
     }
-    refresh();
-});
+
+    function refreshListLiked() {
+        isAjax = true
+        $.ajax({
+            url: apiPath + 'list/liked',
+            headers: headers,
+            method: "POST",
+            data: {
+                'page': page,
+                'limit': limit,
+                'user_id': user_id
+            }
+        }).done(function (db_list) {
+            updatePageList(db_list)
+        })
+    }
+
+    function updatePageList(db_list){
+        isAjax = false
+        user_id = 0
+        $(listContainer).append(db_list)
+        $(".js-like").tooltip()
+        if (db_list) page++
+    }
+
+
+    return {
+        init: function(container){
+            listContainer = container ?? listContainer
+            activePage = 'list'
+            refreshList()
+        },
+        initPlayed: function(container){
+            listContainer = container ?? listContainer
+            activePage = 'listPlayed'
+            refreshListPlayed()
+        },
+        initLiked: function(container){
+            listContainer = container ?? listContainer
+            activePage = 'listLiked'
+            refreshListLiked()
+        }
+    }
+}()

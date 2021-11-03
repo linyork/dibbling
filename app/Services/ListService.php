@@ -169,8 +169,10 @@ class ListService extends Service
     /**
      * @return mixed
      */
-    public function getList()
+    public function getList($page = 1, $limit = 12)
     {
+        $offset = ($page - 1) * $limit;
+
         return DB::table('record')
             ->select('users.*', 'list.*', DB::raw('count(like.list_id) as likes'))
             ->join('users', 'record.user_id', '=', 'users.id')
@@ -180,6 +182,8 @@ class ListService extends Service
             ->where('list.deleted_at', '=', null)
             ->orderBy('list.updated_at')
             ->groupBy('record.id')
+            ->limit($limit)
+            ->offset($offset)
             ->get();
     }
 
@@ -189,9 +193,8 @@ class ListService extends Service
      * @param string $songName
      * @return mixed
      */
-    public function getPlayed($page, $userId, $songName)
+    public function getPlayed($page = 1, $limit = 12, $userId, $songName)
     {
-        $limit = 12;
         $offset = ($page - 1) * $limit;
 
         return DB::table('record')
@@ -219,9 +222,8 @@ class ListService extends Service
      * @param int $userId
      * @return mixed
      */
-    public function getLiked($page)
+    public function getLiked($page = 1, $limit = 12, $userId)
     {
-        $limit = 12;
         $offset = ($page - 1) * $limit;
 
         return DB::table('record')
@@ -229,6 +231,9 @@ class ListService extends Service
             ->join('users', 'record.user_id', '=', 'users.id')
             ->join('list', 'record.list_id', '=', 'list.id')
             ->join('like', 'record.list_id', '=', 'like.list_id')
+            ->when($userId, function ($query, $user_id) {
+                return $query->where('users.id', $user_id);
+            })
             ->where('record.record_type', '=', RecordModel::DIBBLING)
             ->where('like.user_id', '=',  Auth::user()->id)
             ->orderBy('list.updated_at', 'DESC')

@@ -6,12 +6,16 @@
 @endsection
 
 @section('pageJs')
-    <script src="{{ asset('/js/like.js?'.time()) }}"></script>
+    <script src="{{ asset('/js/trigger.js?'.time()) }}"></script>
+    <script src="{{ asset('/js/list.js?'.time()) }}"></script>
+    <script>
+        list.initLiked('#like')
+    </script>
 @endsection
 
 @section('content')
     <div class="container">
-        <div class="css-list-text">{{ __('web.like.Like') }}</div>
+        <div class="css-record-text">{{ __('web.like.Like') }}</div>
         <div class="row" id="like"></div>
     </div>
 @endsection
