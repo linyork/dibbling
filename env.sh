@@ -12,6 +12,7 @@ do
     echo -e "l.\t\t查看所有 containers"
     echo -e "c.\t\t關閉所有 containers"
     echo -e "i.\t\t進入 container"
+    echo -e "qa. \t\t使用 phpstan 進行測試"
     echo -e "q.\t\tExit"
     read -p "Input:" input
 
@@ -45,6 +46,9 @@ do
                 docker exec -it ${containerName} bash
             fi
             echo "----------------------------------------"
+            ;;
+        qa)
+            ./vendor/bin/phpstan analyse --memory-limit=2G
             ;;
         *)
             # 離開程序
