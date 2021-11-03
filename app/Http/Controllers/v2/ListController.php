@@ -57,7 +57,7 @@ class ListController extends Controller
     }
 
     /**
-     * 紀錄頁面
+     * 喜歡頁面
      * @param Request $request
      * @param ListService $listService
      * @return Response
