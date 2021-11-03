@@ -19,7 +19,7 @@ class ListModel extends Model
 
     public function like()
     {
-        return $this->hasMany(LikeModel::class, 'list_id', 'id')->where();
+        return $this->hasMany(LikeModel::class, 'list_id', 'id');
     }
 
     /**
