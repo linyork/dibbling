@@ -167,7 +167,10 @@ class ListService extends Service
     }
 
     /**
-     * @return mixed
+     * @param int $page
+     * @param int $limit
+     * @param string $order
+     * @return \Illuminate\Support\Collection
      */
     public function getList($page = 1, $limit = 12, $order = '')
     {
@@ -189,9 +192,11 @@ class ListService extends Service
 
     /**
      * @param int $page
-     * @param int $userId
-     * @param string $songName
-     * @return mixed
+     * @param int $limit
+     * @param $userId
+     * @param $songName
+     * @param string $order
+     * @return \Illuminate\Support\Collection
      */
     public function getPlayed($page = 1, $limit = 12, $userId, $songName, $order = '')
     {
@@ -214,7 +219,7 @@ class ListService extends Service
                 return $query->where('list.title', 'like', "%$song_name%");
             })
             ->where('record.record_type', '=', DB::raw(RecordModel::DIBBLING))
-            //->where('list.deleted_at', '!=', null)
+            ->where('list.deleted_at', '!=', null)
             ->orderBy($this->getOrder($order), 'DESC')
             ->orderBy('list.updated_at', 'DESC')
             ->groupBy('record.id')
@@ -225,8 +230,10 @@ class ListService extends Service
 
     /**
      * @param int $page
-     * @param int $userId
-     * @return mixed
+     * @param int $limit
+     * @param $userId
+     * @param string $order
+     * @return \Illuminate\Support\Collection
      */
     public function getLiked($page = 1, $limit = 12, $userId, $order = '')
     {
@@ -250,6 +257,10 @@ class ListService extends Service
             ->get();
     }
 
+    /**
+     * @param string $order
+     * @return string
+     */
     public function getOrder(string $order)
     {
         switch ($order){

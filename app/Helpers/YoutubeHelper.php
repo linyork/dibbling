@@ -8,14 +8,14 @@ class YoutubeHelper
 {
     const YOUTUBE_LINK = 'https://www.youtube.com/watch?v=';
     
-    private $baseVideoUrl = 'https://www.googleapis.com/youtube/v3/videos?id={id}&key={key}&part=snippet,contentDetails,statistics';
-    private $apiKey;
-    private $status;
-    private $videoId;
-    private $title;
-    private $duration;
-    private $seal;
-    private $errMsg;
+    private string $baseVideoUrl = 'https://www.googleapis.com/youtube/v3/videos?id={id}&key={key}&part=snippet,contentDetails,statistics';
+    private string $apiKey;
+    private bool $status;
+    private string $videoId;
+    private string $title;
+    private int $duration;
+    private string $seal;
+    private string $errMsg;
 
     private function setApiKey(string $apiKey) : void
     {

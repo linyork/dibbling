@@ -13,11 +13,9 @@
                 <button data-uid="{{ $record->id }}" type="button" class="btn btn-sm btn-outline-warning js-dibbling css-record-btn">
                     {{ __('web.record.Dibbling') }}
                 </button>
-                @if( $record->user_id == Auth::user()->id || Auth::user()->role == App\Model\UserModel::ROLE_ADMIN )
-                    <button data-uid="{{ $record->id }}" type="button" class="btn btn-sm btn-outline-danger js-remove css-record-btn">
-                        {{ __('web.record.Remove') }}
-                    </button>
-                @endif
+                <button data-uid="{{ $record->id }}" type="button" class="btn btn-sm btn-outline-danger js-remove css-record-btn">
+                    {{ __('web.record.Remove') }}
+                </button>
                 <button data-uid="{{ $record->id }}"
                         type="button"
                         class="btn btn-sm btn-outline-primary js-like css-record-btn"
