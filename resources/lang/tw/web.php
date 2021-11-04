@@ -77,6 +77,8 @@ return [
         'Name' => '名稱',
         'DiCount' => '點播數',
         'ReCount' => '再點播數',
+        'LikeCount' => '喜歡數',
+        'ListLikedCount' => '被讚數',
         'Email' => 'E-mail',
         'Delete' => '刪除',
         'Broadcast' => '廣播',

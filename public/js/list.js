@@ -13,7 +13,8 @@ var list = function () {
 
     // reset search bar
     $(document).on('click', '#reset', function () {
-        $("#user_id").val(0)
+        user_id = 0
+        $("#user_id").val(user_id)
         $("#song_name").val("")
         resetContainer()
     })
@@ -34,13 +35,14 @@ var list = function () {
     })
 
     $(document).on('click', '.js-record-name', function () {
-        user_id = $(this).attr('data-uid')
+        user_id = $(this).attr('data-uid') ?? 0
         $("#user_id").val(user_id)
         resetContainer()
     })
 
     function resetContainer(){
         page = 1
+        user_id = typeof($("#user_id").val()) === 'undefined' ? user_id : $("#user_id").val()
         $(listContainer).empty()
         ajaxContainer()
     }
@@ -118,7 +120,6 @@ var list = function () {
 
     function updatePageList(db_list){
         isAjax = false
-        user_id = 0
         $(listContainer).append(db_list)
         $(".js-like").tooltip()
         if (db_list) page++

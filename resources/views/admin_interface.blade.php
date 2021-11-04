@@ -34,6 +34,8 @@
                         <th scope="col">{{ __('web.admin.Name') }}</th>
                         <th scope="col">{{ __('web.admin.DiCount') }}</th>
                         <th scope="col">{{ __('web.admin.ReCount') }}</th>
+                        <th scope="col">{{ __('web.admin.LikeCount') }}</th>
+                        <th scope="col">{{ __('web.admin.ListLikedCount') }}</th>
                         <th scope="col">{{ __('web.admin.Email') }}</th>
                         <th scope="col">{{ __('web.admin.Delete') }}</th>
                     </tr>
@@ -44,6 +46,8 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->dibbling_count ?? 0}}</td>
                             <td>{{ $user->re_count ?? 0}}</td>
+                            <td>{{ $user->like_count ?? 0}}</td>
+                            <td>{{ $user->list_liked_count ?? 0}}</td>
                             <td>{{ $user->email }}</td>
                             <td>
                                 @if ($user->id != Auth::user()->id)

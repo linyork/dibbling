@@ -77,6 +77,8 @@ return [
         'Name' => 'Name',
         'DiCount' => 'Dibbling Count',
         'ReCount' => 'Redibbling Count',
+        'LikeCount' => 'Like Count',
+        'ListLikeCount' => 'Total Liked Count',
         'Email' => 'E-mail',
         'Delete' => 'Delete',
         'Broadcast' => 'Broadcast',
