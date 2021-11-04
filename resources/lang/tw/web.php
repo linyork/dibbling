@@ -58,6 +58,11 @@ return [
         'Choose' => '選擇',
         'SongName' => '歌曲名稱',
     ],
+    'order' => [
+        'Default' => '預設',
+        'DiCount' => '依點播數',
+        'LikeCount' => '依按讚數'
+    ],
     'controller' => [
         'Controller' => '控制器',
         'Play' => '播放',

@@ -20,9 +20,10 @@
                         type="button"
                         data-toggle="tooltip"
                         data-placement="top"
+                        data-html="true"
                         class="btn btn-sm btn-outline-primary js-like css-record-btn "
                         @if( ($video->name == Auth::user()->name || Auth::user()->role == \App\Model\UserModel::ROLE_ADMIN) && $video->likes )
-                        title="@foreach($likes as $like)@if($like->list_id == $video->id){{ "#".$like->user->name }} @endif @endforeach"
+                        title="@foreach($likes as $like)@if($like->list_id == $video->id){{ $like->user->name.'<br>' }} @endif @endforeach"
                         @endif
                 >
                     <span>{{ $video->likes }}</span>

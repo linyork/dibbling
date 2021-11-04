@@ -23,8 +23,9 @@
                         class="btn btn-sm btn-outline-primary js-like css-record-btn"
                         data-toggle="tooltip"
                         data-placement="top"
+                        data-html="true"
                         @if( $record->likes )
-                            title="@foreach($likes as $like)@if($like->list_id == $record->id){{ '#'.$like->user->name }} @endif @endforeach"
+                            title="@foreach($likes as $like)@if($like->list_id == $record->id){{ $like->user->name.'<br>' }} @endif @endforeach"
                         @endif
                 >
                     <span>{{ count($likes->where('list_id', $record->id)->toArray()) }}</span>

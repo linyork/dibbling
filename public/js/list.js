@@ -6,6 +6,7 @@ var list = function () {
     let listContainer = '#record-list'
     let activePage = 'list'
     let user_id = 0
+    let orderBy = 'default'
     let headers = {
         'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -43,6 +44,7 @@ var list = function () {
     function resetContainer(){
         page = 1
         user_id = typeof($("#user_id").val()) === 'undefined' ? user_id : $("#user_id").val()
+        orderBy = $(".order-list").val() ?? 'default'
         $(listContainer).empty()
         ajaxContainer()
     }
@@ -78,7 +80,8 @@ var list = function () {
             method: "GET",
             data: {
                 'page': page,
-                'limit': limit
+                'limit': limit,
+                'order': orderBy
             }
         }).done(function (db_list) {
             updatePageList(db_list)
@@ -94,6 +97,7 @@ var list = function () {
             data: {
                 'page': page,
                 'limit': limit,
+                'order': orderBy,
                 'user_id': user_id,
                 'song_name': $("#song_name").val(),
             }
@@ -111,6 +115,7 @@ var list = function () {
             data: {
                 'page': page,
                 'limit': limit,
+                'order': orderBy,
                 'user_id': user_id
             }
         }).done(function (db_list) {

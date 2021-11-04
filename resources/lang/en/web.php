@@ -58,6 +58,11 @@ return [
         'Choose' => 'Choose',
         'SongName' => 'Song Name',
     ],
+    'order' => [
+        'Default' => 'Default',
+        'DiCount' => 'Order by Dibbling Count',
+        'LikeCount' => 'Order by Like Count'
+    ],
     'controller' => [
         'Controller' => 'Controller',
         'Play' => 'Play',

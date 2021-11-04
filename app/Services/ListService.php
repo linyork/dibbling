@@ -169,7 +169,7 @@ class ListService extends Service
     /**
      * @return mixed
      */
-    public function getList($page = 1, $limit = 12)
+    public function getList($page = 1, $limit = 12, $order = '')
     {
         $offset = ($page - 1) * $limit;
 
@@ -180,7 +180,7 @@ class ListService extends Service
             ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
             ->where('record.record_type', '=', RecordModel::DIBBLING)
             ->where('list.deleted_at', '=', null)
-            ->orderBy('list.updated_at')
+            ->orderBy($this->getOrder($order))
             ->groupBy('record.id')
             ->limit($limit)
             ->offset($offset)
@@ -193,23 +193,29 @@ class ListService extends Service
      * @param string $songName
      * @return mixed
      */
-    public function getPlayed($page = 1, $limit = 12, $userId, $songName)
+    public function getPlayed($page = 1, $limit = 12, $userId, $songName, $order = '')
     {
         $offset = ($page - 1) * $limit;
 
+        $reDibbling_query = $this->recordModel->select('list_id', DB::raw('count(id) as count'))->where('record_type', '=', DB::raw(RecordModel::RE_DIBBLING))->groupBy('list_id');
+
         return DB::table('record')
-            ->select(DB::raw('users.id as user_id'),'users.*', 'list.*', DB::raw('count(like.list_id) as likes'))
+            ->select(DB::raw('users.id as user_id'), 'users.*', 'list.*', DB::raw('count(like.list_id) as likes'), DB::raw('SUM(reDib.count) as reDib_count'))
             ->join('users', 'record.user_id', '=', 'users.id')
             ->join('list', 'record.list_id', '=', 'list.id')
             ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
+            ->leftJoin( DB::raw("({$reDibbling_query->toSql()}) as reDib"), function( $join ){
+                $join->on('record.list_id', '=', 'reDib.list_id');
+            })
             ->when($userId, function ($query, $user_id) {
                 return $query->where('users.id', '=', $user_id);
             })
             ->when($songName, function ($query, $song_name) {
                 return $query->where('list.title', 'like', "%$song_name%");
             })
-            ->where('record.record_type', '=', RecordModel::DIBBLING)
+            ->where('record.record_type', '=', DB::raw(RecordModel::DIBBLING))
             //->where('list.deleted_at', '!=', null)
+            ->orderBy($this->getOrder($order), 'DESC')
             ->orderBy('list.updated_at', 'DESC')
             ->groupBy('record.id')
             ->limit($limit)
@@ -222,25 +228,39 @@ class ListService extends Service
      * @param int $userId
      * @return mixed
      */
-    public function getLiked($page = 1, $limit = 12, $userId)
+    public function getLiked($page = 1, $limit = 12, $userId, $order = '')
     {
         $offset = ($page - 1) * $limit;
 
         return DB::table('record')
-            ->select(DB::raw('users.id as user_id'),'users.*', 'list.*', DB::raw('count(like.list_id) as likes'))
+            ->select(DB::raw('users.id as user_id'), 'users.*', 'list.*', DB::raw('count(like.list_id) as likes'))
             ->join('users', 'record.user_id', '=', 'users.id')
             ->join('list', 'record.list_id', '=', 'list.id')
             ->join('like', 'record.list_id', '=', 'like.list_id')
             ->when($userId, function ($query, $user_id) {
                 return $query->where('users.id', $user_id);
             })
-            ->where('record.record_type', '=', RecordModel::DIBBLING)
-            ->where('like.user_id', '=',  Auth::user()->id)
+            ->where('record.record_type', '=', DB::raw(RecordModel::DIBBLING))
+            ->where('like.user_id', '=',  DB::raw(Auth::user()->id))
+            ->orderBy($this->getOrder($order), 'DESC')
             ->orderBy('list.updated_at', 'DESC')
             ->groupBy('record.id')
             ->limit($limit)
             ->offset($offset)
             ->get();
+    }
+
+    public function getOrder(string $order)
+    {
+        switch ($order){
+            case 'dibbling':
+                return 'reDib_count';
+            case 'likes':
+                return 'likes';
+            case 'default':
+            default:
+                return 'list.updated_at';
+        }
     }
 
     /**

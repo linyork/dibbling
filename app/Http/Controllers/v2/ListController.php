@@ -43,10 +43,11 @@ class ListController extends Controller
         {
             $page = $request->post( 'page' );
             $limit = $request->post( 'limit' );
+            $order = $request->post( 'order' );
             $user_id = $request->post( 'user_id' );
             $song_name = $request->post( 'song_name' );
 
-            $record_data['records'] = $listService->getPlayed( $page, $limit, $user_id, $song_name );
+            $record_data['records'] = $listService->getPlayed( $page, $limit, $user_id, $song_name, $order );
             $record_data['likes'] = $listService->getLikes( array_keys( $record_data['records']->keyBy( 'id' )->toArray() ) );
         }
         catch (\Exception $e)
@@ -68,9 +69,10 @@ class ListController extends Controller
         {
             $page = $request->post( 'page' );
             $limit = $request->post( 'limit' );
+            $order = $request->post( 'order' );
             $user_id = $request->post( 'user_id' );
 
-            $liked_data['records'] = $listService->getLiked( $page, $limit, $user_id );
+            $liked_data['records'] = $listService->getLiked( $page, $limit, $user_id, $order );
             $liked_data['likes'] = $listService->getLikes( array_keys( $liked_data['records']->keyBy( 'id' )->toArray() ) );
         }
         catch (\Exception $e)

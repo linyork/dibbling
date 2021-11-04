@@ -58,6 +58,11 @@ return [
         'Choose' => 'お選びください',
         'SongName' => '曲名',
     ],
+    'order' => [
+        'Default' => 'ディフォルト',
+        'DiCount' => 'リクエスト数により',
+        'LikeCount' => 'お気に入り数により'
+    ],
     'controller' => [
         'Controller' => 'リモコン',
         'Play' => 'スタート',
