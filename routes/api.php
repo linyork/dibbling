@@ -46,6 +46,8 @@ Route::group(['prefix' => 'v2'], function ()
         Route::get('list', [Controllers\v2\ListController::class, 'list']);
         // 取得已播清單
         Route::post('list/played', [Controllers\v2\ListController::class, 'played']);
+        // 取得已讚清單
+        Route::post('list/liked', [Controllers\v2\ListController::class, 'liked']);
         // 取得正在播放
         Route::get('playing', [Controllers\v2\PlayingController::class, 'get']);
         // 點讚

@@ -8,6 +8,7 @@ return [
         'Dibbling' => '點播',
         'List' => '清單',
         'Record' => '紀錄',
+        'Like' => '喜歡',
         'Setting' => '設定',
         'AdminInterface' => '管理者介面',
         'Controller' => '控制器',
@@ -43,6 +44,9 @@ return [
         'Remove' => '移除',
         'NoData' => '沒有點播歌曲',
     ],
+    'like' => [
+        'Like' => '喜歡',
+    ],
     'record' => [
         'Record' => '紀錄',
         'Dibbling' => '點播',
@@ -53,6 +57,11 @@ return [
         'UserName' => '點播人',
         'Choose' => '選擇',
         'SongName' => '歌曲名稱',
+    ],
+    'order' => [
+        'Default' => '預設',
+        'DiCount' => '依點播數',
+        'LikeCount' => '依按讚數'
     ],
     'controller' => [
         'Controller' => '控制器',
@@ -73,6 +82,8 @@ return [
         'Name' => '名稱',
         'DiCount' => '點播數',
         'ReCount' => '再點播數',
+        'LikeCount' => '喜歡數',
+        'ListLikedCount' => '被讚數',
         'Email' => 'E-mail',
         'Delete' => '刪除',
         'Broadcast' => '廣播',

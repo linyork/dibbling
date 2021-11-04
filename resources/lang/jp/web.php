@@ -7,6 +7,7 @@ return [
         'Register' => '登録',
         'Dibbling' => 'リクエスト',
         'List' => 'プレイリスト',
+        'Like' => 'お気に入り',
         'Record' => '再生履歴',
         'Setting' => '設定',
         'AdminInterface' => 'Admin interface',
@@ -43,6 +44,9 @@ return [
         'Remove' => '削除',
         'NoData' => 'データなし',
     ],
+    'like' => [
+        'Like' => 'お気に入り',
+    ],
     'record' => [
         'Record' => '再生履歴',
         'Dibbling' => 'リクエスト',
@@ -53,6 +57,11 @@ return [
         'UserName' => 'ユーザー名',
         'Choose' => 'お選びください',
         'SongName' => '曲名',
+    ],
+    'order' => [
+        'Default' => 'ディフォルト',
+        'DiCount' => 'リクエスト数により',
+        'LikeCount' => 'お気に入り数により'
     ],
     'controller' => [
         'Controller' => 'リモコン',
@@ -73,6 +82,8 @@ return [
         'Name' => '名前',
         'DiCount' => 'リクエスト数',
         'ReCount' => '再生数',
+        'LikeCount' => 'お気に入り数',
+        'ListLikedCount' => 'いいね数',
         'Email' => 'E-mail',
         'Delete' => '削除',
         'Broadcast' => 'アナウンス',

@@ -24,6 +24,13 @@
                     </div>
                     <input id="song_name" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                 </div>
+                <div class="input-group offset-3 col-2">
+                    <select class='custom-select order-list'>
+                        <option value="default">{{ __('web.order.Default') }}</option>
+                        <option value="dibbling">{{ __('web.order.DiCount') }}</option>
+                        <option value="likes">{{ __('web.order.LikeCount') }}</option>
+                    </select>
+                </div>
             </div>
 
             <div class="form-group row justify-content-end">

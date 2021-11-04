@@ -45,6 +45,8 @@ Route::middleware($userMiddlewareArray)->group(function () {
         ->name('dibbling_list');
     Route::get('dibbling_record', [Controllers\DibblingRecord::class, 'index'])
         ->name('dibbling_record');
+    Route::get('dibbling_like', [Controllers\DibblingLike::class, 'index'])
+        ->name('dibbling_like');
     Route::get('setting', [Controllers\Setting::class, 'index'])
         ->name('setting');
     Route::get('admin_interface', [Controllers\AdminInterface::class, 'index'])

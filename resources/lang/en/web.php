@@ -7,6 +7,7 @@ return [
         'Login' => 'Login',
         'Register' => 'Register',
         'List' => 'List',
+        'Like' => 'Like',
         'Record' => 'Record',
         'Controller' => 'Controller',
         'Setting' => 'Setting',
@@ -43,6 +44,9 @@ return [
         'Remove' => 'Remove',
         'NoData' => 'No Data',
     ],
+    'like' => [
+        'Like' => 'Like',
+    ],
     'record' => [
         'Record' => 'Record',
         'Dibbling' => 'Dibbling',
@@ -53,6 +57,11 @@ return [
         'UserName' => 'User Name',
         'Choose' => 'Choose',
         'SongName' => 'Song Name',
+    ],
+    'order' => [
+        'Default' => 'Default',
+        'DiCount' => 'Order by Dibbling Count',
+        'LikeCount' => 'Order by Like Count'
     ],
     'controller' => [
         'Controller' => 'Controller',
@@ -73,6 +82,8 @@ return [
         'Name' => 'Name',
         'DiCount' => 'Dibbling Count',
         'ReCount' => 'Redibbling Count',
+        'LikeCount' => 'Like Count',
+        'ListLikeCount' => 'Total Liked Count',
         'Email' => 'E-mail',
         'Delete' => 'Delete',
         'Broadcast' => 'Broadcast',

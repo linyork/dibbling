@@ -2,7 +2,7 @@
     <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="card css-list">
             <div class="css-list-img-group">
-                <img src="{{ $video->seal }}" class="card-img-top">
+                <a href="{{ App\Helpers\YoutubeHelper::YOUTUBE_LINK . $video->video_id }}" target="_blank"><img src="{{ $video->seal }}" class="card-img-top"></a>
                 <span class="css-list-duration">{{ floor((($video->duration%86400)%3600)/60).":".str_pad(floor((($video->duration%86400)%3600)%60),2,'0',STR_PAD_LEFT) }}</span>
             </div>
             <div class="card-body container">
@@ -18,9 +18,12 @@
                 </button>
                 <button data-uid="{{ $video->id }}"
                         type="button"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        data-html="true"
                         class="btn btn-sm btn-outline-primary js-like css-record-btn "
                         @if( ($video->name == Auth::user()->name || Auth::user()->role == \App\Model\UserModel::ROLE_ADMIN) && $video->likes )
-                        title="@foreach($likes as $like)@if($like->list_id == $video->id){{ "#".$like->user->name }} @endif @endforeach"
+                        title="@foreach($likes as $like)@if($like->list_id == $video->id){{ $like->user->name.'<br>' }} @endif @endforeach"
                         @endif
                 >
                     <span>{{ $video->likes }}</span>

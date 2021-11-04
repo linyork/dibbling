@@ -99,6 +99,11 @@
                                     {{ __('web.app.Record') }}
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ (Route::currentRouteName() === 'dibbling_like') ? 'current-page' : '' }}" href="{{ route('dibbling_like') }}">
+                                    {{ __('web.app.Like') }}
+                                </a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
