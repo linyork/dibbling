@@ -10,18 +10,18 @@
                 <span class="css-list-title">{{ $video->title }}</span>
             </div>
             <div class="css-list-btn-group">
-                <button data-uid="{{ $video->id }}" type="button" class="btn btn-sm btn-outline-danger js-remove css-record-btn">
+                <button onclick="javascript:list.remove('{{ $video->id }}',this,true)" type="button" class="btn btn-sm btn-outline-danger css-record-btn">
                     {{ __('web.list.Remove') }}
                 </button>
-                <button data-uid="{{ $video->id }}" type="button" class="btn btn-sm btn-outline-secondary js-cut css-record-btn">
+                <button onclick="javascript:list.cut('{{ $video->id }}',this)" type="button" class="btn btn-sm btn-outline-secondary css-record-btn">
                     {{ __('web.list.Cut') }}
                 </button>
-                <button data-uid="{{ $video->id }}"
+                <button onclick="javascript:list.like('{{ $video->id }}',this)"
                         type="button"
                         data-toggle="tooltip"
                         data-placement="top"
                         data-html="true"
-                        class="btn btn-sm btn-outline-primary js-like css-record-btn "
+                        class="btn btn-sm btn-outline-primary css-record-btn "
                         @if( ($video->name == Auth::user()->name || Auth::user()->role == \App\Model\UserModel::ROLE_ADMIN) && $video->likes )
                         title="@foreach($likes as $like)@if($like->list_id == $video->id){{ $like->user->name.'<br>' }} @endif @endforeach"
                         @endif

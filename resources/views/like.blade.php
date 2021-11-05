@@ -6,7 +6,6 @@
 @endsection
 
 @section('pageJs')
-    <script src="{{ asset('/js/trigger.js?'.time()) }}"></script>
     <script src="{{ asset('/js/list.js?'.time()) }}"></script>
     <script>
         list.initLiked('#like')
