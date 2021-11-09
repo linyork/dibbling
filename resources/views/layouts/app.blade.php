@@ -134,6 +134,25 @@
             @yield('content')
         </main>
     </div>
+    
+    <div class="modal" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="infoModalTitle"> {{ __('web.list.History') }}<br><span class="modal-sub-title"></span></h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">{{ __('web.list.Close') }}</span></button>
+            </div>
+            <div class="modal-body">
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('web.list.Close') }}</button>
+            </div>
+
+          </div>
+        </div>
+    </div>
+
     <!-- App Js -->
     <script src="{{ asset('/js/layout-app.js?'.time()) }}"></script>
     <!-- Page Js-->

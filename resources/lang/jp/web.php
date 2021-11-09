@@ -43,6 +43,9 @@ return [
         'Cut' => '切る',
         'Remove' => '削除',
         'NoData' => 'データなし',
+        'History' => '関連リスト',
+        'Info' => '情報',
+        'Close' => '閉じる'
     ],
     'like' => [
         'Like' => 'お気に入り',

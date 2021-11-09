@@ -52,6 +52,8 @@ Route::group(['prefix' => 'v2'], function ()
         Route::get('playing', [Controllers\v2\PlayingController::class, 'get']);
         // 點讚
         Route::post('like', [Controllers\v2\LikeController::class, 'like']);
+        // 資訊
+        Route::post('info', [Controllers\v2\ListController::class, 'info']);
 
         // admin 區塊
         Route::middleware('can:admin')->group(function ()

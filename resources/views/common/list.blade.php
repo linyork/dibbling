@@ -10,6 +10,9 @@
                 <span class="css-list-title">{{ $video->title }}</span>
             </div>
             <div class="css-list-btn-group">
+                <button data-title="{{ $video->title }}" onclick="javascript:list.info('{{ $video->id }}',this)" type="button" class="btn btn-sm btn-outline-secondary css-record-btn">
+                    <i class="fa fa-info"></i>
+                </button>
                 <button onclick="javascript:list.remove('{{ $video->id }}',this,true)" type="button" class="btn btn-sm btn-outline-danger css-record-btn">
                     {{ __('web.list.Remove') }}
                 </button>

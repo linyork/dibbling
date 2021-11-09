@@ -43,6 +43,9 @@ return [
         'Cut' => 'Cut',
         'Remove' => 'Remove',
         'NoData' => 'No Data',
+        'History' => 'History List',
+        'Info' => 'Info',
+        'Close' => 'Close'
     ],
     'like' => [
         'Like' => 'Like',

@@ -122,6 +122,28 @@ var list = function () {
         })
     }
 
+    function info(id, obj) {
+        $.ajax({
+            url: apiPath + 'info',
+            headers: headers,
+            method: "POST",
+            dataType: "json",
+            data: {
+                'list_id': id
+            }
+        }).done(function (result) {
+            var modal = $('#infoModal')
+            
+            var html = '<p style="padding-left:20px"><i class="fa fa-info-circle"></i> ' + obj.data('title') + '</p>' + '<ul>'
+            result.forEach(item => {
+                html += ('<li>' + item.created_at + ' - ' + item.name + ' ' + item.type_txt + '</li>')
+            })
+            html += '</ul>'
+            modal.find('.modal-body').html(html)
+            modal.modal('show')
+        })
+    }
+
 
     function refreshList() {
         isAjax = true
@@ -211,6 +233,9 @@ var list = function () {
         },
         like: function(id, obj){
             like(id, $(obj))
+        },
+        info: function(id, obj){
+            info(id, $(obj))
         }
     }
 }()
