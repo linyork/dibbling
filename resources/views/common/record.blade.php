@@ -21,7 +21,7 @@
                 </button>
                 <button onclick="javascript:list.like('{{ $record->id }}',this)"
                         type="button"
-                        class="btn btn-sm btn-outline-primary css-record-btn"
+                        class="btn btn-sm btn-outline-primary css-record-btn js-like"
                         data-toggle="tooltip"
                         data-placement="top"
                         data-html="true"
