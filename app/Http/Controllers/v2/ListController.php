@@ -79,8 +79,35 @@ class ListController extends Controller
         {
             $liked_data = [ 'records' => [], 'likes' => [] ];
         }
-        //die(json_encode($liked_data));
         return response()->view( 'common.record', $liked_data, Response::HTTP_OK );
+    }
+
+    /**
+     * 資訊頁面
+     * @param Request $request
+     * @param ListService $listService
+     * @return Response
+     */
+    public function info(Request $request, ListService $listService)
+    {
+        try
+        {
+            $list_id = $request->post( 'list_id' );
+            
+            $info_data['records'] = $listService->getRecordInfo($list_id)->toArray();
+            $info_data['like'] = $listService->getLikedInfo($list_id)->toArray();
+            
+            $ret_data = array_merge($info_data['records'], $info_data['like']);
+        }
+        catch (\Exception $e)
+        {
+            $ret_data = [];
+        }
+        
+        //排序
+        usort($ret_data, fn($a,$b) => $a->created_at > $b->created_at);
+
+        return response()->json( $ret_data );
     }
 
     /**

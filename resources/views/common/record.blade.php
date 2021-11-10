@@ -10,15 +10,18 @@
                 <span class="css-record-title">{{ $record->title }}</span>
             </div>
             <div class="css-record-btn-group">
-                <button data-uid="{{ $record->id }}" type="button" class="btn btn-sm btn-outline-warning js-dibbling css-record-btn">
+                <button data-title="{{ $record->title }}" onclick="javascript:list.info('{{ $record->id }}',this)" type="button" class="btn btn-sm btn-outline-secondary css-record-btn">
+                    <i class="fa fa-info"></i>
+                </button>
+                <button  onclick="javascript:list.reDibbling('{{ $record->id }}',this)" type="button" class="btn btn-sm btn-outline-warning css-record-btn">
                     {{ __('web.record.Dibbling') }}
                 </button>
-                <button data-uid="{{ $record->id }}" type="button" class="btn btn-sm btn-outline-danger js-remove css-record-btn">
+                <button  onclick="javascript:list.remove('{{ $record->id }}',this,true)" type="button" class="btn btn-sm btn-outline-danger css-record-btn">
                     {{ __('web.record.Remove') }}
                 </button>
-                <button data-uid="{{ $record->id }}"
+                <button onclick="javascript:list.like('{{ $record->id }}',this)"
                         type="button"
-                        class="btn btn-sm btn-outline-primary js-like css-record-btn"
+                        class="btn btn-sm btn-outline-primary css-record-btn js-like"
                         data-toggle="tooltip"
                         data-placement="top"
                         data-html="true"

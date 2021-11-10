@@ -43,6 +43,9 @@ return [
         'Cut' => '切歌',
         'Remove' => '移除',
         'NoData' => '沒有點播歌曲',
+        'History' => '歷程紀錄',
+        'Info' => '資訊',
+        'Close' => '關閉'
     ],
     'like' => [
         'Like' => '喜歡',

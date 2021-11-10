@@ -198,7 +198,7 @@ class ListService extends Service
      * @param string $order
      * @return \Illuminate\Support\Collection
      */
-    public function getPlayed($page = 1, $limit = 12, $userId, $songName, $order = '')
+    public function getPlayed($page = 1, $limit = 12, $userId = null, $songName = null, $order = '')
     {
         $offset = ($page - 1) * $limit;
 
@@ -235,7 +235,7 @@ class ListService extends Service
      * @param string $order
      * @return \Illuminate\Support\Collection
      */
-    public function getLiked($page = 1, $limit = 12, $userId, $order = '')
+    public function getLiked($page = 1, $limit = 12, $userId = null, $order = '')
     {
         $offset = ($page - 1) * $limit;
 
@@ -258,12 +258,44 @@ class ListService extends Service
     }
 
     /**
+     * @param int $list_id
+     * @return \Illuminate\Support\Collection
+     */
+    public function getRecordInfo(int $list_id)
+    {
+        return DB::table('record')
+            ->select('record.created_at', DB::raw('users.name'), DB::raw('case record.record_type when 1 then "點播" when 2 then "再點播" when 3 then "移除" when 4 then "刪除" END as type_txt'))
+            ->join('users', 'record.user_id', '=', 'users.id')
+            ->join('list', 'record.list_id', '=', 'list.id')
+            ->where('record.list_id', DB::raw($list_id))
+            ->orderBy('created_at', 'asc')
+            ->groupBy('record.id')
+            ->get();
+    }
+
+    /**
+     * @param int $list_id
+     * @return \Illuminate\Support\Collection
+     */
+    public function getLikedInfo(int $list_id)
+    {
+        return DB::table('like')
+            ->select('like.created_at', DB::raw('users.name'), DB::raw('"按讚" as type_txt'))
+            ->join('users', 'like.user_id', '=', 'users.id')
+            ->join('list', 'like.list_id', '=', 'list.id')
+            ->where('like.list_id', DB::raw($list_id))
+            ->orderBy('created_at', 'asc')
+            ->groupBy('like.id')
+            ->get();
+    }
+    /**
      * @param string $order
      * @return string
      */
     public function getOrder(string $order)
     {
-        switch ($order){
+        switch( $order )
+        {
             case 'dibbling':
                 return 'reDib_count';
             case 'likes':

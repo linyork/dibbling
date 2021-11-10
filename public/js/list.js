@@ -1,5 +1,6 @@
 var list = function () {
 
+    const apiPath = 'api/v2/'
     let page = 1
     let limit = 12
     let isAjax = false
@@ -72,6 +73,78 @@ var list = function () {
     })
 
 
+    function reDibbling(id, obj) {
+        $.ajax({
+            url: apiPath + 'list/' + id,
+            headers: headers,
+            type: "PUT",
+            dataType: "json"
+        }).done(function (result) {
+            removeContain(obj)
+        })
+    }
+
+    function remove(id, obj, realRemove = false) {
+        $.ajax({
+            url: apiPath + 'list/' + id,
+            headers: headers,
+            type: "DELETE",
+            dataType: "json",
+            data: {
+                'real': realRemove
+            }
+        }).done(function (result) {
+            removeContain(obj)
+        })
+    }
+
+    function removeContain(obj){
+        obj.parents(".col-12").remove()
+    }
+
+    function like(id, obj) {
+        $.ajax({
+            url: apiPath + 'like',
+            headers: headers,
+            method: "POST",
+            dataType: "json",
+            data: {
+                'videoId': id
+            },
+        }).done(function (result) {
+            if (result['like']) {
+                obj.find('span').text(parseInt(obj.find('span').text()) + 1)
+                obj.find('i').removeClass('far').addClass('fas')
+            } else {
+                obj.find('span').text(parseInt(obj.find('span').text()) - 1)
+                obj.find('i').removeClass('fas').addClass('far')
+            }
+        })
+    }
+
+    function info(id, obj) {
+        $.ajax({
+            url: apiPath + 'info',
+            headers: headers,
+            method: "POST",
+            dataType: "json",
+            data: {
+                'list_id': id
+            }
+        }).done(function (result) {
+            var modal = $('#infoModal')
+            
+            var html = '<p style="padding-left:20px"><i class="fa fa-info-circle"></i> ' + obj.data('title') + '</p>' + '<ul>'
+            result.forEach(item => {
+                html += ('<li>' + item.created_at + ' - ' + item.name + ' ' + item.type_txt + '</li>')
+            })
+            html += '</ul>'
+            modal.find('.modal-body').html(html)
+            modal.modal('show')
+        })
+    }
+
+
     function refreshList() {
         isAjax = true
         $.ajax({
@@ -132,6 +205,7 @@ var list = function () {
 
 
     return {
+        //init
         init: function(container){
             listContainer = container ?? listContainer
             activePage = 'list'
@@ -146,6 +220,22 @@ var list = function () {
             listContainer = container ?? listContainer
             activePage = 'listLiked'
             refreshListLiked()
+        },
+        //trigger
+        reDibbling: function(id, obj){
+            reDibbling(id, $(obj))
+        },
+        remove: function(id, obj){
+            remove(id, $(obj), true)
+        },
+        cut: function(id, obj){
+            remove(id, $(obj), false)
+        },
+        like: function(id, obj){
+            like(id, $(obj))
+        },
+        info: function(id, obj){
+            info(id, $(obj))
         }
     }
 }()

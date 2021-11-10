@@ -66,9 +66,9 @@ services:
     image: mysql:8
     environment:
       MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: dibbling
-      MYSQL_USER: dibblinguser
-      MYSQL_PASSWORD: dibblingpassword
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - ./docker/mysql/local.cnf:/etc/mysql/conf.d/local.cnf
@@ -85,15 +85,10 @@ services:
     ports:
       - "8080:80"
     environment:
-      - PMA_ARBITRARY=1
-      - MYSQL_USER=dibblinguser
-      - MYSQL_PASSWORD=dibblingpassword
-      - MYSQL_ROOT_PASSWORD=admin
-      - MAX_EXECUTION_TIME=600
-      - MEMORY_LIMIT=256M
-      - UPLOAD_LIMIT=2G
-    depends_on:
-      - mysql
+      PMA_HOST: ${DB_HOST}
+      PMA_PORT: ${DB_PORT}
+      PMA_USER: ${DB_USERNAME}
+      PMA_PASSWORD: ${DB_PASSWORD}
 
 
   # PMA dibbling
@@ -103,10 +98,10 @@ services:
     ports:
       - "8081:80"
     environment:
-      PMA_HOST: 13.115.103.198
-      PMA_PORT: 3307
-      PMA_USER: dibblinguser
-      PMA_PASSWORD: dibblingpassword
+      PMA_HOST: ${DB_HOST_PRO}
+      PMA_PORT: ${DB_PORT_PRO}
+      PMA_USER: ${DB_USERNAME_PRO}
+      PMA_PASSWORD: ${DB_PASSWORD_PRO}
 
 #  # cache
 #  cache:
