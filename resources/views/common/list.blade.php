@@ -25,7 +25,7 @@
                         data-placement="top"
                         data-html="true"
                         class="btn btn-sm btn-outline-primary css-record-btn js-like"
-                        @if( ($video->name == Auth::user()->name || Auth::user()->role == \App\Model\UserModel::ROLE_ADMIN) && $video->likes )
+                        @if( $video->likes )
                         title="@foreach($likes as $like)@if($like->list_id == $video->id){{ $like->user->name.'<br>' }} @endif @endforeach"
                         @endif
                 >

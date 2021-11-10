@@ -198,7 +198,7 @@ class ListService extends Service
      * @param string $order
      * @return \Illuminate\Support\Collection
      */
-    public function getPlayed($page = 1, $limit = 12, $userId, $songName, $order = '')
+    public function getPlayed($page = 1, $limit = 12, $userId = null, $songName = null, $order = '')
     {
         $offset = ($page - 1) * $limit;
 
@@ -235,7 +235,7 @@ class ListService extends Service
      * @param string $order
      * @return \Illuminate\Support\Collection
      */
-    public function getLiked($page = 1, $limit = 12, $userId, $order = '')
+    public function getLiked($page = 1, $limit = 12, $userId = null, $order = '')
     {
         $offset = ($page - 1) * $limit;
 
@@ -294,7 +294,8 @@ class ListService extends Service
      */
     public function getOrder(string $order)
     {
-        switch ($order){
+        switch( $order )
+        {
             case 'dibbling':
                 return 'reDib_count';
             case 'likes':
