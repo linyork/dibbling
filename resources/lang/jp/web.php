@@ -10,7 +10,7 @@ return [
         'Like' => 'お気に入り',
         'Record' => '再生履歴',
         'Setting' => '設定',
-        'AdminInterface' => 'Admin interface',
+        'AdminInterface' => '管理ページ',
         'Controller' => 'リモコン',
         'Logout' => 'ログアウト',
     ],
