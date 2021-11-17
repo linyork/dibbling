@@ -74,10 +74,10 @@
 }
 
 .css-record-btn-group {
-    padding: 0.5rem;
+    padding: 0.5rem 0.3rem;
 }
 
 .css-record-btn {
     float: right;
-    margin-left: 10px;
+    margin-left: 6px;
 }
