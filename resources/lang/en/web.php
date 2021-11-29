@@ -3,6 +3,7 @@
 return [
     'Language' => 'English',
     'app' => [
+        'Supporter' => 'Supporter',
         'Dibbling' => 'Dibbling',
         'Login' => 'Login',
         'Register' => 'Register',

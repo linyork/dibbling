@@ -5,6 +5,7 @@ return [
     'app' => [
         'Login' => '登入',
         'Register' => '註冊',
+        'Supporter' => '芳名錄',
         'Dibbling' => '點播',
         'List' => '清單',
         'Record' => '紀錄',

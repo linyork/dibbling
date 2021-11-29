@@ -32,13 +32,17 @@ Route::get('set_locale/{locale}', [Controllers\Set::class, 'locale'])
     ->name('set_locale');
 Route::get('set_mode/{mode}', [Controllers\Set::class, 'mode'])
     ->name('set_mode');
+
 // web block
 Route::get('/', function (){ return redirect('dibbling'); })
     ->name('home');
-Route::get('player', function (){ return view('player'); })
+Route::view('player', 'player')
     ->name('player');
+
 // user web block
 Route::middleware($userMiddlewareArray)->group(function () {
+    Route::view('supporter', 'supporter')
+        ->name('supporter');
     Route::get('dibbling', [Controllers\Dibbling::class, 'index'])
         ->name('dibbling');
     Route::get('dibbling_list', [Controllers\DibblingList::class, 'index'])
