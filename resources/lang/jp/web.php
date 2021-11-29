@@ -5,7 +5,7 @@ return [
     'app' => [
         'Login' => 'ログイン',
         'Register' => '登録',
-        'Supporter' => 'Supporter',
+        'Supporter' => '協力者',
         'Dibbling' => 'リクエスト',
         'List' => 'プレイリスト',
         'Like' => 'お気に入り',
