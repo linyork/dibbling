@@ -205,7 +205,7 @@ class ListService extends Service
         $reDibbling_query = $this->recordModel->select('list_id', DB::raw('count(id) as count'))->where('record_type', '=', DB::raw(RecordModel::RE_DIBBLING))->groupBy('list_id');
 
         return DB::table('record')
-            ->select(DB::raw('users.id as user_id'), 'users.*', 'list.*', DB::raw('count(like.list_id) as likes'), DB::raw('SUM(reDib.count) as reDib_count'))
+            ->select(DB::raw('users.id as user_id'), 'users.*', 'list.*', DB::raw('count(like.list_id) as likes'), DB::raw('MAX(reDib.count) as reDib_count'))
             ->join('users', 'record.user_id', '=', 'users.id')
             ->join('list', 'record.list_id', '=', 'list.id')
             ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
@@ -222,7 +222,7 @@ class ListService extends Service
             ->where('list.deleted_at', '!=', null)
             ->orderBy($this->getOrder($order), 'DESC')
             ->orderBy('list.updated_at', 'DESC')
-            ->groupBy('record.id')
+            ->groupBy(['record.id','list.updated_at'])
             ->limit($limit)
             ->offset($offset)
             ->get();
