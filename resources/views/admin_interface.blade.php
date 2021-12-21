@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-center" style="visibility:hidden">
+        <div class="row justify-content-center">
             <div class="col-12">
                 <span class="bd-content-title text-secondary">{{ __('web.admin.Broadcast') }}</span>
                 <div class="card">
