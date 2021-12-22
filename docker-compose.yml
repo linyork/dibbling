@@ -74,22 +74,22 @@ services:
       - ./docker/mysql/local.cnf:/etc/mysql/conf.d/local.cnf
       - ./docker/mysql/data:/var/lib/mysql
 
-  # phpmyadmin
-  phpmyadmin:
-    container_name: phpmyadmin
-    image: phpmyadmin/phpmyadmin:4.8
-    networks:
-      - frontend
-      - backend
-    restart: always
-    ports:
-      - "8080:80"
-    environment:
-      PMA_HOST: ${DB_HOST}
-      PMA_PORT: ${DB_PORT}
-      PMA_USER: ${DB_USERNAME}
-      PMA_PASSWORD: ${DB_PASSWORD}
-      
+#  # phpmyadmin
+#  phpmyadmin:
+#    container_name: phpmyadmin
+#    image: phpmyadmin/phpmyadmin:4.8
+#    networks:
+#      - frontend
+#      - backend
+#    restart: always
+#    ports:
+#      - "8080:80"
+#    environment:
+#      PMA_HOST: ${DB_HOST}
+#      PMA_PORT: ${DB_PORT}
+#      PMA_USER: ${DB_USERNAME}
+#      PMA_PASSWORD: ${DB_PASSWORD}
+
 #  # cache
 #  cache:
 #    container_name: redis
