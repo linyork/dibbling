@@ -1,5 +1,5 @@
 // web socket
-var socket;
+let socket;
 $.ajax({
     url: 'api/v2/user',
     headers: {
@@ -24,6 +24,10 @@ $.ajax({
     // chart
     socket.on('chat', function( chat ) {
         console.log(chat);
+    });
+    // sync voice
+    socket.on('setVoice',function(voice) {
+        setVoice(voice);
     });
     
     /* 綁定事件 */
@@ -110,8 +114,8 @@ function refreshPlaying() {
     }).done(function (data) {
         $("#video-interface").empty();
         $("#video-interface").append(data);
+        socket.emit('getVoice', data);
     });
-
 }
 
 // dibbling
@@ -185,6 +189,10 @@ function showDanmu(m) {
         color: '#fff',
         old_ie_color: '# 000000',
     });
+}
+
+function setVoice(voice) {
+    $('#voice').val(voice);
 }
 
 function SuccessMethod(e) {

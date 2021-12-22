@@ -3,12 +3,28 @@ const port = 8443;
 const server = require('http').createServer();
 const io = require('socket.io')(server);
 const log = require('simple-node-logger').createSimpleFileLogger('/var/log/node/node.log');
+const video = {
+    videoId: "建置中",
+    title: "建置中",
+    next: "建置中",
+    duration: 0,
+    seal: "建置中",
+    voice: 50,
+};
 
 // player connection
 const playerRoom = io.of('socket/player');
 playerRoom.on('connection', function (socket) {
+    
+    video.voice = 50;
+    
     socket.on('playing', () => {
         otherRoom.emit('playing');
+    });
+    
+    socket.on('setVoice', (voice) => {
+        video.voice = voice;
+        otherRoom.emit('setVoice', voice);
     });
 });
 
@@ -51,6 +67,11 @@ otherRoom.on('connection', (socket) => {
     socket.on('broadcast', (result) => {
         playerRoom.emit('broadcast', result);
     });
+    
+    // get voice
+    socket.on('getVoice', (_data) =>{
+        socket.emit('setVoice', video.voice);
+    })
 });
 
 // 注意，這邊的 server 原本是 app

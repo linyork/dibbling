@@ -17,6 +17,7 @@ socket.on('command', function(command){
             break;
         case 'voice':
             player_ref.setVolume(parseInt(commandOptions.value));
+            socket.emit('setVoice', player_ref.getVolume());
             break;
         case 'speed':
             player_ref.setPlaybackRate(parseFloat(commandOptions.value));
@@ -32,6 +33,9 @@ socket.on('broadcast', function (result){
     audio.addEventListener('ended', function(){
         player_ref.playVideo();
     }, false);
+});
+socket.on('getVoice', function (){
+    socket.emit('setVoice', player_ref.getVolume());
 });
 
 // init YT Player
@@ -57,12 +61,14 @@ function onYouTubeIframeAPIReady() {
             'onError': onError,
         }
     });
+    socket.emit('setVoice', player_ref.getVolume());
 }
 
 // YT Player on readey
 var player_ref;
 function onPlayerReady(event) {
     player_ref = event.target;
+    player_ref.setVolume(50);
     event.target.playVideo();
 }
 
