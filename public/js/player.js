@@ -25,7 +25,9 @@ socket.on('command', function(command){
     }
 });
 socket.on('broadcast', function (result){
+    var originalVoice = player_ref.getVolume();
     player_ref.pauseVideo();
+    player_ref.setVolume(100);
     $("#broadcast-div").empty();
     $("#broadcast-div").append("<audio id='broadcast-audio'><source src='"+result+"' type='audio/mpeg'></audio>");
     var audio = document.getElementById("broadcast-audio");
@@ -33,6 +35,7 @@ socket.on('broadcast', function (result){
     audio.addEventListener('ended', function(){
         player_ref.playVideo();
     }, false);
+    player_ref.setVolume(originalVoice);
 });
 socket.on('getVoice', function (){
     socket.emit('setVoice', player_ref.getVolume());
