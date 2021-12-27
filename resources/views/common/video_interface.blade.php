@@ -5,7 +5,10 @@
             <div class="justify-content-center">
                 <div class="container col-lg-5 justify-content-center ">
                     <div class="row justify-content-center css-video-interface-seal">
-                        <img src="{{ $playing->seal }}" style="margin-top: -32px; max-width: 336px;">
+                        <div class="css-video-img-group">
+                            <img src="{{ $playing->seal }}" style="margin-top: -32px; max-width: 336px;">
+                            <span class="css-video-duration"><output id='duration'></output>{{ floor((($playing->duration%86400)%3600)/60).":".str_pad(floor((($playing->duration%86400)%3600)%60),2,'0',STR_PAD_LEFT) }}</span>
+                        </div>
                     </div>
                     <div class="row justify-content-center css-video-interface-title">
                         <span>{{ $playing->title }}</span>
@@ -45,13 +48,13 @@
                         </button>
                     </div>
                     <div class="row">
-                        <span class=" css-video-interface-voice"><i class="fas fa-volume-up"></i> {{ __('web.controller.Voice') }}</span>
+                        <span class=" css-video-interface-voice"><i class="fas fa-volume-up"></i> {{ __('web.controller.Voice') }} : <output id='voiceRange'>100</output>%</span>
                     </div>
                     <div class="row">
-                        <input type="range" class="css-interface-scroll" min="0" max="100" step="5" value="100" id="voice" style="padding: unset;">
+                        <input type="range" class="css-interface-scroll" min="0" max="100" step="1" value="100" id="voice" style="padding: unset;">
                     </div>
                     <div class="row">
-                        <span class=" css-video-interface-speed"><i class="fas fa-forward"></i> {{ __('web.controller.Speed') }}</span>
+                        <span class=" css-video-interface-speed"><i class="fas fa-forward"></i> {{ __('web.controller.Speed') }} : <output id='speedRange'>1</output>x</span>
                     </div>
                     <div class="row">
                         <input type="range" class="css-interface-scroll" min="0.25" max="2" step="0.25" value="1" id="speed" style="padding: unset;">

@@ -2,6 +2,7 @@
     overflow: hidden;
 }
 .css-video-interface-bg {
+    position: relative;
     filter: blur(12px);
     opacity: 1;
     width: 100%;
@@ -21,10 +22,23 @@
     text-align: center;
 }
 
+.css-video-img-group {
+    position: relative;
+}
 .css-video-interface-seal {
     margin-top: 30px;
     height: 188px;
     overflow: hidden;
+}
+.css-video-duration {
+    position: absolute;
+    font-size: 12px;
+    color: #333333;
+    right: 0;
+    bottom: 30px;
+    opacity: 0.5;
+    background-color: #ffffff;
+    padding: 0 0.5rem;
 }
 
 .css-video-interface-title {

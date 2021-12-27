@@ -25,11 +25,11 @@ $.ajax({
     socket.on('chat', function( chat ) {
         console.log(chat);
     });
-    // sync voice
-    socket.on('setVoice',function(voice) {
-        setVoice(voice);
+    // sync data
+    socket.on('setSync', function(value) {
+        setSync(JSON.parse(value));
     });
-    
+
     /* 綁定事件 */
     // play
     $(document).on('click', '#play', function (e) {
@@ -70,7 +70,6 @@ $.ajax({
             value: $(this).val()
         };
         socket.emit('command', JSON.stringify(command));
-        $("#show-speed").text($(this).val());
     });
 });
 
@@ -114,7 +113,7 @@ function refreshPlaying() {
     }).done(function (data) {
         $("#video-interface").empty();
         $("#video-interface").append(data);
-        socket.emit('getVoice', data);
+        socket.emit('getSync');
     });
 }
 
@@ -191,8 +190,35 @@ function showDanmu(m) {
     });
 }
 
-function setVoice(voice) {
-    $('#voice').val(voice);
+function setSync(sync) {
+    //sync volume
+    setVolume(sync.volume)
+    //sync speed
+    setSpeed(sync.speed)
+    //sync duration
+    setDuration(sync.duration)
+}
+
+function setVolume(volume) {
+    $('#voice').val(volume);
+    $('#voiceRange').val(volume);
+}
+
+function setSpeed(speed) {
+    $('#speed').val(speed);
+    $('#speedRange').val(speed);
+}
+
+function setDuration(sec) {
+    var duration = getDurationTime(sec)
+    $('#duration').val(duration)
+}
+
+function getDurationTime(sec) {
+    var min = Math.floor(sec / 60)
+    var sec = (sec - min * 60)
+    duration = min + ':' + (sec < 10 ? '0' : '') + sec + ' / '
+    return duration
 }
 
 function SuccessMethod(e) {

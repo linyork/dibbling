@@ -17,10 +17,11 @@ socket.on('command', function(command){
             break;
         case 'voice':
             player_ref.setVolume(parseInt(commandOptions.value));
-            socket.emit('setVoice', player_ref.getVolume());
+            syncDibbling();
             break;
         case 'speed':
             player_ref.setPlaybackRate(parseFloat(commandOptions.value));
+            syncDibbling();
             break;
     }
 });
@@ -37,13 +38,13 @@ socket.on('broadcast', function (result){
     }, false);
     player_ref.setVolume(originalVoice);
 });
-socket.on('getVoice', function (){
-    socket.emit('setVoice', player_ref.getVolume());
+socket.on('getSync', function (){
+    syncDibbling()
 });
 
 // init YT Player
 function onYouTubeIframeAPIReady() {
-    new YT.Player('YouTubeVideoPlayer', {
+    var player = new YT.Player('YouTubeVideoPlayer', {
         videoId: 'TYMxVGn-xi4',     // YouTube 影片ID
         // width: 560,                 // 播放器寬度 (px)
         // height: 316,                // 播放器高度 (px)
@@ -64,15 +65,51 @@ function onYouTubeIframeAPIReady() {
             'onError': onError,
         }
     });
-    socket.emit('setVoice', player_ref.getVolume());
+    //調整YT時，同步至Dibbling
+    var iframeWindow = player.getIframe() ? player.getIframe().contentWindow : '';
+    window.addEventListener("message", function(event) {
+        // Check that the event was sent from the YouTube IFrame.
+        if (event.source === iframeWindow) {
+            var data = JSON.parse(event.data);
+            if (data.event === "infoDelivery" && data.info) {
+                //sync data
+                if(data.info.volume) syncDibbling();
+                if(data.info.playbackRate) syncDibbling();
+            }
+        }
+    });
+    syncDibbling();
 }
 
-// YT Player on readey
+function syncDibbling() {
+    if(!player_ref || 
+        (init_volume == parseInt(player_ref.getVolume()) && 
+        init_speed == player_ref.getPlaybackRate()) &&
+        duration == parseInt(player_ref.getCurrentTime())) return
+    //sync data
+    init_volume = parseInt(player_ref.getVolume())
+    init_speed = player_ref.getPlaybackRate()
+    duration = parseInt(player_ref.getCurrentTime())
+    //set data
+    var sync_data = {
+        volume: init_volume,
+        speed: init_speed,
+        duration: duration
+    }
+    socket.emit('setSync', JSON.stringify(sync_data))
+}
+
+// YT Player on ready
 var player_ref;
+var init_volume = 50;
+var init_speed = 1;
+var duration = 0;
 function onPlayerReady(event) {
     player_ref = event.target;
-    player_ref.setVolume(50);
+    player_ref.setVolume(init_volume);
+    player_ref.setPlaybackRate(init_speed);
     event.target.playVideo();
+    syncDibbling();
 }
 
 // YT Player change state
@@ -80,8 +117,6 @@ function onPlayerStateChange(event) {
     if (event.data == 0) {
         playNext(event);
     }
-    // socket
-    socket.emit('playing')
 }
 
 // YT Player error
@@ -105,6 +140,8 @@ function playNext(event) {
             $("#list").empty();
             $("#list").append("<li class='list-group-item'>No data</li>");
         }
+        // socket
+        socket.emit('playing')
     });
 }
 

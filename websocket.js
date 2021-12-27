@@ -9,22 +9,24 @@ const video = {
     next: "建置中",
     duration: 0,
     seal: "建置中",
-    voice: 50,
+    volume: 50,
+    speed: 1
 };
 
 // player connection
 const playerRoom = io.of('socket/player');
 playerRoom.on('connection', function (socket) {
     
-    video.voice = 50;
-    
     socket.on('playing', () => {
         otherRoom.emit('playing');
     });
     
-    socket.on('setVoice', (voice) => {
-        video.voice = voice;
-        otherRoom.emit('setVoice', voice);
+    socket.on('setSync', (data) => {
+        var sync = JSON.parse(data)
+        video.volume = sync.volume
+        video.speed = sync.speed
+        video.duration = sync.duration
+        otherRoom.emit('setSync', data)
     });
 });
 
@@ -68,9 +70,9 @@ otherRoom.on('connection', (socket) => {
         playerRoom.emit('broadcast', result);
     });
     
-    // get voice
-    socket.on('getVoice', (_data) =>{
-        socket.emit('setVoice', video.voice);
+    // get sync
+    socket.on('getSync', (_data) => {
+        socket.emit('setSync', JSON.stringify(video));
     })
 });
 
