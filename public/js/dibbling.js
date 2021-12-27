@@ -29,6 +29,10 @@ $.ajax({
     socket.on('setSync', function(value) {
         setSync(JSON.parse(value));
     });
+    // next
+    socket.on('next', function (title) {
+        next(title);
+    });
 
     /* 綁定事件 */
     // play
@@ -103,7 +107,7 @@ $(document).on('click', '#like', function (e) {
 });
 
 // playing
-function refreshPlaying() {
+function refreshPlaying(update) {
     $.ajax({
         url: 'api/v2/playing',
         headers: {
@@ -114,6 +118,9 @@ function refreshPlaying() {
         $("#video-interface").empty();
         $("#video-interface").append(data);
         socket.emit('getSync');
+        if(update && $('#nextTitle').data('id')) {
+            socket.emit('next', $('#nextTitle').val())
+        }
     });
 }
 
@@ -141,8 +148,8 @@ $(document).on('keydown', '#danmu-text', function (e) {
 });
 
 
-function refresh() {
-    refreshPlaying();
+function refresh(update = false) {
+    refreshPlaying(update);
 }
 
 function dibbling(videoId) {
@@ -174,6 +181,13 @@ function redibbling(id) {
         dataType: "json",
     });
 }
+
+
+function next(title) {
+    if (title === '') return;
+    $('#nextTitle').val(title)
+}
+
 
 function danmu(m) {
     if (m === '') return;
@@ -227,7 +241,7 @@ function SuccessMethod(e) {
     } else if (!e.redibbling_id) {
         alert(e.msg);
     }
-    refresh();
+    refresh(true);
 }
 
 function FailMethod(e) {

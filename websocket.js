@@ -74,6 +74,12 @@ otherRoom.on('connection', (socket) => {
     socket.on('getSync', (_data) => {
         socket.emit('setSync', JSON.stringify(video));
     })
+
+    // next
+    socket.on('next', (title) => {
+        otherRoom.emit('next', title);
+    })
+
 });
 
 // 注意，這邊的 server 原本是 app
