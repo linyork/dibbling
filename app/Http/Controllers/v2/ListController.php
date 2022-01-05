@@ -184,7 +184,7 @@ class ListController extends Controller
     {
         try
         {
-            if ( $request->input('real') )
+            if ( $request->input('real') == 'true' )
             {
                 $result_test = $listService->realDelete($id);
             }

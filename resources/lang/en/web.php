@@ -41,6 +41,7 @@ return [
     ],
     'list' => [
         'List' => 'List',
+        'ReDibbling' => 'ReDibbling',
         'Cut' => 'Cut',
         'Remove' => 'Remove',
         'NoData' => 'No Data',
@@ -72,7 +73,7 @@ return [
         'Play' => 'Play',
         'Pause' => 'Pause',
         'Cut' => 'Cut',
-        'Voice' => 'Voice',
+        'Voice' => 'Volume',
         'Speed' => 'Speed',
     ],
     'setting' => [

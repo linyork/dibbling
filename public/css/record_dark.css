@@ -116,3 +116,19 @@
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3) !important;
     border: solid 1px #cccccc !important;
 }
+
+.modal-body {
+    max-height: 60vh;
+    overflow: scroll;
+}
+
+.modal-content {
+    background-color:rgba(0, 0, 0);
+    color:rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.modal-header .close, .modal-footer .btn {
+    color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.3);
+}

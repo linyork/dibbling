@@ -10,3 +10,22 @@
 .barrage_box .close .icon-close{font-size: 14px;color:rgba(255,255,255,.5);display: inline-block;margin-top: 5px; }
 .barrage .z {float: left !important;}
 .barrage  a{text-decoration:none;}
+
+li {
+    padding: 6px 0;
+}
+li.type::before {
+    content: "\f164";
+}
+li.type1::before {
+    content: "\f005";
+}
+li.type2::before {
+    content: "\f001";
+}
+li.type3::before {
+    content: "\f04d";
+}
+li.type4::before {
+    content: "\f1f8";
+}

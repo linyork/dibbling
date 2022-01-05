@@ -45,11 +45,25 @@ $.ajax({
     });
     // cut
     $(document).on('click', '#cut', function (e) {
-        var command = {
-            command: 'cut',
-            value: 'cut',
-        };
-        socket.emit('command', JSON.stringify(command));
+        //record
+        $.ajax({
+            url: 'api/v2/list/' + $(this).attr('data-id'),
+            headers: {
+                'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "DELETE",
+            dataType: "json",
+            data: {
+                'real': false
+            }
+        }).done(function (result) {
+            var command = {
+                command: 'cut',
+                value: 'cut',
+            };
+            socket.emit('command', JSON.stringify(command));
+        })
     });
     // pause
     $(document).on('click', '#pause', function (e) {

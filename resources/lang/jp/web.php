@@ -41,6 +41,7 @@ return [
     ],
     'list' => [
         'List' => 'プレイリスト',
+        'ReDibbling' => '再びリクエスト',
         'Cut' => '切る',
         'Remove' => '削除',
         'NoData' => 'データなし',
