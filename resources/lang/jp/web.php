@@ -51,6 +51,7 @@ return [
     ],
     'like' => [
         'Like' => 'お気に入り',
+        'Liked' => 'お気に入り'
     ],
     'record' => [
         'Record' => '再生履歴',

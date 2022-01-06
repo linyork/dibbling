@@ -14,18 +14,30 @@
 li {
     padding: 6px 0;
 }
+/* like */
 li.type::before {
     content: "\f164";
+    padding: 0 1px;
+    color: skyblue;
 }
+/* star */
 li.type1::before {
     content: "\f005";
+    color: gold;
 }
+/* music */
 li.type2::before {
     content: "\f001";
+    padding: 0 1px;
+    color: lightpink;
 }
+/* stop */
 li.type3::before {
     content: "\f04d";
+    padding: 0 2px;
+    color: lightgrey;
 }
+/* delete */
 li.type4::before {
     content: "\f1f8";
 }

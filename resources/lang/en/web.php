@@ -51,6 +51,7 @@ return [
     ],
     'like' => [
         'Like' => 'Like',
+        'Liked' => 'Like',
     ],
     'record' => [
         'Record' => 'Record',

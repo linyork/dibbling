@@ -51,6 +51,7 @@ return [
     ],
     'like' => [
         'Like' => '喜歡',
+        'Liked' => '按讚'
     ],
     'record' => [
         'Record' => '紀錄',
