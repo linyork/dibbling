@@ -76,6 +76,7 @@ return [
         'Cut' => '切歌',
         'Voice' => '音量',
         'Speed' => '速度',
+        'Time' => '時間',
     ],
     'setting' => [
         'Setting' => '設定',

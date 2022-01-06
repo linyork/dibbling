@@ -47,6 +47,14 @@
                             @endif
                         </button>
                     </div>
+                    @can('admin')
+                        <div class="row">
+                            <span class=" css-video-interface-voice"><i class="fab fa-youtube"></i> {{ __('web.controller.Time') }} : <output id='durationRange'>0:00</output></span>
+                        </div>
+                        <div class="row">
+                            <input type="range" class="css-interface-scroll" min="0" max="{{ $playing->duration }}" step="1" value="0" id="time" style="padding: unset;">
+                        </div>
+                    @endcan
                     <div class="row">
                         <span class=" css-video-interface-voice"><i class="fas fa-volume-up"></i> {{ __('web.controller.Voice') }} : <output id='voiceRange'>100</output>%</span>
                     </div>

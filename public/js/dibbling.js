@@ -89,6 +89,14 @@ $.ajax({
         };
         socket.emit('command', JSON.stringify(command));
     });
+    // time
+    $(document).on('input', '#time', function (e) {
+        var command = {
+            command: 'time',
+            value: $(this).val()
+        };
+        socket.emit('command', JSON.stringify(command));
+    });
 });
 
 $(document).on('click', '#like', function (e) {
@@ -239,13 +247,16 @@ function setSpeed(speed) {
 
 function setDuration(sec) {
     var duration = getDurationTime(sec)
-    $('#duration').val(duration)
+    $('#duration').val(duration + ' / ')
+    //time bar
+    $('#time').val(sec)
+    $('#durationRange').val(duration)
 }
 
 function getDurationTime(sec) {
     var min = Math.floor(sec / 60)
     var sec = (sec - min * 60)
-    duration = min + ':' + (sec < 10 ? '0' : '') + sec + ' / '
+    duration = min + ':' + (sec < 10 ? '0' : '') + sec
     return duration
 }
 

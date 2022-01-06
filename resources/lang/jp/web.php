@@ -76,6 +76,7 @@ return [
         'Cut' => '演奏中止',
         'Voice' => '音量',
         'Speed' => '再生速度',
+        'Time' => '時間',
     ],
     'setting' => [
         'Setting' => '設定',

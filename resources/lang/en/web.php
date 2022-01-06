@@ -76,6 +76,7 @@ return [
         'Cut' => 'Cut',
         'Voice' => 'Volume',
         'Speed' => 'Speed',
+        'Time' => 'Time',
     ],
     'setting' => [
         'Setting' => 'Setting',
