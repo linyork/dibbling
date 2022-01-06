@@ -23,6 +23,10 @@ socket.on('command', function(command){
             player_ref.setPlaybackRate(parseFloat(commandOptions.value));
             syncDibbling();
             break;
+        case 'time':
+            player_ref.seekTo(parseInt(commandOptions.value));
+            syncDibbling();
+            break;
     }
 });
 socket.on('broadcast', function (result){

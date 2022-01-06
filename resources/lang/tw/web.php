@@ -51,6 +51,7 @@ return [
     ],
     'like' => [
         'Like' => '喜歡',
+        'Liked' => '按讚'
     ],
     'record' => [
         'Record' => '紀錄',
@@ -75,6 +76,7 @@ return [
         'Cut' => '切歌',
         'Voice' => '音量',
         'Speed' => '速度',
+        'Time' => '時間',
     ],
     'setting' => [
         'Setting' => '設定',

@@ -51,6 +51,7 @@ return [
     ],
     'like' => [
         'Like' => 'Like',
+        'Liked' => 'Like',
     ],
     'record' => [
         'Record' => 'Record',
@@ -75,6 +76,7 @@ return [
         'Cut' => 'Cut',
         'Voice' => 'Volume',
         'Speed' => 'Speed',
+        'Time' => 'Time',
     ],
     'setting' => [
         'Setting' => 'Setting',

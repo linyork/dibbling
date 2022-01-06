@@ -283,7 +283,7 @@ class ListService extends Service
      */
     public function getLikedInfo(int $list_id)
     {
-        $liked = __('web.like.Like');
+        $liked = __('web.like.Liked');
         return DB::table('like')
             ->select('like.created_at', DB::raw('users.name'), DB::raw("'$liked' as type_txt"))
             ->join('users', 'like.user_id', '=', 'users.id')

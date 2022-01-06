@@ -51,6 +51,7 @@ return [
     ],
     'like' => [
         'Like' => 'お気に入り',
+        'Liked' => 'お気に入り'
     ],
     'record' => [
         'Record' => '再生履歴',
@@ -75,6 +76,7 @@ return [
         'Cut' => '演奏中止',
         'Voice' => '音量',
         'Speed' => '再生速度',
+        'Time' => '時間',
     ],
     'setting' => [
         'Setting' => '設定',
