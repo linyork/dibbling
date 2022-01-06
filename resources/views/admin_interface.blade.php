@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('pageCss')
-
+    <link rel="stylesheet" href="{{ asset('/css/common/fontawesome.css') }}">
 @endsection
 
 @section('pageJs')
@@ -12,9 +12,9 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12">
-                <span class="bd-content-title text-secondary">{{ __('web.admin.Broadcast') }}</span>
+                <span class="bd-content-title text-secondary"><i class="fas fa-bullhorn"></i> {{ __('web.admin.Broadcast') }}</span>
                 <div class="card">
-                    <div class="card-body bg-light">
+                    <div class="card-body bg-{{ strtolower(Request::cookie('mode') ?? 'light') }}">
                         <div class="input-group">
                             <input id="broadcast" type="text" class="form-control" placeholder="{{ __('web.admin.PleaseEnter') }}">
                             <div class="input-group-append">
@@ -27,7 +27,7 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-12">
-                <span class="bd-content-title text-secondary">{{ __('web.admin.Member') }}</span>
+                <span class="bd-content-title text-secondary"><i class="fas fa-users"></i> {{ __('web.admin.Member') }}</span>
                 <table class="table table-sm table-hover {{ (Request::cookie('mode') === 'Dark') ? 'table-dark' : ''}}">
                     <thead>
                     <tr>

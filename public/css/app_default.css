@@ -12,3 +12,14 @@
 .current-page {
     color: #fa6400 !important;
 }
+
+.card {
+    border: unset !important;
+    margin-bottom: 1rem;
+}
+
+.card-body {
+    background-color: #f8f9fa !important;
+    border: unset !important;
+    border-radius: 0.25rem !important;;
+}

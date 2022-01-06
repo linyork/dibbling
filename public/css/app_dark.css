@@ -56,3 +56,25 @@
 .py-4 {
     background-color: #333333 !important;
 }
+
+.card {
+    border: unset !important;
+    margin-bottom: 1rem;
+}
+
+.card-body {
+    background-color: #222222 !important;
+    border: unset !important;
+    border-radius: 0.25rem !important;;
+}
+
+.form-control {
+    border-radius: 3px !important;
+    border: solid 1px #cccccc !important;
+    background-color: #222222 !important;
+    color: #fff !important;
+}
+
+.bd-content-title {
+    color:#fff !important;
+}

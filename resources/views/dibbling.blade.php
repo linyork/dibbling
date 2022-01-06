@@ -19,7 +19,7 @@
             <div class="col-12">
                 <span class="bd-content-title text-secondary"><i class="fas fa-search-plus"></i> {{ __('web.dibbling.Dibbling') }}</span>
                 <div class="card">
-                    <div class="card-body bg-light">
+                    <div class="card-body bg-{{ strtolower(Request::cookie('mode') ?? 'light') }}">
                         <div class="input-group">
                             <input id="video-id" type="text" class="form-control" placeholder="{{ __('web.dibbling.PleaseEnterUrl') }}" aria-label="Recipient's username" aria-describedby="basic-addon2">
                             <div class="input-group-append">
@@ -35,7 +35,7 @@
             <div class="col-12">
                 <span class="bd-content-title text-secondary"><i class="fas fa-comment-dots"></i> {{ __('web.dibbling.Danmu') }}</span>
                 <div class="card">
-                    <div class="card-body bg-light">
+                    <div class="card-body bg-{{ strtolower(Request::cookie('mode') ?? 'light') }}">
                         <div class="input-group">
                             <input id="danmu-text" type="text" class="form-control" placeholder="{{ __('web.dibbling.Saysomething') }}" aria-label="Recipient's username" aria-describedby="basic-addon2">
                             <div class="input-group-append">

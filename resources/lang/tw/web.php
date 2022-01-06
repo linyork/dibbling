@@ -41,6 +41,7 @@ return [
     ],
     'list' => [
         'List' => '清單',
+        'ReDibbling' => '再點播',
         'Cut' => '切歌',
         'Remove' => '移除',
         'NoData' => '沒有點播歌曲',

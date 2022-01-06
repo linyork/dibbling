@@ -134,11 +134,13 @@ var list = function () {
         }).done(function (result) {
             var modal = $('#infoModal')
             
-            var html = '<p style="padding-left:20px"><i class="fa fa-info-circle"></i> ' + obj.data('title') + '</p>' + '<ul>'
+            var title = '<span style="font-size:1.2rem"> ' + obj.data('title') + ' </span>'
+            var html = '<p style="padding-left:20px">' + '<ul style="padding-left:1.5rem">'
             result.forEach(item => {
-                html += ('<li>' + item.created_at + ' - ' + item.name + ' ' + item.type_txt + '</li>')
+                html += ('<li class="fas type' + (item.record_type ?? '') + '">  ' + item.created_at + ' - ' + item.name + ' ' + item.type_txt + '</li>')
             })
-            html += '</ul>'
+            html += '</ul></p>'
+            modal.find('.modal-title').html(title)
             modal.find('.modal-body').html(html)
             modal.modal('show')
         })

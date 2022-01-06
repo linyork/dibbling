@@ -81,3 +81,8 @@
     float: right;
     margin-left: 6px;
 }
+
+.modal-body {
+    max-height: 60vh;
+    overflow: scroll;
+}
