@@ -97,4 +97,14 @@ return [
         'PleaseEnter' => 'Please Enter',
         'Member' => 'Member',
     ],
+    'supporter' => [
+        'Title' => 'Thanks for their contributions.',
+        'York' => 'Initiator.',
+        'Fisher' => 'The first version of youtube API.',
+        'Jason' => 'Do various jobs.',
+        '白白' => 'Front-end design.',
+        'Ashley' => 'Copywriting translation',
+        'Momoka' => 'Copywriting and features suggestions.',
+        'Christine' => 'Numerous features added and refurbishments.',
+    ]
 ];

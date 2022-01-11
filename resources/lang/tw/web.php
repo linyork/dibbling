@@ -97,4 +97,14 @@ return [
         'PleaseEnter' => '請輸入',
         'Member' => '成員',
     ],
+    'supporter' => [
+        'Title' => '感謝他們的貢獻',
+        'York' => '始作俑者',
+        'Fisher' => '初版youtubeAPI',
+        'Jason' => '打雜',
+        '白白' => '前端設計',
+        'Ashley' => '文案翻譯',
+        'Momoka' => '文案翻譯及功能建議',
+        'Christine' => '增加諸多功能及翻新',
+    ]
 ];
