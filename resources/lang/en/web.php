@@ -61,7 +61,7 @@ return [
         'SearchBar' => 'SearchBar',
         'Search' => 'Search',
         'UserName' => 'User Name',
-        'Choose' => 'Choose',
+        'Choose' => 'Please choose',
         'SongName' => 'Song Name',
     ],
     'order' => [

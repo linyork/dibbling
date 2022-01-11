@@ -13,7 +13,7 @@
 {{--        <div class="css-supporter-text">{{ __('web.app.Supporter') }}</div>--}}
         <div class="row">
             <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                <div class="alert alert-{{ strtolower(Request::cookie('mode')) == 'dark' ? 'info' : 'warning' }}" role="alert">
+                <div class="alert alert-{{ strtolower(Request::cookie('mode')) == 'dark' ? 'secondary' : 'warning' }}" role="alert">
                     <h4 class="alert-heading">{{ __('web.app.Supporter') }}</h4>
                     <hr>
                     <p class="mb-0 supporter-comment">{{ __('web.supporter.Title') }}</p>
@@ -21,7 +21,7 @@
             </div>
             @foreach ($authors as $author => $value)
                 <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                    <div class="alert alert-{{ strtolower(Request::cookie('mode')) == 'dark' ? 'info' : 'warning' }}" role="alert">
+                    <div class="alert alert-{{ strtolower(Request::cookie('mode')) == 'dark' ? 'secondary' : 'warning' }}" role="alert">
                         <h4 class="alert-heading">{{ ucfirst($author) }}
                             @if ($value)
                                 <span class="fab fa-github float-right git-space" title="git push {{ $value }} times"> </span>

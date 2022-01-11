@@ -1,5 +1,5 @@
 <div class="btn-group">
-    <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <button type="button" class="btn btn-{{ strtolower(Request::cookie('mode') == 'dark') ?: 'secondary' }} dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {{ __('web.Language') }}
     </button>
     <div class="dropdown-menu">

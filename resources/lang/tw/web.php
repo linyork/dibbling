@@ -61,7 +61,7 @@ return [
         'SearchBar' => '搜尋列',
         'Search' => '搜尋',
         'UserName' => '點播人',
-        'Choose' => '選擇',
+        'Choose' => '請選擇',
         'SongName' => '歌曲名稱',
     ],
     'order' => [

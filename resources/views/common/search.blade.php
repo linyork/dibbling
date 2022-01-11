@@ -7,7 +7,7 @@
     <div class="card card-body css-record-search-bar">
         <div class="container">
             <div class="form-group row">
-                <div class="input-group col-3">
+                <div class="input-group col-lg-4 col-md-12">
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="user_id">{{ __('web.record.UserName') }}</label>
                     </div>
@@ -18,13 +18,13 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="input-group col-4">
+                <div class="input-group col-lg-5 col-md-12">
                     <div class="input-group-prepend">
                         <span class="input-group-text">{{ __('web.record.SongName') }}</span>
                     </div>
                     <input id="song_name" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                 </div>
-                <div class="input-group offset-3 col-2">
+                <div class="input-group offset-lg-1 col-lg-2 offset-md-8 col-md-4">
                     <select class='custom-select order-list'>
                         <option value="default">{{ __('web.order.Default') }}</option>
                         <option value="dibbling">{{ __('web.order.DiCount') }}</option>
