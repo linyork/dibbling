@@ -1,5 +1,8 @@
-@import "record_default.css";
 @import "list_dark.css";
+
+.css-record-btn-group {
+    padding: 0.5rem 0.3rem;
+}
 
 .css-record-search-bar {
     background-color: #222222;
