@@ -17,4 +17,5 @@
         <div class="css-list-text">{{ __('web.list.List') }}</div>
         <div class="row" id="list"></div>
     </div>
+    @include('common.go_to_top')
 @endsection
