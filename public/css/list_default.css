@@ -1,9 +1,11 @@
-.css-list {
+.css-list,
+.css-record {
     margin: 5px;
     box-shadow: 0 2px 4px 0 rgba(51, 51, 51, 0.3);
 }
 
-.css-list-text {
+.css-list-text,
+.css-record-text {
     font-family: MicrosoftJhengHei;
     font-size: 20px;
     font-weight: bold;
@@ -15,11 +17,13 @@
     margin: 5px;
 }
 
-.css-list-img-group {
+.css-list-img-group,
+.css-record-img-group {
     position: relative;
 }
 
-.css-list-duration {
+.css-list-duration,
+.css-record-duration {
     position: absolute;
     font-family: MicrosoftJhengHei;
     font-size: 12px;
@@ -29,11 +33,11 @@
     line-height: normal;
     letter-spacing: normal;
     text-align: center;
-    color: #333333;
+    color: #ffffff;
     right: 0;
     bottom: 0;
     opacity: 0.5;
-    background-color: #ffffff;
+    background-color: #222222;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
 }
@@ -42,7 +46,8 @@
     padding: 0.5rem;
 }
 
-.css-list-name {
+.css-list-name,
+.css-record-name {
     background-color: rgba(0, 0, 0, 0.5);
     font-family: MicrosoftJhengHei;
     font-size: 12px;
@@ -54,8 +59,11 @@
     color: #ffffff;
     padding-right: 0.3rem;
     padding-left: 0.3rem;
+    border-radius: 2px;
+    cursor: pointer;
 }
-.css-list-title {
+.css-list-title,
+.css-record-title {
     height: 3em;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -72,11 +80,62 @@
     color: #999999;
 }
 
-.css-list-btn-group {
+.css-list-btn-group,
+.css-record-btn-group {
     padding: 0.5rem;
 }
 
+.css-list-btn,
 .css-record-btn {
     float: right;
     margin-left: 6px;
+}
+
+
+/* record modal */
+.modal-body {
+    max-height: 60vh;
+    overflow: scroll;
+}
+
+li {
+    padding: 6px 0;
+}
+/* like */
+li.type::before {
+    content: "\f164";
+    padding: 0 1px;
+    color: skyblue;
+}
+/* star */
+li.type1::before {
+    content: "\f005";
+    color: gold;
+}
+/* music */
+li.type2::before {
+    content: "\f001";
+    padding: 0 1px;
+    color: lightpink;
+}
+/* stop */
+li.type3::before {
+    content: "\f04d";
+    padding: 0 2px;
+    color: lightgrey;
+}
+/* delete */
+li.type4::before {
+    content: "\f1f8";
+}
+
+.go-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+    display: none;
 }

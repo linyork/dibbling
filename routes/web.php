@@ -41,7 +41,7 @@ Route::view('player', 'player')
 
 // user web block
 Route::middleware($userMiddlewareArray)->group(function () {
-    Route::view('supporter', 'supporter')
+    Route::get('supporter', [Controllers\Supporter::class, 'index'])
         ->name('supporter');
     Route::get('dibbling', [Controllers\Dibbling::class, 'index'])
         ->name('dibbling');
