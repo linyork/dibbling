@@ -136,12 +136,17 @@ var list = function () {
             
             var title = '<span style="font-size:1.2rem"> ' + obj.data('title') + ' </span>'
             var html = '<p style="padding-left:20px">' + '<ul style="padding-left:1.5rem">'
+            var info = obj.data('played')
             result.forEach(item => {
                 html += ('<li class="fas type' + (item.record_type ?? '') + '">  ' + item.created_at + ' - ' + item.name + ' ' + item.type_txt + '</li>')
             })
             html += '</ul></p>'
             modal.find('.modal-title').html(title)
             modal.find('.modal-body').html(html)
+            modal.find('.modal-footer .info').html(info)
+            if (!info) {
+                modal.find('.modal-footer div').addClass('hidden')
+            }
             modal.modal('show')
         })
     }
@@ -200,9 +205,11 @@ var list = function () {
 
     function updatePageList(db_list){
         isAjax = false
-        $(listContainer).append(db_list)
+        if (db_list.indexOf('no-data') == -1 || $(listContainer).html() == '') {
+            $(listContainer).append(db_list)
+            page++
+        }
         $(".js-like").tooltip()
-        if (db_list) page++
     }
 
 

@@ -151,7 +151,8 @@
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('web.list.Close') }}</button>
+                <div>{{ __('web.list.Played') }}: <span class="info"></span></div>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('web.list.Close') }}</button>
             </div>
 
           </div>
