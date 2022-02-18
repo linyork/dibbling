@@ -40,3 +40,11 @@
         </div>
     </div>
 @endforeach
+
+@if(count($list) == 0)
+    <div data-list="no-data" class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+        <div class="px-1 py-2 css-list-title">
+            {{ __('web.list.NoData') }}
+        </div>
+    </div>
+@endif

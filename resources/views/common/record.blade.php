@@ -10,7 +10,7 @@
                 <span class="css-record-title">{{ $record->title }}</span>
             </div>
             <div class="css-record-btn-group">
-                <button data-title="{{ $record->title }}" onclick="javascript:list.info('{{ $record->id }}',this)" type="button" class="btn btn-sm btn-outline-info css-record-btn">
+                <button data-title="{{ $record->title }}" data-played="{{ $record->deleted_at }}" onclick="javascript:list.info('{{ $record->id }}',this)" type="button" class="btn btn-sm btn-outline-info css-record-btn">
                     <i class="fa fa-info"></i>
                 </button>
                 <button  onclick="javascript:list.reDibbling('{{ $record->id }}',this)" type="button" class="btn btn-sm btn-outline-warning css-record-btn">

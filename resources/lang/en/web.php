@@ -44,9 +44,10 @@ return [
         'ReDibbling' => 'ReDibbling',
         'Cut' => 'Cut',
         'Remove' => 'Remove',
-        'NoData' => 'No Data',
+        'NoData' => "There're no dibbling songs, the next song will shuffle.",
         'History' => 'History List',
         'Info' => 'Info',
+        'Played' => 'Played',
         'Close' => 'Close'
     ],
     'like' => [
@@ -92,6 +93,7 @@ return [
         'LikeCount' => 'Like Count',
         'ListLikeCount' => 'Total Liked Count',
         'Email' => 'E-mail',
+        'Created' => 'Join Date',
         'Delete' => 'Delete',
         'Broadcast' => 'Broadcast',
         'PleaseEnter' => 'Please Enter',

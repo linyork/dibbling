@@ -44,9 +44,10 @@ return [
         'ReDibbling' => '再點播',
         'Cut' => '切歌',
         'Remove' => '移除',
-        'NoData' => '沒有點播歌曲',
+        'NoData' => '沒有待播歌曲，下一首將隨機播放',
         'History' => '歷程紀錄',
         'Info' => '資訊',
+        'Played' => '播放時間',
         'Close' => '關閉'
     ],
     'like' => [
@@ -92,6 +93,7 @@ return [
         'LikeCount' => '喜歡數',
         'ListLikedCount' => '被讚數',
         'Email' => 'E-mail',
+        'Created' => '加入時間',
         'Delete' => '刪除',
         'Broadcast' => '廣播',
         'PleaseEnter' => '請輸入',

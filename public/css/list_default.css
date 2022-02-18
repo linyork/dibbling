@@ -97,6 +97,17 @@
     max-height: 60vh;
     overflow: scroll;
 }
+.modal-footer {
+    justify-content: space-between;
+    padding: 0rem 1rem;
+}
+.modal-footer div {
+    font-size: 0.8rem;
+    color: grey;
+}
+.modal-footer .hidden {
+    visibility: hidden;
+}
 
 li {
     padding: 6px 0;

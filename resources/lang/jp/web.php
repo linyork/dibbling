@@ -44,9 +44,10 @@ return [
         'ReDibbling' => '再びリクエスト',
         'Cut' => '切る',
         'Remove' => '削除',
-        'NoData' => 'データなし',
+        'NoData' => 'リクエストの曲はありません、次の曲はランダムに再生されます',
         'History' => '関連リスト',
         'Info' => '情報',
+        'Played' => 'プレイ時間',
         'Close' => '閉じる'
     ],
     'like' => [
@@ -92,6 +93,7 @@ return [
         'LikeCount' => 'お気に入り数',
         'ListLikedCount' => 'いいね数',
         'Email' => 'E-mail',
+        'Created' => '参加時間',
         'Delete' => '削除',
         'Broadcast' => 'アナウンス',
         'PleaseEnter' => '入力してください',

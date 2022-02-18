@@ -37,7 +37,8 @@
                         <th scope="col">{{ __('web.admin.LikeCount') }}</th>
                         <th scope="col">{{ __('web.admin.ListLikedCount') }}</th>
                         <th scope="col">{{ __('web.admin.Email') }}</th>
-                        <th scope="col">{{ __('web.admin.Delete') }}</th>
+                        <th scope="col">{{ __('web.admin.Created') }}</th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -49,6 +50,7 @@
                             <td>{{ $user->like_count ?? 0}}</td>
                             <td>{{ $user->list_liked_count ?? 0}}</td>
                             <td>{{ $user->email }}</td>
+                            <td>{{ $user->created_at }}</td>
                             <td>
                                 @if ($user->id != Auth::user()->id)
                                     <button type="button" class="btn btn-sm btn-danger delete" value="{{ $user->id }}">
