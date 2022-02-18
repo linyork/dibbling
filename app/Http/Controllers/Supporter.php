@@ -30,7 +30,7 @@ class Supporter extends Controller
         foreach($ret as $v){
             if ($v) {
                 $author = explode("\t", trim($v));
-                if (isset($this->authors[strtolower($author[1])])) {
+                if (!empty($author[1]) && isset($this->authors[strtolower($author[1])])) {
                     $this->authors[strtolower($author[1])] = (int) $author[0];
                 }
             }
