@@ -30,7 +30,7 @@ class PlayerController extends Controller
             }
             else
             {
-                $listResult = ListModel::onlyTrashed()->where('deleted_at', '<', date('Y-m-d'))->inRandomOrder()->first();
+                $listResult = ListModel::onlyTrashed()->where('deleted_at', '<', date('Y-m-d', strtotime('-3 day')))->inRandomOrder()->first();
                 if (!$listResult) {
                     $listResult = ListModel::onlyTrashed()->inRandomOrder()->first();
                 }

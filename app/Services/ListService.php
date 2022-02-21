@@ -235,20 +235,27 @@ class ListService extends Service
      * @param string $order
      * @return \Illuminate\Support\Collection
      */
-    public function getLiked($page = 1, $limit = 12, $userId = null, $order = '')
+    public function getLiked($page = 1, $limit = 12, $userId = null, $songName = null, $order = '')
     {
         $offset = ($page - 1) * $limit;
 
+        $reDibbling_query = $this->recordModel->select('list_id', DB::raw('count(id) as count'))->where('record_type', '=', DB::raw(RecordModel::RE_DIBBLING))->groupBy('list_id');
+
+        $likes_query = $this->likeModel->select('list_id')->where('user_id', DB::raw($userId))->groupBy('list_id');
+
         return DB::table('record')
-            ->select(DB::raw('users.id as user_id'), 'users.*', 'list.*', DB::raw('count(like.list_id) as likes'))
+            ->select(DB::raw('users.id as user_id'), 'users.*', 'list.*', DB::raw('count(like.list_id) as likes'), DB::raw('MAX(reDib.count) as reDib_count'))
             ->join('users', 'record.user_id', '=', 'users.id')
             ->join('list', 'record.list_id', '=', 'list.id')
             ->join('like', 'record.list_id', '=', 'like.list_id')
-            ->when($userId, function ($query, $user_id) {
-                return $query->where('users.id', $user_id);
+            ->leftJoin( DB::raw("({$reDibbling_query->toSql()}) as reDib"), function( $join ){
+                $join->on('record.list_id', '=', 'reDib.list_id');
             })
+            ->when($songName, function ($query, $song_name) {
+                return $query->where('list.title', 'like', "%$song_name%");
+            })
+            ->whereIn('record.list_id', $likes_query->pluck('list_id')->toArray())
             ->where('record.record_type', '=', DB::raw(RecordModel::DIBBLING))
-            ->where('like.user_id', '=',  DB::raw(Auth::user()->id))
             ->orderBy($this->getOrder($order), 'DESC')
             ->orderBy('list.updated_at', 'DESC')
             ->groupBy('record.id')

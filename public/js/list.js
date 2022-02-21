@@ -6,6 +6,7 @@ var list = function () {
     let isAjax = false
     let listContainer = '#record-list'
     let activePage = 'list'
+    let main_user_id = 0
     let user_id = 0
     let orderBy = 'default'
     let headers = {
@@ -15,7 +16,7 @@ var list = function () {
 
     // reset search bar
     $(document).on('click', '#reset', function () {
-        user_id = 0
+        user_id = main_user_id
         $("#user_id").val(user_id)
         $("#song_name").val("")
         resetContainer()
@@ -67,7 +68,7 @@ var list = function () {
     }
     
     // scroll
-    $(window).scroll(function () {
+    $(window).on('scroll', function () {
         if (isAjax) return;
         if ($(document).height() - $(this).scrollTop() - $(this).height() < 100) ajaxContainer();
     })
@@ -196,7 +197,8 @@ var list = function () {
                 'page': page,
                 'limit': limit,
                 'order': orderBy,
-                'user_id': user_id
+                'user_id': $("#user_id").val(),
+                'song_name': $("#song_name").val(),
             }
         }).done(function (db_list) {
             updatePageList(db_list)
@@ -229,6 +231,7 @@ var list = function () {
             listContainer = container ?? listContainer
             activePage = 'listLiked'
             refreshListLiked()
+            main_user_id = $('#user_id').val()
         },
         //trigger
         reDibbling: function(id, obj){
@@ -248,18 +251,3 @@ var list = function () {
         }
     }
 }()
-
-$(function(){
-    $(".go-to-top").click(function(){
-        $("html, body").animate({
-            scrollTop: 0
-        }, 500)
-    })
-    $(window).scroll(function() {
-        if ( $(this).scrollTop() > 300){
-            $('.go-to-top').fadeIn()
-        } else {
-            $('.go-to-top').fadeOut()
-        }
-    })
-})

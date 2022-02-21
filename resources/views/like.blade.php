@@ -14,8 +14,8 @@
 
 @section('content')
     <div class="container">
+        @include('common.search', ['likePage' => true])
         <div class="css-record-text">{{ __('web.like.Like') }}</div>
         <div class="row" id="like"></div>
     </div>
-    @include('common.go_to_top')
 @endsection

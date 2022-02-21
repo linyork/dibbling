@@ -18,5 +18,4 @@
         <div class="css-record-text">{{ __('web.record.Record') }}</div>
         <div class="row" id="record-list"></div>
     </div>
-    @include('common.go_to_top')
 @endsection

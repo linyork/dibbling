@@ -9,12 +9,14 @@
             <div class="form-group row">
                 <div class="input-group col-lg-4 col-md-12">
                     <div class="input-group-prepend">
-                        <label class="input-group-text" for="user_id">{{ __('web.record.UserName') }}</label>
+                        <label class="input-group-text" for="user_id">{{ isset($likePage) ? __('web.record.LikedName') : __('web.record.UserName') }}</label>
                     </div>
                     <select class="custom-select" id="user_id">
-                        <option selected value="0">{{ __('web.record.Choose') }}...</option>
-                        @foreach(\App\Model\UserModel::select(\DB::raw('count(record.user_id) as count'), \DB::raw('users.*'))->leftJoin('record', 'users.id', '=', 'record.user_id')->where('record.record_type', \App\Model\RecordModel::DIBBLING)->orWhere('record.record_type', NULL)->groupBy('users.id')->orderBy('count', 'DESC')->get() as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @if(!isset($likePage))
+                            <option selected value="0">{{ __('web.record.Choose') }}...</option>
+                        @endif
+                        @foreach(\App\Model\UserModel::whereNotNull('email_verified_at')->orderBy('name')->get() as $user)
+                            <option {{ isset($likePage) && Auth::user()->id == $user->id ? 'selected' : '' }} value="{{ $user->id }}">{{ $user->name }}</option>
                         @endforeach
                     </select>
                 </div>

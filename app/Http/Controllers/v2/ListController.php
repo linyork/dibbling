@@ -71,8 +71,9 @@ class ListController extends Controller
             $limit = $request->post( 'limit' );
             $order = $request->post( 'order' );
             $user_id = $request->post( 'user_id' );
+            $song_name = $request->post( 'song_name' );
 
-            $liked_data['records'] = $listService->getLiked( $page, $limit, $user_id, $order );
+            $liked_data['records'] = $listService->getLiked( $page, $limit, $user_id, $song_name, $order );
             $liked_data['likes'] = $listService->getLikes( array_keys( $liked_data['records']->keyBy( 'id' )->toArray() ) );
         }
         catch (\Exception $e)
