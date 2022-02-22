@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Services\ListService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Route;
 
 class ListController extends Controller
 {
@@ -126,7 +127,7 @@ class ListController extends Controller
             $youtubeHelper->parser($videoId);
             if ( $youtubeHelper->getStatus() )
             {
-                if( $this_video = $listService->getSongByVideoId( $youtubeHelper->getVideoId() )->first() )
+                if( $this_video = $listService->getSongByVideoId( $youtubeHelper->getVideoId() )->first() && Route::currentRouteName() !== "extension.insert")
                 {
                     throw new \LogicException( $this_video['title'].PHP_EOL.PHP_EOL."此影片 {$listService->getDibblingUser($this_video['id'])->name} 已經點過，確定要再點一次嗎?" );
                 }
