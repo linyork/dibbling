@@ -1,5 +1,5 @@
 <p>
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    <button class="btn btn-{{ isset($likePage) ? 'primary' : 'info' }}" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
         {{ __('web.record.SearchBar') }}
     </button>
 </p>
@@ -38,7 +38,7 @@
             <div class="form-group row justify-content-end">
                 <div class="col-auto">
                     <button id="reset" type="button" class="btn btn-secondary">{{ __('web.record.Reset') }}</button>
-                    <button id="search" type="button" class="btn btn-primary">{{ __('web.record.Search') }}</button>
+                    <button id="search" type="button" class="btn btn-{{ isset($likePage) ? 'primary' : 'info' }}">{{ __('web.record.Search') }}</button>
                 </div>
             </div>
 
