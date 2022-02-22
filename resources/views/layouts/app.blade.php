@@ -137,6 +137,7 @@
 
         <main class="py-4">
             @yield('content')
+            @include('common.go_to_top')
         </main>
     </div>
     

@@ -36,3 +36,11 @@
         </div>
     </div>
 @endforeach
+
+@if(count($records) == 0)
+    <div data-list="no-data" class="col-12">
+        <div class="px-1 py-2 css-list-title">
+            {{ __('web.list.NoRecord') }}
+        </div>
+    </div>
+@endif
