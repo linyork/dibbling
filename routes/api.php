@@ -66,7 +66,7 @@ Route::group(['prefix' => 'v2'], function ()
 
         // dibbling extension (開放給 chrome 的插件打的 api)
         Route::post('list/extension', [Controllers\v2\ListController::class, 'insert']);
-        Route::post('list/extension/{id}', [Controllers\v2\ListController::class, 'redibbling']);
+        Route::put('list/extension/{id}', [Controllers\v2\ListController::class, 'redibbling']);
     });
     // dibbling player
     Route::get('next', 'v2\PlayerController@next');
