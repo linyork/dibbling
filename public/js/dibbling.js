@@ -204,12 +204,10 @@ function redibbling(id) {
     });
 }
 
-
 function next(title) {
     if (title === '') return;
     $('#nextTitle').val(title)
 }
-
 
 function danmu(m) {
     if (m === '') return;
