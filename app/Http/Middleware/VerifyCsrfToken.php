@@ -21,6 +21,6 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         // 開放給 chrome 的插件打的 api 不過 csrf token
         '/api/v2/list/extension',
-        '/api/v2/list/extension/{id}',
+        '/api/v2/list/extension/*',
     ];
 }
