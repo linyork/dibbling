@@ -6,6 +6,7 @@ use App\Helpers\YoutubeHelper;
 use App\Model\LikeModel;
 use App\Model\ListModel;
 use App\Model\RecordModel;
+use App\Model\TagModel;
 use App\Model\UserModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -18,13 +19,15 @@ class ListService extends Service
     protected $recordModel;
     protected $userModel;
     protected $likeModel;
+    protected $tagModel;
 
-    public function __construct(ListModel $listModel,RecordModel $recordModel, UserModel $userModel, LikeModel $likeModel)
+    public function __construct(ListModel $listModel,RecordModel $recordModel, UserModel $userModel, LikeModel $likeModel, TagModel $tagModel)
     {
         $this->listModel = $listModel;
         $this->recordModel = $recordModel;
         $this->userModel = $userModel;
         $this->likeModel = $likeModel;
+        $this->tagModel = $tagModel;
     }
 
     /**
@@ -48,6 +51,14 @@ class ListService extends Service
         $this->recordModel->record_type = RecordModel::DIBBLING;
         $this->recordModel->save();
 
+        // 新增 tag table
+        foreach($ytHelper->getTags() as $tag)
+        {
+            $tagModel = (new TagModel());
+            $tagModel->list_id = $this->listModel->id;
+            $tagModel->tag = $tag;
+            $tagModel->save();
+        }
     }
 
     /**
@@ -74,6 +85,7 @@ class ListService extends Service
         $list->forceDelete();
         DB::table('record')->where('list_id', '=', $id)->delete();
         DB::table('like')->where('list_id', '=', $id)->delete();
+        DB::table('tag')->where('list_id', '=', $id)->delete();
         return 'Real delete success.';
     }
 

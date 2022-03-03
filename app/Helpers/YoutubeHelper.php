@@ -14,6 +14,7 @@ class YoutubeHelper
     private string $videoId;
     private string $title;
     private int $duration;
+    private array $tags;
     private string $seal;
     private string $errMsg;
 
@@ -75,7 +76,8 @@ class YoutubeHelper
             'like_count'      => isset($data->items[0]->statistics->likeCount) ? $data->items[0]->statistics->likeCount : 0,
             'view_count'      => isset($data->items[0]->statistics->viewCount) ? $data->items[0]->statistics->viewCount : 0,
             'comment_count'   => isset($data->items[0]->statistics->commentCount) ? $data->items[0]->statistics->commentCount : 0,
-            'uploader'        => $data->items[0]->snippet->channelTitle
+            'uploader'        => $data->items[0]->snippet->channelTitle,
+            'tags'            => $data->items[0]->snippet->tags
         ];
     }
 
@@ -110,6 +112,7 @@ class YoutubeHelper
                 $this->title = $detailData['title'];
                 $this->seal = $detailData['thumbnail_large'];
                 $this->duration = $detailData['duration'];
+                $this->tags = $detailData['tags'];
                 $this->status = true;
             }
         }
@@ -149,6 +152,11 @@ class YoutubeHelper
     public function getDuration() : int
     {
         return $this->duration ?? 0;
+    }
+
+    public function getTags() : array
+    {
+        return $this->tags ?? [];
     }
 
 }
