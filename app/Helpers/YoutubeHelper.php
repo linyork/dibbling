@@ -77,7 +77,7 @@ class YoutubeHelper
             'view_count'      => isset($data->items[0]->statistics->viewCount) ? $data->items[0]->statistics->viewCount : 0,
             'comment_count'   => isset($data->items[0]->statistics->commentCount) ? $data->items[0]->statistics->commentCount : 0,
             'uploader'        => $data->items[0]->snippet->channelTitle,
-            'tags'            => $data->items[0]->snippet->tags
+            'tags'            => isset($data->items[0]->snippet->tags) ? $data->items[0]->snippet->tags : []
         ];
     }
 
