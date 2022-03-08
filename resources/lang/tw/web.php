@@ -8,9 +8,10 @@ return [
         'Supporter' => '芳名錄',
         'Dibbling' => '點播',
         'List' => '清單',
-        'Record' => '紀錄',
         'Like' => '喜歡',
+        'Record' => '紀錄',
         'Setting' => '設定',
+        'Timeline' => '點播歷程',
         'AdminInterface' => '管理者介面',
         'Controller' => '控制器',
         'Logout' => '登出',
@@ -38,6 +39,7 @@ return [
         'Next' => '下一首',
         'Danmu' => '彈幕',
         'Saysomething' => '說點什麼',
+        'You' => '您',
     ],
     'list' => [
         'List' => '清單',
@@ -67,10 +69,20 @@ return [
         'Choose' => '請選擇',
         'SongName' => '歌曲名稱',
     ],
+    'timeline' => [
+        'Startdate' => '開始日期',
+        'Enddate' => '結束日期',
+        'Collapse' => '收合',
+    ],
     'order' => [
         'Default' => '預設',
         'DiCount' => '依點播數',
-        'LikeCount' => '依按讚數'
+        'LikeCount' => '依按讚數',
+        'All' => '全部',
+        'Dibbling' => '點播',
+        'ReDibbling' => '再點播',
+        'Cut' => '切歌',
+        'Liked' => '按讚',
     ],
     'controller' => [
         'Controller' => '控制器',

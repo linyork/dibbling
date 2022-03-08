@@ -1,0 +1,88 @@
+@import "timeline_default.css";
+
+.css-list,
+.css-record {
+    border: unset !important;
+    background-color: #222222 !important;
+    border-radius: 1px;
+    box-shadow: 0 2px 4px 0 rgba(51, 51, 51, 0.3), 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.css-list-name,
+.css-record-name {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #333333;
+}
+.css-list-title,
+.css-record-title {
+    height: 3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    font-family: MicrosoftJhengHei;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #999999;
+}
+
+.css-list-btn-group,
+.css-record-btn-group {
+    padding: 0.5rem;
+}
+
+.css-record-btn-group {
+    padding: 0.5rem 0.3rem;
+}
+
+.css-record-search-bar {
+    background-color: #222222;
+    border-radius: 3px !important;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3) !important;
+    border: solid 1px #cccccc !important;
+}
+
+.input-group-text {
+    color: white;
+    background-color: #222222;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+    border: solid 1px #cccccc;
+}
+
+.custom-select {
+    color: white;
+    background-color: #222222;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+    border: solid 1px #cccccc;
+}
+
+.timeline dl dd .circ {
+    border: 4px solid #222222;
+}
+
+.timeline dl dd .events,
+.timeline dl dd .events .events-body,
+.timeline dl dd .events:before {
+    background-color: #222222;
+    color: #fff;
+}
+.timeline dl dd.pos-right .events:before {
+    border-color: transparent #222222 transparent transparent;
+}
+.timeline dl dd.pos-left .events:before {
+    border-color: transparent transparent transparent #222222;
+}
+
+.timeline dl dd .events {
+    box-shadow: 0 2px 4px 0 rgb(250 250 250 / 30%);
+}
+.timeline dl dd .events:before {
+    box-shadow: -2px -2px 2px 0px rgb(250 250 250 / 10%)
+}

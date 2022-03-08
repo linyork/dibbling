@@ -49,8 +49,14 @@ Route::middleware($userMiddlewareArray)->group(function () {
         ->name('dibbling_list');
     Route::get('dibbling_record', [Controllers\DibblingRecord::class, 'index'])
         ->name('dibbling_record');
+    Route::get('dibbling_record/{user_id}', [Controllers\DibblingRecord::class, 'index_tmp'])
+        ->name('dibbling.record');
     Route::get('dibbling_like', [Controllers\DibblingLike::class, 'index'])
         ->name('dibbling_like');
+    Route::get('timeline', [Controllers\Timeline::class, 'index'])
+        ->name('timeline');
+    Route::post('timeline', [Controllers\Timeline::class, 'index'])
+        ->name('timeline_search');
     Route::get('setting', [Controllers\Setting::class, 'index'])
         ->name('setting');
     Route::get('admin_interface', [Controllers\AdminInterface::class, 'index'])

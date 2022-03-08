@@ -7,7 +7,7 @@ var list = function () {
     let listContainer = '#record-list'
     let activePage = 'list'
     let main_user_id = 0
-    let user_id = 0
+    let user_id = typeof($("#user_id").val()) === 'undefined' ? 0 : $("#user_id").val()
     let orderBy = 'default'
     let headers = {
         'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
@@ -50,7 +50,7 @@ var list = function () {
         $(listContainer).empty()
         ajaxContainer()
     }
-    
+
     function ajaxContainer(){
         switch (activePage) {
             case 'list':
@@ -66,7 +66,7 @@ var list = function () {
                 break
         }
     }
-    
+
     // scroll
     $(window).on('scroll', function () {
         if (isAjax) return;
@@ -134,7 +134,7 @@ var list = function () {
             }
         }).done(function (result) {
             var modal = $('#infoModal')
-            
+
             var title = '<span style="font-size:1.2rem"> ' + obj.data('title') + ' </span>'
             var html = '<p style="padding-left:20px">' + '<ul style="padding-left:1.5rem">'
             var info = obj.data('played')

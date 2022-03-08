@@ -113,7 +113,8 @@ li {
     padding: 6px 0;
 }
 /* like */
-li.type::before {
+li.type::before,
+li.type5::before {
     content: "\f164";
     padding: 0 1px;
     color: skyblue;
@@ -138,4 +139,17 @@ li.type3::before {
 /* delete */
 li.type4::before {
     content: "\f1f8";
+}
+
+.circ1 {
+    background-color: gold !important;
+}
+.circ2 {
+    background-color: lightpink !important;
+}
+.circ3, .circ4 {
+    background-color: lightgrey !important;
+}
+.circ5 {
+    background-color: skyblue !important;
 }

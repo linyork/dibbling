@@ -118,6 +118,7 @@
                                     @can('admin')
                                         <a class="dropdown-item" href="{{ route('admin_interface') }}">{{ __('web.app.AdminInterface') }}</a>
                                     @endcan
+                                    <a class="dropdown-item" href="{{ route('timeline') }}">{{ __('web.app.Timeline') }}</a>
                                     <a class="dropdown-item" href="{{ route('setting') }}">{{ __('web.app.Setting') }}</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
@@ -140,7 +141,7 @@
             @include('common.go_to_top')
         </main>
     </div>
-    
+
     <div class="modal" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">

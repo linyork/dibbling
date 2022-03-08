@@ -20,6 +20,7 @@ class ListService extends Service
     protected $userModel;
     protected $likeModel;
     protected $tagModel;
+    protected $record_type;
 
     public function __construct(ListModel $listModel,RecordModel $recordModel, UserModel $userModel, LikeModel $likeModel, TagModel $tagModel)
     {
@@ -28,6 +29,13 @@ class ListService extends Service
         $this->userModel = $userModel;
         $this->likeModel = $likeModel;
         $this->tagModel = $tagModel;
+        $this->record_type = [
+            '1' => __('web.dibbling.Dibbling'),
+            '2' => __('web.list.ReDibbling'),
+            '3' => __('web.list.Cut'),
+            '4' => __('web.list.Remove'),
+            '5' => __('web.like.Liked')
+        ];
     }
 
     /**
@@ -276,18 +284,107 @@ class ListService extends Service
             ->get();
     }
 
+
+    /**
+     * getTimeline
+     *
+     * @return void
+     */
+    public function getTimeline($params = [])
+    {
+        $where = [
+            'user_id' => DB::raw(Auth::user()->id),
+            'record_type'=> DB::raw(RecordModel::DIBBLING)
+        ];
+        $record_query = $this->recordModel->select('list_id')
+            ->where($where)
+            ->groupBy('list_id')
+            ->pluck('list_id')->toArray();
+
+        $likes_array = [];
+        $record_array = [];
+        if (in_array($params['order'],['0', '5']) != false) {
+            $likes_array = $this->likeModel
+            ->select(DB::raw('like.updated_at as time_at'), DB::raw('5 as record_type'), DB::raw('like.user_id as record_user_id'), DB::raw('user.name as record_user_name'), DB::raw('users.id as user_id'), DB::raw('users.name'), DB::raw('list.title'), DB::raw('list.video_id'), DB::raw('list.seal'))
+            ->join('users as user', 'user.id', 'like.user_id')
+            ->join('record', ['record.list_id' => 'like.list_id', 'record_type' => DB::raw(RecordModel::DIBBLING)])
+            ->join('list', 'record.list_id', 'list.id')
+            ->join('users', 'record.user_id', '=', 'users.id')
+            ->where(function($query) use($params) {
+                $query->whereBetween('like.updated_at',[date('Y-m-d', strtotime($params['start_date'])), date('Y-m-d', strtotime($params['end_date']))]);
+            })
+            ->where(function($query) use($record_query) {
+                $query->whereIn('record.list_id', $record_query)
+                    ->orWhere('record.user_id', DB::raw(Auth::user()->id));
+            })
+            ->get();
+        }
+        if ($params['order'] != '5') {
+            $record_array = $this->recordModel
+                ->select(DB::raw('(CASE WHEN record.record_type = 1 then record.created_at else record.updated_at END) as time_at'), DB::raw('record.record_type'), DB::raw('record.user_id as record_user_id'), DB::raw('user.name as record_user_name'), DB::raw('users.id as user_id'), DB::raw('users.name'), DB::raw('list.title'), DB::raw('list.video_id'), DB::raw('list.seal'))
+                ->join('users as user', 'user.id', 'record.user_id')
+                ->join('list', 'list_id', '=', 'list.id')
+                ->join('record as list_record', ['list_record.list_id' => 'list.id', 'list_record.record_type' => DB::raw(RecordModel::DIBBLING)])
+                ->join('users', 'list_record.user_id', 'users.id')
+                ->where(function($query) use($params) {
+                    $query->whereBetween('record.created_at',[date('Y-m-d', strtotime($params['start_date'])), date('Y-m-d', strtotime($params['end_date']))]);
+                })
+                ->where(function($query) use($record_query) {
+                    $query->whereIn('record.list_id', $record_query)
+                        ->orWhere('record.user_id', DB::raw(Auth::user()->id));
+                })
+                ->when($params, function ($query, $params) {
+                    if ($params['order'] == '0') {
+                        return;
+                    }
+                    return $query->where('record.record_type', DB::raw($params['order']));
+                })
+                ->get();
+        }
+        //$merge_array = array_merge($likes_array->toArray(), $record_array->toArray());
+
+        $data = [];
+        foreach ($likes_array as $row) {
+            $data[strtotime($row['time_at']).''.$row['record_type']] = $this->_return_timeline_date($row);
+        }
+        foreach($record_array as $row) {
+            if (($row['record_type'] == '1' && (Auth::user()->id != $row['record_user_id'])) || ($row['time_at'] < $params['start_date'])) {
+                continue;
+            }
+            $data[strtotime($row['time_at']).''.$row['record_type']] = $this->_return_timeline_date($row);
+        }
+        krsort($data);
+
+        return $data;
+    }
+
+    private function _return_timeline_date($row)
+    {
+        $event_time = $row['time_at'];
+        $action = $row['record_type'];
+        return [
+            'id' => $row['list_id'] ?? $row['id'],
+            'year' => date('Y', strtotime($event_time)),
+            'action' => $action,
+            'record_type' => $this->record_type[$action],
+            'user_id' => $row['user_id'],
+            'user_name' => $row['name'],
+            'name' => Auth::user()->id == $row['record_user_id'] ? "[".__('web.dibbling.You')."]" : $row['record_user_name'],
+            'video_id' => $row['video_id'],
+            'img' => $row['seal'],
+            'title' => $row['title'],
+            'time' => date('Y-m-d H:i:s', strtotime($event_time)),
+        ];
+    }
+
     /**
      * @param int $list_id
      * @return \Illuminate\Support\Collection
      */
     public function getRecordInfo(int $list_id)
     {
-        $dibbling = __('web.dibbling.Dibbling');
-        $redibbling = __('web.list.ReDibbling');
-        $cut = __('web.list.Cut');
-        $remove = __('web.list.Remove');
         return DB::table('record')
-            ->select('record.created_at', DB::raw('users.name'), DB::raw('record.record_type'), DB::raw("case record.record_type when 1 then '$dibbling' when 2 then '$redibbling' when 3 then '$cut' when 4 then '$remove' END as type_txt"))
+            ->select('record.created_at', DB::raw('users.name'), DB::raw('record.record_type'), DB::raw("case record.record_type when 1 then '{$this->record_type[1]}' when 2 then '{$this->record_type[2]}' when 3 then '{$this->record_type[3]}' when 4 then '{$this->record_type[4]}' END as type_txt"))
             ->join('users', 'record.user_id', '=', 'users.id')
             ->join('list', 'record.list_id', '=', 'list.id')
             ->where('record.list_id', DB::raw($list_id))
@@ -302,9 +399,8 @@ class ListService extends Service
      */
     public function getLikedInfo(int $list_id)
     {
-        $liked = __('web.like.Liked');
         return DB::table('like')
-            ->select('like.created_at', DB::raw('users.name'), DB::raw("'$liked' as type_txt"))
+            ->select('like.created_at', DB::raw('users.name'), DB::raw("'{$this->record_type[5]}' as type_txt"))
             ->join('users', 'like.user_id', '=', 'users.id')
             ->join('list', 'like.list_id', '=', 'list.id')
             ->where('like.list_id', DB::raw($list_id))
