@@ -13,9 +13,4 @@ class DibblingRecord extends Controller
         $user_id = $request->get('user_id') ?? 0;
         return view('record', ['user_id' => $user_id]);
     }
-
-    public function index_tmp($user_id = 0)
-    {
-        return view('record', ['user_id' => $user_id]);
-    }
 }

@@ -292,12 +292,8 @@ class ListService extends Service
      */
     public function getTimeline($params = [])
     {
-        $where = [
-            'user_id' => DB::raw(Auth::user()->id),
-            'record_type'=> DB::raw(RecordModel::DIBBLING)
-        ];
         $record_query = $this->recordModel->select('list_id')
-            ->where($where)
+            ->where(['user_id' => DB::raw(Auth::user()->id), 'record_type'=> DB::raw(RecordModel::DIBBLING)])
             ->groupBy('list_id')
             ->pluck('list_id')->toArray();
 
@@ -311,7 +307,7 @@ class ListService extends Service
             ->join('list', 'record.list_id', 'list.id')
             ->join('users', 'record.user_id', '=', 'users.id')
             ->where(function($query) use($params) {
-                $query->whereBetween('like.updated_at',[date('Y-m-d', strtotime($params['start_date'])), date('Y-m-d', strtotime($params['end_date']))]);
+                $query->whereBetween('like.updated_at',[date('Y-m-d', strtotime($params['start_date'])), date('Y-m-d', strtotime('+1 day', strtotime($params['end_date'])))]);
             })
             ->where(function($query) use($record_query) {
                 $query->whereIn('record.list_id', $record_query)
@@ -327,7 +323,7 @@ class ListService extends Service
                 ->join('record as list_record', ['list_record.list_id' => 'list.id', 'list_record.record_type' => DB::raw(RecordModel::DIBBLING)])
                 ->join('users', 'list_record.user_id', 'users.id')
                 ->where(function($query) use($params) {
-                    $query->whereBetween('record.created_at',[date('Y-m-d', strtotime($params['start_date'])), date('Y-m-d', strtotime($params['end_date']))]);
+                    $query->whereBetween('record.created_at',[date('Y-m-d', strtotime($params['start_date'])), date('Y-m-d', strtotime('+1 day', strtotime($params['end_date'])))]);
                 })
                 ->where(function($query) use($record_query) {
                     $query->whereIn('record.list_id', $record_query)

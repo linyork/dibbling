@@ -1,6 +1,6 @@
 var list = function () {
 
-    const apiPath = 'api/v2/'
+    const apiPath = '/api/v2/'
     let page = 1
     let limit = 12
     let isAjax = false
