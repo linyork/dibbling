@@ -122,5 +122,8 @@ return [
         'Ashley' => 'Copywriting translation',
         'Momoka' => 'Copywriting and features suggestions.',
         'Christine' => 'Numerous features added and refurbishments.',
+    ],
+    'msg' => [
+        'SelectorDate' => "Start date can't be greater than end date."
     ]
 ];

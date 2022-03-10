@@ -9,6 +9,8 @@ var list = function () {
     let main_user_id = 0
     let user_id = typeof($("#user_id").val()) === 'undefined' ? 0 : $("#user_id").val()
     let orderBy = 'default'
+    let initStartDate = ''
+    let initEndDate = ''
     let headers = {
         'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -19,6 +21,8 @@ var list = function () {
         user_id = main_user_id
         $("#user_id").val(user_id)
         $("#song_name").val("")
+        $(".start-date").val(initStartDate)
+        $(".end-date").val(initEndDate)
         resetContainer()
     })
 
@@ -43,6 +47,32 @@ var list = function () {
         resetContainer()
     })
 
+    //timeline
+    $(document).on('click', '.dt-year', function() {
+        slidePanel('.dd-y-' + $(this).data('val'))
+    })
+
+    $(document).on('click', '.dt-month', function() {
+        slidePanel('.dd-m-' + $(this).data('val'))
+    })
+
+    $(document).on('click', '.events-header', function() {
+        $(this).next().slideToggle(300)
+    })
+
+    $(document).on('click', '.collapse-all', function() {
+        slidePanel('dd')
+    })
+
+    function slidePanel(className) {
+        var status  = $(className)[0].style.display
+        if (status == 'none') {
+            $(className).slideDown(300)
+        } else {
+            $(className).slideUp(300)
+        }
+    }
+
     function resetContainer(){
         page = 1
         user_id = typeof($("#user_id").val()) === 'undefined' ? user_id : $("#user_id").val()
@@ -62,6 +92,9 @@ var list = function () {
             case 'listLiked':
                 refreshListLiked()
                 break
+            case 'timeline':
+                refreshTimeline()
+                break;
             default:
                 break
         }
@@ -208,10 +241,58 @@ var list = function () {
     function updatePageList(db_list){
         isAjax = false
         if (db_list.indexOf('no-data') == -1 || $(listContainer).html() == '') {
+            if (activePage == 'timeline') {
+                db_list = checkSelectorElement($(listContainer).html(), db_list, 'dt-year')
+                db_list = checkSelectorElement($(listContainer).html(), db_list, 'dt-month')
+            }
             $(listContainer).append(db_list)
             page++
         }
         $(".js-like").tooltip()
+    }
+
+    function checkSelectorElement(originHtml, appendHtml, className) {
+        let originDiv = document.createElement('div')
+        let appendDiv = document.createElement('div')
+        originDiv.innerHTML = originHtml
+        appendDiv.innerHTML = appendHtml
+        var searchDiv = originDiv.getElementsByClassName(className)
+        if (searchDiv.length > 0) {
+            //get exist value
+            var dataVals = []
+            for (var i=0; i < searchDiv.length; i++) {
+                dataVals.push(searchDiv[i].dataset.val)
+            }
+            //check & replace
+            alterDiv = appendDiv.getElementsByClassName(className)
+            for (var i=0; i < alterDiv.length; i++) {
+                if ($.inArray(alterDiv[i].dataset.val, dataVals) != -1) {
+                    alterDiv[i].remove()
+                }
+            }
+        }
+        return appendDiv.innerHTML
+    }
+
+    function refreshTimeline() {
+        isAjax = true
+        $.ajax({
+            url: apiPath + 'timeline',
+            headers: headers,
+            method: "POST",
+            data: {
+                'page': page,
+                'start_date': $(".start-date").val(),
+                'end_date': $(".end-date").val(),
+                'order': $(".order-list").val() ?? '0',
+            }
+        }).done(function (db_list) {
+            if (!db_list['msg']) {
+                updatePageList(db_list)
+            } else {
+                alert(db_list['msg'])
+            }
+        })
     }
 
 
@@ -232,6 +313,13 @@ var list = function () {
             activePage = 'listLiked'
             refreshListLiked()
             main_user_id = $('#user_id').val()
+        },
+        initTimeline: function(container){
+            listContainer = container ?? listContainer
+            activePage = 'timeline'
+            refreshTimeline()
+            initStartDate = $(".start-date").val()
+            initEndDate = $(".end-date").val()
         },
         //trigger
         reDibbling: function(id, obj){

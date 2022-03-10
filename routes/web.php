@@ -53,8 +53,6 @@ Route::middleware($userMiddlewareArray)->group(function () {
         ->name('dibbling_like');
     Route::get('timeline', [Controllers\Timeline::class, 'index'])
         ->name('timeline');
-    Route::post('timeline', [Controllers\Timeline::class, 'index'])
-        ->name('timeline_search');
     Route::get('setting', [Controllers\Setting::class, 'index'])
         ->name('setting');
     Route::get('admin_interface', [Controllers\AdminInterface::class, 'index'])

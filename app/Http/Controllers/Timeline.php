@@ -2,29 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\ListService;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Timeline extends Controller
 {
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(Request $request, ListService $listService)
+    public function index()
     {
-        try
-        {
-            $data = [
-                'start_date' => $request->post('start_date') ?? date("Y-m-d", strtotime('-3 month')),
-                'end_date' => $request->post('end_date') ?? date("Y-m-d"),
-                'order' => $request->post('order') ?? '0',
-            ];
-            $data['list'] = $listService->getTimeline($data);
-        }
-        catch (\Exception $e)
-        {
-            $data['error'] = $e;
-        }
+        $data = [
+            'start_date' => date('Y-m-d', strtotime(Auth::user()->created_at)),
+            'end_date' => date('Y-m-d')
+        ];
         return view('timeline', $data);
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Services\ListService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Carbon;
 
 class ListController extends Controller
 {
@@ -94,21 +95,74 @@ class ListController extends Controller
         try
         {
             $list_id = $request->post( 'list_id' );
-            
+
             $info_data['records'] = $listService->getRecordInfo($list_id)->toArray();
             $info_data['like'] = $listService->getLikedInfo($list_id)->toArray();
-            
+
             $ret_data = array_merge($info_data['records'], $info_data['like']);
         }
         catch (\Exception $e)
         {
             $ret_data = [];
         }
-        
+
         //排序
         usort($ret_data, fn($a,$b) => $a->created_at > $b->created_at);
 
         return response()->json( $ret_data );
+    }
+
+
+    /**
+     * 點播歷程
+     * @param Request $request
+     * @param ListService $listService
+     * @return Response
+     */
+    public function timeline(Request $request, ListService $listService)
+    {
+        try
+        {
+            $page = $request->post( 'page' ) ?? 1;
+            $order = $request->post('order') ?? '0';
+            $start_date_original = $request->post('start_date');
+            $end_date_original = $request->post('end_date');
+            if (carbon::parse($start_date_original)->diffInDays($end_date_original, false) < 0) {
+                throw new \LogicException(__('web.msg.SelectorDate'));
+            }
+
+            //get duration of page
+            $start_today = $page == 1 ? 1 : 0;
+            $search_by_month = 2;
+            $ed_month = ($page - 1) * $search_by_month;
+            $st_month = $ed_month + $search_by_month;
+            $start_date = date("Y-m-d", strtotime("-{$st_month} month"));
+            $end_date = date("Y-m-d", strtotime("+{$start_today} day", strtotime("-{$ed_month} month")));
+
+            if (carbon::parse($end_date)->diffInDays($end_date_original, false) < -($start_today)) {
+                $end_date = $end_date_original;
+            }
+            if (carbon::parse($start_date_original)->diffInDays($end_date, false) < 0) {
+                $end_date = $start_date_original;
+            }
+            if (carbon::parse($start_date_original)->diffInDays($start_date, false) < 0) {
+                $start_date = $start_date_original;
+            }
+
+            $params = [
+                'start_date' => $start_date,
+                'end_date' => $end_date,
+                'order' => $order,
+            ];
+            $ret_data['list'] = $listService->getTimeline($params);
+        }
+        catch (\LogicException $e)
+        {
+            $ret_data['msg'] = $e->getMessage();
+            return response()->json($ret_data);
+        }
+
+        return response()->view( 'common.timeline', $ret_data, Response::HTTP_OK );
     }
 
     /**

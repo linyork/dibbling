@@ -16,6 +16,13 @@ a:hover {
     cursor: pointer;
     box-shadow: 0 2px 4px 0 #17a2b850;
 }
+
+.timeline dl dt.dt-month {
+    background-color:#f5f7fa;
+    color: #17a2b8;
+    width: max-content;
+    font-size: 0.8rem;
+}
 .timeline dl dd {
     position:relative;z-index:2;
 }

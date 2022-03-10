@@ -307,7 +307,7 @@ class ListService extends Service
             ->join('list', 'record.list_id', 'list.id')
             ->join('users', 'record.user_id', '=', 'users.id')
             ->where(function($query) use($params) {
-                $query->whereBetween('like.updated_at',[date('Y-m-d', strtotime($params['start_date'])), date('Y-m-d', strtotime('+1 day', strtotime($params['end_date'])))]);
+                $query->whereBetween('like.updated_at',[date('Y-m-d', strtotime($params['start_date'])), date('Y-m-d', strtotime($params['end_date']))]);
             })
             ->where(function($query) use($record_query) {
                 $query->whereIn('record.list_id', $record_query)
@@ -323,7 +323,7 @@ class ListService extends Service
                 ->join('record as list_record', ['list_record.list_id' => 'list.id', 'list_record.record_type' => DB::raw(RecordModel::DIBBLING)])
                 ->join('users', 'list_record.user_id', 'users.id')
                 ->where(function($query) use($params) {
-                    $query->whereBetween('record.created_at',[date('Y-m-d', strtotime($params['start_date'])), date('Y-m-d', strtotime('+1 day', strtotime($params['end_date'])))]);
+                    $query->whereBetween('record.created_at',[date('Y-m-d', strtotime($params['start_date'])), date('Y-m-d', strtotime($params['end_date']))]);
                 })
                 ->where(function($query) use($record_query) {
                     $query->whereIn('record.list_id', $record_query)
@@ -359,8 +359,6 @@ class ListService extends Service
         $event_time = $row['time_at'];
         $action = $row['record_type'];
         return [
-            'id' => $row['list_id'] ?? $row['id'],
-            'year' => date('Y', strtotime($event_time)),
             'action' => $action,
             'record_type' => $this->record_type[$action],
             'user_id' => $row['user_id'],
