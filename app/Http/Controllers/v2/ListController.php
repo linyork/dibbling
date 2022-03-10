@@ -182,11 +182,11 @@ class ListController extends Controller
             {
                 if( $this_video = $listService->getSongByVideoId( $youtubeHelper->getVideoId() )->first() )
                 {
-                    throw new \LogicException( $this_video['title'].PHP_EOL.PHP_EOL."此影片 {$listService->getDibblingUser($this_video['id'])->name} 已經點過，確定要再點一次嗎?" );
+                    throw new \LogicException( __('web.msg.Dibbling Exist',['title' => $this_video['title'], 'user' => $listService->getDibblingUser($this_video['id'])->name]) );
                 }
 
                 $listService->dibbling( $youtubeHelper);
-                $returnJson['msg'] = '點播成功'.PHP_EOL.PHP_EOL.$youtubeHelper->getTitle();
+                $returnJson['msg'] = __('web.msg.Dibbling Success').PHP_EOL.PHP_EOL.$youtubeHelper->getTitle();
                 $returnJson['title'] = $youtubeHelper->getTitle();
             }
             else

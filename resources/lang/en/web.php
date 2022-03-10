@@ -124,6 +124,8 @@ return [
         'Christine' => 'Numerous features added and refurbishments.',
     ],
     'msg' => [
-        'SelectorDate' => "Start date can't be greater than end date."
+        'SelectorDate' => "Start date can't be greater than end date.",
+        'Dibbling Success' => 'Dibbling Success',
+        'Dibbling Exist' => 'This video :title has been demanded by :user.'.PHP_EOL.PHP_EOL.'Do you want to dibbling again?',
     ]
 ];

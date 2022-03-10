@@ -124,6 +124,8 @@ return [
         'Christine' => '增加諸多功能及翻新',
     ],
     'msg' => [
-        'SelectorDate' => '開始日期不得大於結束日期'
+        'SelectorDate' => '開始日期不得大於結束日期',
+        'Dibbling Success' => '點播成功',
+        'Dibbling Exist' => '此影片 :title'.PHP_EOL.PHP_EOL.':user已經點過了，確定要再點一次嗎？',
     ]
 ];

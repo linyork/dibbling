@@ -124,6 +124,8 @@ return [
         'Christine' => '多数の機能が追加され、改修されました',
     ],
     'msg' => [
-        'SelectorDate' => '開始日は終了日より大きくすることはできません'
+        'SelectorDate' => '開始日は終了日より大きくすることはできません',
+        'Dibbling Success' => 'リクエストの成功',
+        'Dibbling Exist' => 'このビデオ :title'.PHP_EOL.PHP_EOL.':userはすでにリクエストされていますが、もう一度リクエストしますか？',
     ]
 ];
