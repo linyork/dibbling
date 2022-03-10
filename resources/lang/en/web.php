@@ -12,6 +12,7 @@ return [
         'Record' => 'Record',
         'Controller' => 'Controller',
         'Setting' => 'Setting',
+        'Timeline' => 'Timeline',
         'AdminInterface' => 'Admin interface',
         'Logout' => 'Logout',
     ],
@@ -38,6 +39,7 @@ return [
         'Next' => 'Coming up',
         'Danmu' => 'Danmu',
         'Saysomething' => 'Say something',
+        'You' => "You",
     ],
     'list' => [
         'List' => 'List',
@@ -67,10 +69,20 @@ return [
         'Choose' => 'Please choose',
         'SongName' => 'Song Name',
     ],
+    'timeline' => [
+        'Startdate' => 'Start Date',
+        'Enddate' => 'End Date',
+        'Collapse' => 'Collapse',
+    ],
     'order' => [
         'Default' => 'Default',
         'DiCount' => 'Order by Dibbling Count',
-        'LikeCount' => 'Order by Like Count'
+        'LikeCount' => 'Order by Like Count',
+        'All' => 'All',
+        'Dibbling' => 'Dibbling',
+        'ReDibbling' => 'ReDibbling',
+        'Cut' => 'Cut',
+        'Liked' => 'Like',
     ],
     'controller' => [
         'Controller' => 'Controller',
@@ -110,5 +122,10 @@ return [
         'Ashley' => 'Copywriting translation',
         'Momoka' => 'Copywriting and features suggestions.',
         'Christine' => 'Numerous features added and refurbishments.',
+    ],
+    'msg' => [
+        'SelectorDate' => "Start date can't be greater than end date.",
+        'Dibbling Success' => 'Dibbling Success',
+        'Dibbling Exist' => 'This video :title has been demanded by :user.'.PHP_EOL.PHP_EOL.'Do you want to dibbling again?',
     ]
 ];

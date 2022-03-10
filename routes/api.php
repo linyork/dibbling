@@ -54,6 +54,8 @@ Route::group(['prefix' => 'v2'], function ()
         Route::post('like', [Controllers\v2\LikeController::class, 'like']);
         // 資訊
         Route::post('info', [Controllers\v2\ListController::class, 'info']);
+        // 點播歷程
+        Route::post('timeline', [Controllers\v2\ListController::class, 'timeline']);
 
         // admin 區塊
         Route::middleware('can:admin')->group(function ()

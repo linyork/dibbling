@@ -11,6 +11,7 @@ return [
         'Like' => 'お気に入り',
         'Record' => '再生履歴',
         'Setting' => '設定',
+        'Timeline' => 'タイムライン',
         'AdminInterface' => '管理ページ',
         'Controller' => 'リモコン',
         'Logout' => 'ログアウト',
@@ -38,6 +39,7 @@ return [
         'Next' => '次の演奏曲',
         'Danmu' => 'コメント',
         'Saysomething' => '何かコメントしてください(\'ω\')ノ',
+        'You' => '君は',
     ],
     'list' => [
         'List' => 'プレイリスト',
@@ -67,10 +69,20 @@ return [
         'Choose' => 'お選びください',
         'SongName' => '曲名',
     ],
+    'timeline' => [
+        'Startdate' => '開始日',
+        'Enddate' => '終了日',
+        'Collapse' => 'すべて折りたたむ',
+    ],
     'order' => [
         'Default' => 'ディフォルト',
         'DiCount' => 'リクエスト数により',
-        'LikeCount' => 'お気に入り数により'
+        'LikeCount' => 'お気に入り数により',
+        'All' => '全て',
+        'Dibbling' => 'リクエスト',
+        'ReDibbling' => '再びリクエスト',
+        'Cut' => '切る',
+        'Liked' => 'お気に入り',
     ],
     'controller' => [
         'Controller' => 'リモコン',
@@ -110,5 +122,10 @@ return [
         'Ashley' => 'コピーライティング翻訳',
         'Momoka' => 'コピーライティングと機能の提案',
         'Christine' => '多数の機能が追加され、改修されました',
+    ],
+    'msg' => [
+        'SelectorDate' => '開始日は終了日より大きくすることはできません',
+        'Dibbling Success' => 'リクエストの成功',
+        'Dibbling Exist' => 'このビデオ :title'.PHP_EOL.PHP_EOL.':userはすでにリクエストされていますが、もう一度リクエストしますか？',
     ]
 ];
