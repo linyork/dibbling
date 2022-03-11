@@ -282,6 +282,7 @@ var list = function () {
             method: "POST",
             data: {
                 'page': page,
+                'limit': limit,
                 'start_date': $(".start-date").val(),
                 'end_date': $(".end-date").val(),
                 'order': $(".order-list").val() ?? '0',
