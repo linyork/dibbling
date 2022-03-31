@@ -1,78 +1,66 @@
-#dibbling
-#local.dibbling.tw
-version: "3"
-
+version: '3'
 networks:
-  backend:
-  frontend:
-
+  backend: null
+  frontend: null
 services:
-
-  # web-server
   web-server:
     container_name: nginx
     networks:
       - frontend
       - backend
-    image: nginx:1.17
+    image: 'nginx:1.17'
     ports:
-      - "${HTTPS_PORT}:443"
-      - "${HTTP_PORT}:80"
+      - '${HTTPS_PORT}:443'
+      - '${HTTP_PORT}:80'
     volumes:
-      - ./docker/log/nginx:/var/log/nginx
-      - ./docker/nginx/conf:/etc/nginx/conf.d
-      - ./docker/ssl:/etc/ssl
-      - ./:/var/www/html/dibbling
-
-  # node
+      - './docker/log/nginx:/var/log/nginx'
+      - './docker/nginx/conf:/etc/nginx/conf.d'
+      - './docker/ssl:/etc/ssl'
+      - './:/var/www/html/dibbling'
   node:
     container_name: node
     networks:
       - frontend
       - backend
     restart: always
-    image: node:13
+    image: 'node:13'
     ports:
-      - "${DOCKER_NODE_PORT}:${DOCKER_NODE_PORT}"
-    command: "node /var/www/html/websocket.js"
+      - '${DOCKER_NODE_PORT}:${DOCKER_NODE_PORT}'
+    command: node /var/www/html/websocket.js
     volumes:
-      - ./docker/log/node:/var/log/node
-      - ./docker/ssl:/etc/ssl
-      - ./:/var/www/html
-
-  # php-fpm
+      - './docker/log/node:/var/log/node'
+      - './docker/ssl:/etc/ssl'
+      - './:/var/www/html'
   php-fpm:
     container_name: php
     networks:
       - backend
-    image: tinayork/php:8.0-fpm
+    image: 'tinayork/php:8.0-fpm'
     expose:
       - 9000
     tty: true
     volumes:
-      - ./docker/php/conf.d/custom.ini:/usr/local/etc/php/conf.d/custom.ini
-      - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
-      - ./docker/php/php-fpm.d:/usr/local/etc/php-fpm.d
-      - ./docker/ssl:/etc/ssl
-      - ./:/var/www/html/dibbling
-
-  # database
+      - './docker/php/conf.d/custom.ini:/usr/local/etc/php/conf.d/custom.ini'
+      - './docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini'
+      - './docker/php/php-fpm.d:/usr/local/etc/php-fpm.d'
+      - './docker/ssl:/etc/ssl'
+      - './:/var/www/html/dibbling'
   database:
     container_name: mysql
     networks:
       - backend
     ports:
-      - "${DOCKER_DB_PORT}:3306"
-    image: mysql:8
+      - '${DOCKER_DB_PORT}:3306'
+    image: 'mysql:8'
     environment:
       MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USERNAME}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-    command: --default-authentication-plugin=mysql_native_password
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+    command: '--default-authentication-plugin=mysql_native_password'
     volumes:
-      - ./docker/mysql/local.cnf:/etc/mysql/conf.d/local.cnf
-      - ./docker/mysql/data:/var/lib/mysql
+      - './docker/mysql/local.cnf:/etc/mysql/conf.d/local.cnf'
+      - './docker/mysql/data:/var/lib/mysql'
 
 #  # phpmyadmin
 #  phpmyadmin:
