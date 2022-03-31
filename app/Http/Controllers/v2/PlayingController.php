@@ -5,8 +5,10 @@ namespace App\Http\Controllers\v2;
 use App\Http\Controllers\Controller;
 use App\Model\PlayingModel;
 use App\Services\ListService;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 class PlayingController extends Controller
 {
@@ -14,7 +16,8 @@ class PlayingController extends Controller
     {
         try
         {
-            $video_id = (int)PlayingModel::firstOrFail()->video_id;
+            $channel = Cookie::get('channel') ?? 'tw';
+            $video_id = (int)PlayingModel::where('channel', '=', $channel)->firstOrFail()->video_id;
 
             $data = [
                 'playing' => $listService->getPlaying( $video_id ),

@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class ModifyPlayingTable extends Migration
+class ModifyPlayingTable2 extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class ModifyPlayingTable extends Migration
     public function up()
     {
         Schema::table('playing', function($table) {
-            $table->dropColumn('id');
+            $table->string('channel')->after('video_id');
         });
     }
 
@@ -26,7 +26,7 @@ class ModifyPlayingTable extends Migration
     public function down()
     {
         Schema::table('playing', function($table) {
-            $table->integer('id')->after('video_id');
+            $table->dropColumn('channel');
         });
     }
 }

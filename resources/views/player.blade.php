@@ -5,13 +5,12 @@
     <script src="{{ asset('/js/common/jquery-3.4.1.js') }}"></script>
     <script src="{{ asset('/js/common/bootstrap.js') }}"></script>
     <script async src="//www.youtube.com/iframe_api"></script>
-    <script src="{{ asset('/js/socket.js') }}"></script>
-
     <script type="text/javascript">
         var domain = "{{ config('app.domain') }}";
+        var channel = "{{ Request::cookie('channel') ?? 'tw' }}";
     </script>
-    <script src="{{ asset('/js/player.js?').time() }}"></script>
-
+    <script src="{{ asset('/js/socket.js') }}"></script>
+    <title>Dibbling Player</title>
 </head>
 <body>
 <div class="container">
@@ -21,7 +20,16 @@
             <div id="broadcast-div">
             </div>
             <span class="badge badge-primary">Interface</span>
-            <span class="badge badge-secondary">v2.0</span>
+            <span class="badge badge-secondary">v2.1</span>
+
+            <ul class="nav nav-pills nav-justified">
+                <li class="nav-item">
+                    <a class="nav-link {{ (Request::cookie('channel') === 'jp') ? 'active' : '' }}" href="{{ route('set_channel', ['channel' => 'jp']) }}">{{ __('web.channel.JP') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ (Request::cookie('channel') ==='tw') ? 'active' : '' }}" href="{{ route('set_channel', ['channel' => 'tw']) }}">{{ __('web.channel.TW') }}</a>
+                </li>
+            </ul>
             <div class="card">
                 <div style="width: auto;" id="YouTubeVideoPlayer"></div>
                 <div class="card-body">
@@ -33,5 +41,6 @@
         </div>
     </div>
 </div>
+<script src="{{ asset('/js/player.js?').time() }}"></script>
 </body>
 </html>

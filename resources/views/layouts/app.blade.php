@@ -42,6 +42,7 @@
     <script type="text/javascript">
         var web = @json(__('web'));
         var domain = "{{ config('app.domain') }}";
+        var channel = "{{ Request::cookie('channel') ?? 'tw' }}";
     </script>
 
     <!-- Page Css-->
@@ -77,7 +78,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('web.app.Login') }}</a>
                             </li>
-                            @if (Route::has('register'))
+                            @if ( Route::has('register') )
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('web.app.Register') }}</a>
                                 </li>
@@ -108,6 +109,21 @@
                                 <a class="nav-link {{ (Route::currentRouteName() === 'supporter') ? 'current-page' : '' }}" href="{{ route('supporter') }}">
                                     {{ __('web.app.Supporter') }}
                                 </a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    @if ( Request::cookie('channel') )
+                                        {{ __('web.channel.'.(strtoupper( Request::cookie('channel') ))) }}
+                                    @else
+                                        {{ __('web.channel.TW') }}
+                                    @endif
+                                        <span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('set_channel', ['channel' => 'jp']) }}">{{ __('web.channel.JP') }}</a>
+                                    <a class="dropdown-item" href="{{ route('set_channel', ['channel' => 'tw']) }}">{{ __('web.channel.TW') }}</a>
+                                </div>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

@@ -32,6 +32,8 @@ Route::get('set_locale/{locale}', [Controllers\Set::class, 'locale'])
     ->name('set_locale');
 Route::get('set_mode/{mode}', [Controllers\Set::class, 'mode'])
     ->name('set_mode');
+Route::get('set_channel/{channel}', [Controllers\Set::class, 'channel'])
+    ->name('set_channel');
 
 // web block
 Route::get('/', function (){ return redirect('dibbling'); })

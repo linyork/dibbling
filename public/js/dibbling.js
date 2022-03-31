@@ -8,6 +8,13 @@ $.ajax({
     method: "GET"
 }).done(function (data) {
     socket = io(document.location.protocol + '//' + domain + '/socket');
+    /* 房間事件 */
+    socket.on('connect', function(){
+        socket.emit('join_room', channel);
+    });
+    socket.on('error_room', function(channel){
+        alert('加入錯誤頻道或已有人使用: ' + channel)
+    });
     
     /* 發送事件 */
     socket.emit('intoDibbling', data);

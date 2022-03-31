@@ -71,5 +71,5 @@ Route::group(['prefix' => 'v2'], function ()
         Route::put('list/extension/{id}', [Controllers\v2\ListController::class, 'redibbling']);
     });
     // dibbling player
-    Route::get('next', 'v2\PlayerController@next');
+    Route::get('next', [Controllers\v2\PlayerController::class, 'next']);
 });

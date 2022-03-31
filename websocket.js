@@ -13,12 +13,23 @@ const video = {
     speed: 1
 };
 
-// player connection
 const playerRoom = io.of('socket/player');
 playerRoom.on('connection', function (socket) {
+    socket.on('join_room', (channel) => {
+        if(!socket.adapter.rooms[channel] && (channel === 'tw' || channel === 'jp') ) {
+            socket.join(channel);
+            socket.channel = channel;
+        } else {
+            socket.emit('error_room', channel);
+        }
+    })
+    
+    socket.on('disconnect', () => {
+        socket.leave(socket.channel);
+    });
     
     socket.on('playing', () => {
-        otherRoom.emit('playing');
+        otherRoom.to(socket.channel).emit('playing');
     });
     
     socket.on('setSync', (data) => {
@@ -26,64 +37,52 @@ playerRoom.on('connection', function (socket) {
         video.volume = sync.volume
         video.speed = sync.speed
         video.duration = sync.duration
-        otherRoom.emit('setSync', data)
+        otherRoom.to(socket.channel).emit('setSync', data)
     });
 });
 
-// connection
 const otherRoom = io.of('socket');
 otherRoom.on('connection', (socket) => {
-    // disconnect
-    socket.on('disconnect', () => {
-    });
-
-    // log
-    socket.on('intoDibbling', (data) => {
-        socket.user = data;
-        // console.log(new Date() + ' '+ socket.user.name + ' into dibbling page.');
-        // log.info(socket.user.name + ' into dibbling page.');
-    });
-
-    // command
-    socket.on('command', (command) => {
-        // console.log(new Date() + ' '+ socket.user.name + ' command: ' + command + '.');
-        // log.info(socket.user.name + ' command: ' + command + '.');
-        playerRoom.emit('command', command);
-    });
-
-    // danmu
-    socket.on('danmu', (message) => {
-        // console.log(new Date() + ' '+ socket.user.name + ' message: ' + message + '.');
-        log.info(new Date() + ' '+ socket.user.name + ' : ' + message);
-        otherRoom.emit('danmu', socket.user.name + ' : ' + message);
-    });
-
-    // chart
-    socket.on('chat', (chat) => {
-        // console.log(new Date() + ' '+ socket.user.name + ': ' + chat + '.');
-        // log.info(socket.user.name + ': ' + chat + '.');
-        otherRoom.emit('chat', socket.user.name + ': ' + chat + '.');
-    });
-
-    // broadcast
-    socket.on('broadcast', (result) => {
-        playerRoom.emit('broadcast', result);
+    socket.on('join_room', (channel) => {
+        socket.join(channel);
     });
     
-    // get sync
+    socket.on('disconnect', () => {
+        socket.leave(socket.channel);
+    });
+    
+    socket.on('intoDibbling', (data) => {
+        socket.user = data;
+    });
+    
+    socket.on('command', (command) => {
+        playerRoom.to(socket.channel).emit('command', command);
+    });
+    
+    socket.on('danmu', (message) => {
+        log.info(new Date() + ' '+ socket.user.name + ' : ' + message);
+        otherRoom.to(socket.channel).emit('danmu', socket.user.name + ' : ' + message);
+    });
+    
+    socket.on('chat', (chat) => {
+        otherRoom.to(socket.channel).emit('chat', socket.user.name + ': ' + chat + '.');
+    });
+    
+    socket.on('broadcast', (result) => {
+        playerRoom.to(socket.channel).emit('broadcast', result);
+    });
+    
     socket.on('getSync', (_data) => {
-        socket.emit('setSync', JSON.stringify(video));
+        socket.to(socket.channel).emit('setSync', JSON.stringify(video));
     })
-
-    // next
+    
     socket.on('next', (title) => {
-        otherRoom.emit('next', title);
+        otherRoom.to(socket.channel).emit('next', title);
     })
 
 });
 
 // 注意，這邊的 server 原本是 app
 server.listen(port, () => {
-    // console.log(new Date() + ' '+  "Server Started. http://localhost:" + port + ".");
     log.info("Server Started. http://localhost:" + port + ".");
 });

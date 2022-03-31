@@ -14,6 +14,7 @@ class EncryptCookies extends Middleware
     protected $except = [
         'locale',
         'mode',
+        'channel',
         'dibbling_token'
     ];
 }

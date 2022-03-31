@@ -1,6 +1,12 @@
 // web socket
 var socket = io(document.location.protocol+'//'+domain+'/socket/player');
-socket.on('connect', function(){});
+socket.on('connect', function(){
+    socket.emit('join_room', channel);
+});
+socket.on('error_room', function(channel){
+    alert('加入錯誤頻道或已有人使用: ' + channel);
+    $("#YouTubeVideoPlayer").remove();
+});
 socket.on('disconnect', function(){});
 socket.on('command', function(command){
     var commandOptions = JSON.parse(command);

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\v2;
 use App\Http\Controllers\Controller;
 use App\Model\ListModel;
 use App\Model\RecordModel;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 
 class PlayerController extends Controller
@@ -14,6 +14,7 @@ class PlayerController extends Controller
     {
         try
         {
+            $channel = Cookie::get('channel') ?? 'tw';
             DB::beginTransaction();
             $playedList = DB::table('record')
                 ->join('users', 'record.user_id', '=', 'users.id')
@@ -40,13 +41,16 @@ class PlayerController extends Controller
                 $listResult->save();
             }
 
-            if ( DB::table('playing')->first() )
+            if ( DB::table('playing')->where('channel', '=', $channel)->first() )
             {
-                DB::table('playing')->update(['video_id' => $listResult->id]);
+                DB::table('playing')
+                    ->where('channel', '=', $channel)
+                    ->update(['video_id' => $listResult->id]);
             }
             else
             {
-                DB::table('playing')->insert(['video_id' => $listResult->id]);
+                DB::table('playing')
+                    ->insert(['video_id' => $listResult->id, 'channel' => $channel]);
             }
             DB::commit();
         }

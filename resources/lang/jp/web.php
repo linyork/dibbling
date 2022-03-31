@@ -127,5 +127,9 @@ return [
         'SelectorDate' => '開始日は終了日より大きくすることはできません',
         'Dibbling Success' => 'リクエストの成功',
         'Dibbling Exist' => 'このビデオ :title'.PHP_EOL.PHP_EOL.':userはすでにリクエストされていますが、もう一度リクエストしますか？',
+    ],
+    'channel' => [
+        'JP' => '日本チャンネル',
+        'TW' => '台湾チャンネル'
     ]
 ];
