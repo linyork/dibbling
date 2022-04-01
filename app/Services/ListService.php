@@ -201,6 +201,7 @@ class ListService extends Service
             ->join('users', 'record.user_id', '=', 'users.id')
             ->join('list', 'record.list_id', '=', 'list.id')
             ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
+            ->where('record.channel', '=', Auth::user()->channel)
             ->where('record.record_type', '=', RecordModel::DIBBLING)
             ->where('list.deleted_at', '=', null)
             ->orderBy($this->getOrder($order))
@@ -238,6 +239,7 @@ class ListService extends Service
             ->when($songName, function ($query, $song_name) {
                 return $query->where('list.title', 'like', "%$song_name%");
             })
+            ->where('record.channel', '=', Auth::user()->channel)
             ->where('record.record_type', '=', DB::raw(RecordModel::DIBBLING))
             ->where('list.deleted_at', '!=', null)
             ->orderBy($this->getOrder($order), 'DESC')
@@ -275,6 +277,7 @@ class ListService extends Service
                 return $query->where('list.title', 'like', "%$song_name%");
             })
             ->whereIn('record.list_id', $likes_query->pluck('list_id')->toArray())
+            ->where('record.channel', '=', Auth::user()->channel)
             ->where('record.record_type', '=', DB::raw(RecordModel::DIBBLING))
             ->orderBy($this->getOrder($order), 'DESC')
             ->orderBy('list.updated_at', 'DESC')
@@ -283,7 +286,6 @@ class ListService extends Service
             ->offset($offset)
             ->get();
     }
-
 
     /**
      * getTimeline
@@ -396,6 +398,7 @@ class ListService extends Service
             ->groupBy('like.id')
             ->get();
     }
+
     /**
      * @param string $order
      * @return string

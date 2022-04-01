@@ -15,11 +15,13 @@ class LikeController extends Controller
         try
         {
             $userId = Auth::user()->getAuthIdentifier();
+            $channel = Auth::user()->channel;
             $videoId = $request->input('videoId');
             DB::beginTransaction();
             $like = DB::table('like')
                 ->where('user_id', '=', $userId)
                 ->where('list_id', '=', $videoId)
+                ->where('channel','=', $channel)
                 ->get()
                 ->first();
             if ( $like )
@@ -27,6 +29,7 @@ class LikeController extends Controller
                 DB::table('like')
                     ->where('user_id', '=', $userId)
                     ->where('list_id', '=', $videoId)
+                    ->where('channel','=', $channel)
                     ->delete();
                 $result = ['like' => false];
             }
@@ -35,6 +38,7 @@ class LikeController extends Controller
                 $like = new LikeModel();
                 $like->user_id = $userId;
                 $like->list_id = $videoId;
+                $like->channel = $channel;
                 $like->created_at = now();
                 $like->updated_at = now();
                 $like->save();
