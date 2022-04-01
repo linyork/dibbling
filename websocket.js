@@ -45,6 +45,7 @@ const otherRoom = io.of('socket');
 otherRoom.on('connection', (socket) => {
     socket.on('join_room', (channel) => {
         socket.join(channel);
+        socket.channel = channel;
     });
     
     socket.on('disconnect', () => {

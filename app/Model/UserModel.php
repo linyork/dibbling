@@ -5,6 +5,7 @@ namespace App\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Cookie;
 
 class UserModel extends Authenticatable implements MustVerifyEmail
 {
@@ -16,6 +17,7 @@ class UserModel extends Authenticatable implements MustVerifyEmail
 
     protected $table = 'users';
     protected $primaryKey = 'id';
+
 
     /**
      * The attributes that are mass assignable.
@@ -52,5 +54,10 @@ class UserModel extends Authenticatable implements MustVerifyEmail
     public function likes()
     {
         return $this->hasMany(LikeModel::class, 'user_id', 'id');
+    }
+
+    public function getChannelAttribute()
+    {
+        return Cookie::get('channel') ?? 'tw';
     }
 }
