@@ -22,12 +22,13 @@
             <span class="badge badge-primary">Interface</span>
             <span class="badge badge-secondary">v2.1</span>
 
-            <ul class="nav nav-pills nav-justified">
+            <ul class="nav nav-pills nav-justified {{Request::cookie('channel')}}">
+                <?php $cookie = Request::cookie('channel') ?? 'tw'?>
                 <li class="nav-item">
-                    <a class="nav-link {{ (Request::cookie('channel') === 'jp') ? 'active' : '' }}" href="{{ route('set_channel', ['channel' => 'jp']) }}">{{ __('web.channel.JP') }}</a>
+                    <a class="nav-link {{ ($cookie === 'jp') ? 'active' : '' }}" href="{{ route('set_channel', ['channel' => 'jp']) }}">{{ __('web.channel.JP') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ (Request::cookie('channel') ==='tw') ? 'active' : '' }}" href="{{ route('set_channel', ['channel' => 'tw']) }}">{{ __('web.channel.TW') }}</a>
+                    <a class="nav-link {{ ($cookie === 'tw') ? 'active' : '' }}" href="{{ route('set_channel', ['channel' => 'tw']) }}">{{ __('web.channel.TW') }}</a>
                 </li>
             </ul>
             <div class="card">

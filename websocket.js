@@ -16,16 +16,16 @@ const video = {
 const playerRoom = io.of('socket/player');
 playerRoom.on('connection', function (socket) {
     socket.on('join_room', (channel) => {
-        if(!socket.adapter.rooms[channel] && (channel === 'tw' || channel === 'jp') ) {
+        socket.channel = channel;
+        if((channel === 'tw' || channel === 'jp') && !socket.adapter.rooms[channel]) {
             socket.join(channel);
-            socket.channel = channel;
         } else {
             socket.emit('error_room', channel);
         }
     })
     
     socket.on('disconnect', () => {
-        socket.leave(socket.channel);
+        // socket.leave(socket.channel);
     });
     
     socket.on('playing', () => {
@@ -49,7 +49,7 @@ otherRoom.on('connection', (socket) => {
     });
     
     socket.on('disconnect', () => {
-        socket.leave(socket.channel);
+        // socket.leave(socket.channel);
     });
     
     socket.on('intoDibbling', (data) => {
