@@ -12,6 +12,15 @@ class ListModel extends Model
     protected $table = 'list';
     protected $primaryKey = 'id';
 
+    protected $fillable = [
+        'video_id',
+        'title',
+        'duration',
+        'seal',
+        'ip',
+    ];
+
+
     public function records()
     {
         return $this->hasMany(RecordModel::class, 'list_id', 'id');

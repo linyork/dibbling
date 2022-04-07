@@ -8,4 +8,5 @@ class CommandModel extends Model
 {
     protected $table = 'command';
     protected $primaryKey = 'id';
+
 }

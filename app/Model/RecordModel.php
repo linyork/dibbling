@@ -13,6 +13,12 @@ class RecordModel extends Model
     protected $table = 'record';
     protected $primaryKey = 'id';
 
+    protected $fillable = [
+        'user_id',
+        'list_id',
+        'record_type',
+    ];
+
     public function list()
     {
         return $this->belongsTo(ListModel::class, 'list_id', 'id');

@@ -8,4 +8,8 @@ class PlayingModel extends Model
 {
     protected $table = 'playing';
     protected $primaryKey = 'id';
+
+    protected $fillable = [
+        'video_id'
+    ];
 }
