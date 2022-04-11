@@ -5,7 +5,6 @@ namespace App\Http\Controllers\v2;
 use App\Http\Controllers\Controller;
 use App\Model\ListModel;
 use App\Model\RecordModel;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PlayerController extends Controller
