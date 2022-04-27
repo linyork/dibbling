@@ -76,6 +76,7 @@ return [
     ],
     'order' => [
         'Default' => 'ディフォルト',
+        'Played' => 'プレイ順により',
         'DiCount' => 'リクエスト数により',
         'LikeCount' => 'お気に入り数により',
         'All' => '全て',

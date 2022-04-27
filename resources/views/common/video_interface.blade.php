@@ -14,19 +14,19 @@
                         <span>{{ $playing->title }}</span>
                     </div>
                     <div class="row justify-content-center css-video-interface-name">
-                        <span class="css-video-interface-name-text">{{ $dibblingUser->name }}</span>
+                        <a href="{{ route('dibbling_record', ['user_id' => $dibblingUser->id ]) }}"><span class="css-video-interface-name-text">{{ $dibblingUser->name }}</span></a>
                     </div>
                     <div class="row justify-content-center css-video-interface-next">
                         <span><i class="fas fa-angle-double-right"></i>{{ __('web.dibbling.Next') }}: <output id='nextTitle' data-id="{{ $next->id ?? '' }}">{{ $next->title ?? __('web.dibbling.Random') }}</output></span>
                     </div>
                     <div class="row justify-content-center css-video-interface-btn-group">
-                        <button id="play" type="button" class="col css-video-interface-btn btn btn-{{ strtolower(Request::cookie('mode') ?? 'light') }}"><i class="fas fa-play d-none d-sm-inline"></i> 
+                        <button id="play" type="button" class="col css-video-interface-btn btn btn-{{ strtolower(Request::cookie('mode') ?? 'light') }}"><i class="fas fa-play d-none d-sm-inline"></i>
                             {{ __('web.controller.Play') }}
                         </button>
-                        <button id="pause" type="button" class="col css-video-interface-btn btn btn-{{ strtolower(Request::cookie('mode') ?? 'light') }}" style="margin-left: 20px;margin-right: 10px;"><i class="fas fa-pause d-none d-sm-inline"></i> 
+                        <button id="pause" type="button" class="col css-video-interface-btn btn btn-{{ strtolower(Request::cookie('mode') ?? 'light') }}" style="margin-left: 20px;margin-right: 10px;"><i class="fas fa-pause d-none d-sm-inline"></i>
                             {{ __('web.controller.Pause') }}
                         </button>
-                        <button id="cut" data-id="{{ $playing->id }}" type="button" class="col css-video-interface-btn btn btn-{{ strtolower(Request::cookie('mode') ?? 'light') }}" style="margin-left: 10px;margin-right: 20px;"><i class="fas fa-stop d-none d-sm-inline"></i> 
+                        <button id="cut" data-id="{{ $playing->id }}" type="button" class="col css-video-interface-btn btn btn-{{ strtolower(Request::cookie('mode') ?? 'light') }}" style="margin-left: 10px;margin-right: 20px;"><i class="fas fa-stop d-none d-sm-inline"></i>
                             {{ __('web.controller.Cut') }}
                         </button>
                         <button id="like"
