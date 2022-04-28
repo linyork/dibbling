@@ -408,6 +408,8 @@ class ListService extends Service
                 return 'reDib_count';
             case 'likes':
                 return 'likes';
+            case 'played':
+                return 'list.deleted_at';
             case 'default':
             default:
                 return 'list.updated_at';

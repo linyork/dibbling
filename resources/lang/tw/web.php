@@ -76,6 +76,7 @@ return [
     ],
     'order' => [
         'Default' => '預設',
+        'Played' => '依播放順序',
         'DiCount' => '依點播數',
         'LikeCount' => '依按讚數',
         'All' => '全部',

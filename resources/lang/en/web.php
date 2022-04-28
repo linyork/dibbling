@@ -76,6 +76,7 @@ return [
     ],
     'order' => [
         'Default' => 'Default',
+        'Played' => 'Order by Played',
         'DiCount' => 'Order by Dibbling Count',
         'LikeCount' => 'Order by Like Count',
         'All' => 'All',
