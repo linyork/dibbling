@@ -106,7 +106,6 @@ class ListService extends Service
     public function softDelete(int $id) : string
     {
         $list = $this->listModel->withTrashed()->find($id);
-        $list->delete();
         $softDelete = $list->trashed();
         if($softDelete)
         {
@@ -408,11 +407,12 @@ class ListService extends Service
                 return 'reDib_count';
             case 'likes':
                 return 'likes';
+            case 'record':
+                return 'list.updated_at';
             case 'played':
-                return 'list.deleted_at';
             case 'default':
             default:
-                return 'list.updated_at';
+                return 'list.deleted_at';
         }
     }
 

@@ -77,7 +77,8 @@ return [
     'order' => [
         'Default' => 'Default',
         'Played' => 'Order by Played',
-        'DiCount' => 'Order by Dibbling Count',
+        'Record' => 'Order by On-demand record',
+        'DiCount' => 'Order by On-demand Count',
         'LikeCount' => 'Order by Like Count',
         'All' => 'All',
         'Dibbling' => 'Dibbling',

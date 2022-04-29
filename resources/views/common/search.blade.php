@@ -28,8 +28,8 @@
                 </div>
                 <div class="input-group offset-lg-1 col-lg-2 offset-md-8 col-md-4">
                     <select class='custom-select order-list'>
-                        <option value="default">{{ __('web.order.Default') }}</option>
                         <option value="played">{{ __('web.order.Played') }}</option>
+                        <option value="record">{{ __('web.order.Record') }}</option>
                         <option value="dibbling">{{ __('web.order.DiCount') }}</option>
                         <option value="likes">{{ __('web.order.LikeCount') }}</option>
                     </select>
