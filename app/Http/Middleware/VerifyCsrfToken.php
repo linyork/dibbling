@@ -22,5 +22,6 @@ class VerifyCsrfToken extends Middleware
         // 開放給 chrome 的插件打的 api 不過 csrf token
         '/api/v2/list/extension',
         '/api/v2/list/extension/*',
+        '/api/v3/*'
     ];
 }

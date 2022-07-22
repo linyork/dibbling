@@ -25,11 +25,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 | Api Route
 |--------------------------------------------------------------------------
 */
-Route::group(['prefix' => 'v2'], function ()
-{
+Route::group(['prefix' => 'v2'], function () {
     // 需驗證身份 production 處理
     $middleware = ['auth:api'];
-    if(App::environment('production')) $middleware[] = 'verified';
+    if (App::environment('production')) $middleware[] = 'verified';
     // dibbling client
     Route::middleware($middleware)->group(function () {
         // 取得使用者
@@ -58,8 +57,7 @@ Route::group(['prefix' => 'v2'], function ()
         Route::post('timeline', [Controllers\v2\ListController::class, 'timeline']);
 
         // admin 區塊
-        Route::middleware('can:admin')->group(function ()
-        {
+        Route::middleware('can:admin')->group(function () {
             // 移除使用者
             Route::delete('user/delete/{id}', [Controllers\v2\AdminController::class, 'deleteUser']);
             // google小姐廣播
@@ -72,4 +70,15 @@ Route::group(['prefix' => 'v2'], function ()
     });
     // dibbling player
     Route::get('next', 'v2\PlayerController@next');
+});
+
+Route::group(['prefix' => 'v3'], function () {
+    //player
+    Route::get('next', 'v3\PlayerController@next');
+
+    //user
+    Route::post('login', [Controllers\v3\UserController::class, 'login']);
+
+    //dibbling
+    Route::any('liked', [Controllers\v3\LikeController::class, 'liked']);
 });
