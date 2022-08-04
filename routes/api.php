@@ -80,5 +80,18 @@ Route::group(['prefix' => 'v3'], function () {
     Route::post('login', [Controllers\v3\UserController::class, 'login']);
 
     //dibbling
-    Route::any('liked', [Controllers\v3\LikeController::class, 'liked']);
+    Route::post('dibbling', [Controllers\v3\ListController::class, 'dibbling']);
+    //reDibbling
+    Route::post('reDibbling', [Controllers\v3\ListController::class, 'reDibbling']);
+    //like
+    Route::post('like', [Controllers\v3\LikeController::class, 'like']);
+    //cut or remove
+    Route::post('cut', [Controllers\v3\ListController::class, 'cut']);
+    //info
+    Route::post('info', [Controllers\v3\ListController::class, 'info']);
+
+    //list
+    Route::post('list', [Controllers\v3\ListController::class, 'list']);
+    Route::post('played', [Controllers\v3\ListController::class, 'played']);
+    Route::post('liked', [Controllers\v3\ListController::class, 'liked']);
 });

@@ -39,7 +39,7 @@ class ListServiceV3 extends Service {
     /**
      * @param YoutubeHelper $ytHelper
      */
-    public function dibbling(YoutubeHelper $ytHelper) {
+    public function dibbling(int $userId, YoutubeHelper $ytHelper) {
         // 新增 list table
         $this->listModel->video_id = $ytHelper->getVideoId();
         $this->listModel->title = $ytHelper->getTitle();
@@ -51,7 +51,7 @@ class ListServiceV3 extends Service {
         $this->listModel->save();
 
         // 新增 record table
-        $this->recordModel->user_id = Auth::user()->id;
+        $this->recordModel->user_id = $userId;
         $this->recordModel->list_id = $this->listModel->id;
         $this->recordModel->record_type = RecordModel::DIBBLING;
         $this->recordModel->save();
@@ -69,9 +69,9 @@ class ListServiceV3 extends Service {
      * @param int $id
      * @return bool|null
      */
-    public function reDibbling(int $id) {
+    public function reDibbling(int $id, int $userId) {
         $result = $this->listModel::onlyTrashed()->find($id)->restore();
-        $this->recordModel->user_id = Auth::user()->id;
+        $this->recordModel->user_id = $userId;
         $this->recordModel->list_id = $id;
         $this->recordModel->record_type = RecordModel::RE_DIBBLING;
         $this->recordModel->save();
@@ -88,7 +88,7 @@ class ListServiceV3 extends Service {
         DB::table('record')->where('list_id', '=', $id)->delete();
         DB::table('like')->where('list_id', '=', $id)->delete();
         DB::table('tag')->where('list_id', '=', $id)->delete();
-        return 'Real delete success.';
+        return true;
     }
 
     /**
@@ -97,17 +97,17 @@ class ListServiceV3 extends Service {
      * @param int $id
      * @return string
      */
-    public function softDelete(int $id): string {
+    public function softDelete(int $id, int $userId): string {
         $list = $this->listModel->withTrashed()->find($id);
         $softDelete = $list->trashed();
         if ($softDelete) {
-            $this->recordModel->user_id = Auth::user()->id;
+            $this->recordModel->user_id = $userId;
             $this->recordModel->list_id = $id;
             $this->recordModel->record_type = RecordModel::CUT;
             $this->recordModel->save();
         }
 
-        return $softDelete ? 'Soft delete success.' : 'Soft delete error.';
+        return $softDelete ? true : false;
     }
 
     /**
@@ -115,7 +115,7 @@ class ListServiceV3 extends Service {
      */
     public function getPlaying($listId = '') {
         return DB::table('record')
-            ->select('record.*', 'list.*', DB::raw('users.id'), DB::raw('users.name'))
+            ->select('record.*', 'list.*', 'list.id as id', DB::raw('users.id as user_id'), DB::raw('users.name'))
             ->join('users', 'record.user_id', '=', 'users.id')
             ->join('list', 'record.list_id', '=', 'list.id')
             ->where('record.record_type', '=', RecordModel::DIBBLING)
@@ -156,7 +156,8 @@ class ListServiceV3 extends Service {
      * @return mixed
      */
     public function next() {
-        return $this->listModel->next()->first();
+        $next = $this->listModel->next()->first();
+        return $next ? $next->title : '';
     }
 
     /**
@@ -193,7 +194,7 @@ class ListServiceV3 extends Service {
         $offset = ($page - 1) * $limit;
 
         return DB::table('record')
-            ->select('users.*', 'list.*', DB::raw('count(like.list_id) as likes'))
+            ->select(DB::raw('users.id as user_id'), DB::raw('users.name'), 'list.*', DB::raw('count(like.list_id) as likes'))
             ->join('users', 'record.user_id', '=', 'users.id')
             ->join('list', 'record.list_id', '=', 'list.id')
             ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
@@ -220,7 +221,7 @@ class ListServiceV3 extends Service {
         $reDibbling_query = $this->recordModel->select('list_id', DB::raw('count(id) as count'))->where('record_type', '=', DB::raw(RecordModel::RE_DIBBLING))->groupBy('list_id');
 
         return DB::table('record')
-            ->select(DB::raw('users.id as user_id'), 'users.*', 'list.*', DB::raw('count(like.list_id) as likes'), DB::raw('MAX(reDib.count) as reDib_count'))
+            ->select(DB::raw('users.id as user_id'), DB::raw('users.name'), 'list.*', DB::raw('count(like.list_id) as likes'), DB::raw('MAX(reDib.count) as reDib_count'))
             ->join('users', 'record.user_id', '=', 'users.id')
             ->join('list', 'record.list_id', '=', 'list.id')
             ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
@@ -258,7 +259,7 @@ class ListServiceV3 extends Service {
         $likes_query = $this->likeModel->select('list_id')->where('user_id', DB::raw($userId))->groupBy('list_id');
 
         return DB::table('record')
-            ->select(DB::raw('users.id as user_id'), 'users.*', 'list.*', DB::raw('count(like.list_id) as likes'), DB::raw('MAX(reDib.count) as reDib_count'))
+            ->select(DB::raw('users.id as user_id'), DB::raw('users.name'), 'list.*', DB::raw('count(like.list_id) as likes'), DB::raw('MAX(reDib.count) as reDib_count'))
             ->join('users', 'record.user_id', '=', 'users.id')
             ->join('list', 'record.list_id', '=', 'list.id')
             ->join('like', 'record.list_id', '=', 'like.list_id')
@@ -364,7 +365,7 @@ class ListServiceV3 extends Service {
      */
     public function getRecordInfo(int $list_id) {
         return DB::table('record')
-            ->select('record.created_at', DB::raw('users.name'), DB::raw('record.record_type'), DB::raw("case record.record_type when 1 then '{$this->record_type[1]}' when 2 then '{$this->record_type[2]}' when 3 then '{$this->record_type[3]}' when 4 then '{$this->record_type[4]}' END as type_txt"))
+            ->select('record.created_at', DB::raw('users.name'), DB::raw('record.record_type'))
             ->join('users', 'record.user_id', '=', 'users.id')
             ->join('list', 'record.list_id', '=', 'list.id')
             ->where('record.list_id', DB::raw($list_id))
@@ -379,7 +380,7 @@ class ListServiceV3 extends Service {
      */
     public function getLikedInfo(int $list_id) {
         return DB::table('like')
-            ->select('like.created_at', DB::raw('users.name'), DB::raw("'{$this->record_type[5]}' as type_txt"))
+            ->select('like.created_at', DB::raw('users.name'), DB::raw("5 as record_type"))
             ->join('users', 'like.user_id', '=', 'users.id')
             ->join('list', 'like.list_id', '=', 'list.id')
             ->where('like.list_id', DB::raw($list_id))
@@ -406,11 +407,7 @@ class ListServiceV3 extends Service {
         }
     }
 
-    /**
-     * @param array $listIds
-     * @return mixed
-     */
-    public function getLikes(array $listIds) {
-        return $this->likeModel->whereIn('list_id', $listIds)->with('user')->get();
+    public function getUser($token) {
+        return UserModel::where('api_token', '=', $token)->get()->first();
     }
 }

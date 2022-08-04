@@ -4,15 +4,14 @@ namespace App\Http\Controllers\v3;
 
 use App\Http\Controllers\Controller;
 use App\Model\LikeModel;
-use App\Model\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Services\ListServiceV3;
 
 class LikeController extends Controller {
-    public function liked(Request $request, ListServiceV3 $listService) {
+    public function like(Request $request, ListServiceV3 $listService) {
         try {
-            $user = self::getUser($request->input());
+            $user = $listService->getUser($request->input('token'));
 
             $userId = $user->id;
             $listId = $request->input('listId');
@@ -39,9 +38,5 @@ class LikeController extends Controller {
             $result = false;
         }
         return response()->json($result);
-    }
-
-    private function getUser($input) {
-        return UserModel::where('api_token', '=', $input['token'])->get()->first();
     }
 }
