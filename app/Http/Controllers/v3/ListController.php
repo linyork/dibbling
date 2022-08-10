@@ -105,6 +105,9 @@ class ListController extends Controller {
      */
     public function info(Request $request, ListServiceV3 $listService) {
         try {
+            $user = $listService->getUser($request->input('token'));
+            if (!$user) return false;
+
             $list_id = $request->post('listId');
 
             $info_data['records'] = $listService->getRecordInfo($list_id)->toArray();

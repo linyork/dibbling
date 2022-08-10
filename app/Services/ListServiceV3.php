@@ -367,7 +367,6 @@ class ListServiceV3 extends Service {
         return DB::table('record')
             ->select('record.created_at', DB::raw('users.name'), DB::raw('record.record_type'))
             ->join('users', 'record.user_id', '=', 'users.id')
-            ->join('list', 'record.list_id', '=', 'list.id')
             ->where('record.list_id', DB::raw($list_id))
             ->orderBy('created_at', 'asc')
             ->groupBy('record.id')
@@ -382,7 +381,6 @@ class ListServiceV3 extends Service {
         return DB::table('like')
             ->select('like.created_at', DB::raw('users.name'), DB::raw("5 as record_type"))
             ->join('users', 'like.user_id', '=', 'users.id')
-            ->join('list', 'like.list_id', '=', 'list.id')
             ->where('like.list_id', DB::raw($list_id))
             ->orderBy('created_at', 'asc')
             ->groupBy('like.id')
@@ -409,5 +407,39 @@ class ListServiceV3 extends Service {
 
     public function getUser($token) {
         return UserModel::where('api_token', '=', $token)->get()->first();
+    }
+
+    public function getAllUsers() {
+        // get all user's dibbling record
+        $record_dibbling_query = RecordModel::select('record.user_id', DB::raw('count(record.id) as dibbling_count'))
+            ->where('record_type', '=', RecordModel::DIBBLING)
+            ->groupBy('record.user_id');
+        $record_re_query = RecordModel::select('record.user_id', DB::raw('count(record.id) as re_count'))
+            ->where('record_type', '=', RecordModel::RE_DIBBLING)
+            ->groupBy('record.user_id');
+        $record_likes = LikeModel::select('like.user_id', DB::raw('count(like.id) as like_count'))
+            ->groupBy('like.user_id');
+        $user_list_likes = RecordModel::select('record.user_id', DB::raw('count(like.id) as list_liked_count'))
+            ->join((new ListModel)->getTable(), 'record.list_id', '=', 'list.id')
+            ->join((new LikeModel)->getTable(), 'like.list_id', '=', 'list.id')
+            ->where('record_type', '=', RecordModel::DIBBLING)
+            ->groupBy('record.user_id');
+
+        $users = UserModel::select('users.*', 'rd.dibbling_count', 'rd.dibbling_count', 're.re_count', 'lk.like_count', 'tot.list_liked_count')
+            ->leftJoin(DB::raw("({$record_dibbling_query->toSql()}) as rd"), function ($join) use ($record_dibbling_query) {
+                $join->on('users.id', '=', 'rd.user_id')->addBinding($record_dibbling_query->getBindings());
+            })
+            ->leftJoin(DB::raw("({$record_re_query->toSql()}) as re"), function ($join) use ($record_re_query) {
+                $join->on('users.id', '=', 're.user_id')->addBinding($record_re_query->getBindings());
+            })
+            ->leftJoin(DB::raw("({$record_likes->toSql()}) as lk"), function ($join) use ($record_likes) {
+                $join->on('users.id', '=', 'lk.user_id')->addBinding($record_likes->getBindings());
+            })
+            ->leftJoin(DB::raw("({$user_list_likes->toSql()}) as tot"), function ($join) use ($user_list_likes) {
+                $join->on('users.id', '=', 'tot.user_id')->addBinding($user_list_likes->getBindings());
+            })
+            ->get();
+
+        return $users;
     }
 }

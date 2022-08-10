@@ -74,10 +74,14 @@ Route::group(['prefix' => 'v2'], function () {
 
 Route::group(['prefix' => 'v3'], function () {
     //player
-    Route::get('next', 'v3\PlayerController@next');
+    Route::post('next', 'v3\PlayerController@next');
 
     //user
     Route::post('login', [Controllers\v3\UserController::class, 'login']);
+    Route::post('users', [Controllers\v3\UserController::class, 'users']);
+    Route::post('delete', [Controllers\v3\UserController::class, 'delete']);
+    //admin
+    Route::post('broadcast', [Controllers\v3\AdminController::class, 'broadcast']);
 
     //dibbling
     Route::post('dibbling', [Controllers\v3\ListController::class, 'dibbling']);
