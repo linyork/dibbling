@@ -70,7 +70,9 @@ class ListServiceV3 extends Service {
      * @return bool|null
      */
     public function reDibbling(int $id, int $userId) {
-        $result = $this->listModel::onlyTrashed()->find($id)->restore();
+        $result = $this->listModel::onlyTrashed()->find($id);
+        if (!$result) return false;
+        $result->restore();
         $this->recordModel->user_id = $userId;
         $this->recordModel->list_id = $id;
         $this->recordModel->record_type = RecordModel::RE_DIBBLING;
