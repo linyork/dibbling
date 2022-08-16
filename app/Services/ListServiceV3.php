@@ -72,6 +72,7 @@ class ListServiceV3 extends Service {
     public function reDibbling(int $id, int $userId) {
         $result = $this->listModel::onlyTrashed()->find($id);
         if (!$result) return false;
+        $result->timestamps = false;
         $result->restore();
         $this->recordModel->user_id = $userId;
         $this->recordModel->list_id = $id;
@@ -101,15 +102,17 @@ class ListServiceV3 extends Service {
      */
     public function softDelete(int $id, int $userId): string {
         $list = $this->listModel->withTrashed()->find($id);
-        $softDelete = $list->trashed();
-        if ($softDelete) {
+        if ($list) {
+            $list->deleted_at = $list->updated_at;
+            $list->timestamps = false;
+            $list->save();
             $this->recordModel->user_id = $userId;
             $this->recordModel->list_id = $id;
             $this->recordModel->record_type = RecordModel::CUT;
             $this->recordModel->save();
         }
 
-        return $softDelete ? true : false;
+        return $list ? true : false;
     }
 
     /**
