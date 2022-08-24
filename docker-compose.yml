@@ -17,6 +17,7 @@ services:
       - './docker/nginx/conf:/etc/nginx/conf.d'
       - './docker/ssl:/etc/ssl'
       - './:/var/www/html/dibbling'
+      - './../dibbling-react/:/var/www/html/dibbling-front'
   node:
     container_name: node
     networks:
@@ -31,6 +32,20 @@ services:
       - './docker/log/node:/var/log/node'
       - './docker/ssl:/etc/ssl'
       - './:/var/www/html'
+  node16:
+    container_name: node16
+    networks:
+      - frontend
+      - backend
+    restart: always
+    image: 'node:16'
+    ports:
+      - '${DOCKER_NODE_FRONT_PORT}:${DOCKER_NODE_FRONT_PORT}'
+    command: node /var/www/html/dibbling-front/server.js
+    volumes:
+      - './docker/log/node:/var/log/node'
+      - './docker/ssl:/etc/ssl'
+      - './../dibbling-react/:/var/www/html/dibbling-front'
   php-fpm:
     container_name: php
     networks:

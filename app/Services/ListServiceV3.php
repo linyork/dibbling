@@ -87,7 +87,9 @@ class ListServiceV3 extends Service {
      */
     public function realDelete(int $id): string {
         $list = $this->listModel->withTrashed()->find($id);
-        $list->forceDelete();
+        if ($list) {
+            $list->forceDelete();
+        }
         DB::table('record')->where('list_id', '=', $id)->delete();
         DB::table('like')->where('list_id', '=', $id)->delete();
         DB::table('tag')->where('list_id', '=', $id)->delete();
