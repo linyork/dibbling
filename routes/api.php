@@ -78,6 +78,8 @@ Route::group(['prefix' => 'v3'], function () {
 
     //user
     Route::post('login', [Controllers\v3\UserController::class, 'login']);
+    Route::post('sendResetEmail', [Controllers\v3\ForgotPasswordController::class, 'sendResetLinkEmail']);
+
     Route::post('users', [Controllers\v3\UserController::class, 'users']);
     Route::post('delete', [Controllers\v3\UserController::class, 'delete']);
     //admin
@@ -94,8 +96,9 @@ Route::group(['prefix' => 'v3'], function () {
     //info
     Route::post('info', [Controllers\v3\ListController::class, 'info']);
 
-    //list
+    //page
     Route::post('list', [Controllers\v3\ListController::class, 'list']);
     Route::post('played', [Controllers\v3\ListController::class, 'played']);
     Route::post('liked', [Controllers\v3\ListController::class, 'liked']);
+    Route::post('timeline', [Controllers\v3\ListController::class, 'timeline']);
 });

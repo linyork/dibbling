@@ -8,8 +8,6 @@ use App\Model\ListModel;
 use App\Model\RecordModel;
 use App\Model\TagModel;
 use App\Model\UserModel;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yish\Generators\Foundation\Service\Service;
 
@@ -28,11 +26,11 @@ class ListServiceV3 extends Service {
         $this->likeModel = $likeModel;
         $this->tagModel = $tagModel;
         $this->record_type = [
-            '1' => __('web.dibbling.Dibbling'),
-            '2' => __('web.list.ReDibbling'),
-            '3' => __('web.list.Cut'),
-            '4' => __('web.list.Remove'),
-            '5' => __('web.like.Liked')
+            '1' => '點播',
+            '2' => '再點播',
+            '3' => '切歌',
+            '4' => '移除',
+            '5' => '按讚'
         ];
     }
 
@@ -296,7 +294,7 @@ class ListServiceV3 extends Service {
         $offset = ($page - 1) * $limit;
 
         $record_query = $this->recordModel->select('list_id')
-            ->where(['user_id' => DB::raw(Auth::user()->id), 'record_type' => DB::raw(RecordModel::DIBBLING)])
+            ->where(['user_id' => DB::raw($params['user_id']), 'record_type' => DB::raw(RecordModel::DIBBLING)])
             ->groupBy('list_id');
 
         $likes_array = [];
@@ -310,9 +308,9 @@ class ListServiceV3 extends Service {
                 ->where(function ($query) use ($params) {
                     $query->whereBetween('like.updated_at', [date('Y-m-d 00:00:00', strtotime($params['start_date'])), date('Y-m-d 23:59:59', strtotime($params['end_date']))]);
                 })
-                ->where(function ($query) use ($record_query) {
-                    $query->whereIn('like.list_id', $record_query)
-                        ->orWhere('like.user_id', DB::raw(Auth::user()->id));
+                ->where(function ($query) use ($record_query, $params) {
+                    $query->whereIn('like.list_id', $record_query->pluck('list_id')->toArray())
+                        ->orWhere('like.user_id', DB::raw($params['user_id']));
                 });
         }
 
@@ -325,9 +323,9 @@ class ListServiceV3 extends Service {
             ->where(function ($query) use ($params) {
                 $query->whereBetween('record.created_at', [date('Y-m-d 00:00:00', strtotime($params['start_date'])), date('Y-m-d 23:59:59', strtotime($params['end_date']))]);
             })
-            ->where(function ($query) use ($record_query) {
-                $query->whereIn('record.list_id', $record_query)
-                    ->orWhere('record.user_id', DB::raw(Auth::user()->id));
+            ->where(function ($query) use ($record_query, $params) {
+                $query->whereIn('record.list_id', $record_query->pluck('list_id')->toArray())
+                    ->orWhere('record.user_id', DB::raw($params['user_id']));
             })
             ->when($params, function ($query, $params) {
                 if ($params['order'] == '0') {
@@ -348,7 +346,7 @@ class ListServiceV3 extends Service {
             ->get();
 
         foreach ($union_array as $row) {
-            if (($row['record_type'] == '1' && (Auth::user()->id != $row['record_user_id']))) {
+            if (($row['record_type'] == '1' && ($params['user_id'] != $row['record_user_id']))) {
                 continue;
             }
             $data[] = [
@@ -356,7 +354,7 @@ class ListServiceV3 extends Service {
                 'record_type' => $this->record_type[$row['record_type']],
                 'user_id' => $row['user_id'],
                 'user_name' => $row['name'],
-                'name' => Auth::user()->id == $row['record_user_id'] ? "[" . __('web.dibbling.You') . "]" : $row['record_user_name'],
+                'name' => $params['user_id'] == $row['record_user_id'] ? "[您]" : $row['record_user_name'],
                 'img' => $row['seal'],
                 'title' => $row['title'],
                 'time' => date('Y-m-d H:i:s', strtotime($row['time_at'])),

@@ -19,8 +19,8 @@ class ListController extends Controller {
             $user = $listService->getUser($request->input('token'));
             if (!$user) return false;
 
-            $page = $request->post('page');
-            $limit = $request->post('limit');
+            $page = $request->input('page');
+            $limit = $request->input('limit');
 
             $record_data = $listService->getList($page, $limit);
 
@@ -70,11 +70,11 @@ class ListController extends Controller {
             $user = $listService->getUser($request->input('token'));
             if (!$user) return false;
 
-            $page = $request->post('page');
-            $limit = $request->post('limit');
-            $order = $request->post('order');
-            $user_id = $request->post('userId');
-            $song_name = $request->post('search');
+            $page = $request->input('page');
+            $limit = $request->input('limit');
+            $order = $request->input('order');
+            $user_id = $request->input('userId');
+            $song_name = $request->input('search');
 
             $liked_data = $listService->getLiked($page, $limit, $user_id, $song_name, $order);
 
@@ -108,7 +108,7 @@ class ListController extends Controller {
             $user = $listService->getUser($request->input('token'));
             if (!$user) return false;
 
-            $list_id = $request->post('listId');
+            $list_id = $request->input('listId');
 
             $info_data['records'] = $listService->getRecordInfo($list_id)->toArray();
             $info_data['like'] = $listService->getLikedInfo($list_id)->toArray();
@@ -133,21 +133,24 @@ class ListController extends Controller {
      */
     public function timeline(Request $request, ListServiceV3 $listService) {
         try {
-            $page = $request->post('page');
-            $limit = $request->post('limit');
+            $user = $listService->getUser($request->input('token'));
+            if (!$user) return false;
+
+            $page = $request->input('page');
+            $limit = $request->input('limit');
 
             $params = [
-                'start_date' => $request->post('start_date'),
-                'end_date' => $request->post('end_date'),
-                'order' => $request->post('order') ?? '0',
+                'user_id' => $user->id,
+                'start_date' => $request->input('startDate'),
+                'end_date' => $request->input('endDate'),
+                'order' => $request->input('order') ?? '0',
             ];
-            $ret_data['list'] = $listService->getTimeline($page, $limit, $params);
+            $result = $listService->getTimeline($page, $limit, $params);
         } catch (\LogicException $e) {
-            $ret_data['msg'] = $e->getMessage();
-            return response()->json($ret_data);
+            $result = false;
         }
 
-        return response()->view('common.timeline', $ret_data, Response::HTTP_OK);
+        return response()->json($result);
     }
 
     /**
