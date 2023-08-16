@@ -16,11 +16,11 @@ const video = {
 // player connection
 const playerRoom = io.of('socket/player');
 playerRoom.on('connection', function (socket) {
-    
+
     socket.on('playing', () => {
         otherRoom.emit('playing');
     });
-    
+
     socket.on('setSync', (data) => {
         var sync = JSON.parse(data)
         video.volume = sync.volume
@@ -47,7 +47,7 @@ otherRoom.on('connection', (socket) => {
     // command
     socket.on('command', (command) => {
         // console.log(new Date() + ' '+ socket.user.name + ' command: ' + command + '.');
-        // log.info(socket.user.name + ' command: ' + command + '.');
+        log.info(socket.user.name + ' command: ' + command + '.');
         playerRoom.emit('command', command);
     });
 
@@ -69,7 +69,7 @@ otherRoom.on('connection', (socket) => {
     socket.on('broadcast', (result) => {
         playerRoom.emit('broadcast', result);
     });
-    
+
     // get sync
     socket.on('getSync', (_data) => {
         socket.emit('setSync', JSON.stringify(video));
