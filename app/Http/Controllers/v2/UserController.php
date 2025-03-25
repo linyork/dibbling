@@ -13,7 +13,7 @@ class UserController extends Controller
     {
         try
         {
-            $result = UserModel::find(Auth::user()->getAuthIdentifier())->toArray();
+            $result = UserModel::withTrashed()->find(Auth::user()->getAuthIdentifier())->toArray();
         }
         catch (\Exception $e)
         {

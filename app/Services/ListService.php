@@ -149,7 +149,7 @@ class ListService extends Service
             $query->dibbling();
         } ] )->find( $listId );
 
-        return UserModel::find( $listModel->records->first()->user_id );
+        return UserModel::withTrashed()->find( $listModel->records->first()->user_id );
     }
 
     /**
@@ -166,8 +166,13 @@ class ListService extends Service
      */
     public function getLikeUsers(int $listId)
     {
+
         return $this->likeModel
-            ->with('user')
+            ->with([
+                'user' => function ($query) {
+                    $query->withTrashed();
+                }
+            ])
             ->where('list_id', '=', $listId)
             ->get();
     }
@@ -422,6 +427,10 @@ class ListService extends Service
      */
     public function getLikes(array $listIds)
     {
-        return $this->likeModel->whereIn('list_id', $listIds)->with('user')->get();
+        return $this->likeModel->whereIn('list_id', $listIds)->with([
+            'user' => function ($query) {
+                $query->withTrashed();
+            }
+        ])->get();
     }
 }

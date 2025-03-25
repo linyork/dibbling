@@ -20,21 +20,21 @@ class AdminController extends Controller
         {
             DB::beginTransaction();
             // delete list
-            DB::table(with(new ListModel)->getTable())
-                ->whereIn('id', function ($query) use ($deleteUserId)
-                {
-                    $query->select('list_id')
-                        ->from(with(new RecordModel)->getTable())
-                        ->where('user_id', $deleteUserId)
-                        ->where('record_type', RecordModel::DIBBLING);
-                }
-            )->delete();
+//            DB::table(with(new ListModel)->getTable())
+//                ->whereIn('id', function ($query) use ($deleteUserId)
+//                {
+//                    $query->select('list_id')
+//                        ->from(with(new RecordModel)->getTable())
+//                        ->where('user_id', $deleteUserId)
+//                        ->where('record_type', RecordModel::DIBBLING);
+//                }
+//            )->delete();
             // delete record
-            DB::table(with(new RecordModel)->getTable())->where('user_id', $deleteUserId)->delete();
+//            DB::table(with(new RecordModel)->getTable())->where('user_id', $deleteUserId)->delete();
             // delete like
-            DB::table(with(new LikeModel)->getTable())->where('user_id', $deleteUserId)->delete();
+//            DB::table(with(new LikeModel)->getTable())->where('user_id', $deleteUserId)->delete();
             // delete user
-            DB::table(with(new UserModel)->getTable())->where('id', $deleteUserId)->delete();
+            UserModel::where('id', $deleteUserId)->delete();
 
             // TODO
             //SELECT *

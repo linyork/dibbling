@@ -15,7 +15,7 @@
                         @if(!isset($likePage))
                             <option selected value="0">{{ __('web.record.Choose') }}...</option>
                         @endif
-                        @foreach(\App\Model\UserModel::whereNotNull('email_verified_at')->orderBy('name')->get() as $user)
+                        @foreach(\App\Model\UserModel::withTrashed()->whereNotNull('email_verified_at')->orderBy('name')->get() as $user)
                             <option {{ (isset($likePage) && Auth::user()->id == $user->id) || (isset($user_id) && $user_id == $user->id) ? 'selected' : '' }} value="{{ $user->id }}">{{ $user->name }}</option>
                         @endforeach
                     </select>
