@@ -7,12 +7,14 @@ use Illuminate\Support\Facades\Config;
 class YoutubeHelper
 {
     const YOUTUBE_LINK = 'https://www.youtube.com/watch?v=';
-    
+
     private string $baseVideoUrl = 'https://www.googleapis.com/youtube/v3/videos?id={id}&key={key}&part=snippet,contentDetails,statistics';
     private string $apiKey;
     private bool $status;
     private string $videoId;
     private string $title;
+    private int $min;
+    private int $max;
     private int $duration;
     private array $tags;
     private string $seal;
@@ -71,6 +73,8 @@ class YoutubeHelper
             'description'     => $data->items[0]->snippet->description,
             'thumbnail_small' => $data->items[0]->snippet->thumbnails->default->url,
             'thumbnail_large' => $data->items[0]->snippet->thumbnails->high->url,
+            'min'             => $this->min,
+            'max'             => $this->convert_time($data->items[0]->contentDetails->duration),
             'duration'        => $this->convert_time($data->items[0]->contentDetails->duration),
             'upload_date'     => $data->items[0]->snippet->publishedAt,
             'like_count'      => isset($data->items[0]->statistics->likeCount) ? $data->items[0]->statistics->likeCount : 0,
@@ -92,11 +96,9 @@ class YoutubeHelper
             if ( strlen($string) >= 12 )
             {
                 parse_str(parse_url($string, PHP_URL_QUERY), $get);
-                if ($get){
-                    $string = $get['v'];
-                } elseif (($idx = strpos($string, 'youtu.be')) !== false){
-                    $string = substr($string, $idx + 9);
-                }
+                preg_match('/(?:youtu\.be\/|v=|\/embed\/|\/v\/|\/watch\?v=)([A-Za-z0-9_-]{11})/', $string, $matches);
+                $string = $matches[1] ?? null;
+                $this->min = isset($get['t']) ? intval($get['t']) : 0;
             }
 
             $this->setApiKey( Config::get( 'app.google_api_key' ) );
@@ -111,6 +113,8 @@ class YoutubeHelper
             {
                 $this->title = $detailData['title'];
                 $this->seal = $detailData['thumbnail_large'];
+                $this->min = $detailData['min'];
+                $this->max = $detailData['max'];
                 $this->duration = $detailData['duration'];
                 $this->tags = $detailData['tags'];
                 $this->status = true;
@@ -147,6 +151,16 @@ class YoutubeHelper
     public function getSeal() : string
     {
         return $this->seal ?? '';
+    }
+
+    public function getMin() : int
+    {
+        return $this->min ?? 0;
+    }
+
+    public function getMax() : int
+    {
+        return $this->max ?? 999;
     }
 
     public function getDuration() : int

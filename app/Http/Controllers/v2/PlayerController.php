@@ -30,7 +30,17 @@ class PlayerController extends Controller
             }
             else
             {
-                $listResult = ListModel::onlyTrashed()->where('deleted_at', '<', date('Y-m-d', strtotime('-7 day')))->inRandomOrder()->first();
+                $playedList = DB::table('record')
+                    ->select('record.id', 'record.list_id')
+                    ->join('users', 'record.user_id', '=', 'users.id')
+                    ->join('list', 'record.list_id', '=', 'list.id')
+                    ->where('record.record_type', '=', RecordModel::DIBBLING)
+                    ->where('users.deleted_at', '=', NULL)
+                    ->where('list.deleted_at', '<', date('Y-m-d', strtotime('-7 day')))
+                    ->inRandomOrder()->first();
+                if ($playedList) {
+                    $listResult = ListModel::onlyTrashed()->find($playedList->list_id);
+                }
                 if (!$listResult) {
                     $listResult = ListModel::onlyTrashed()->inRandomOrder()->first();
                 }

@@ -5,9 +5,9 @@ namespace App\Http\Controllers\v2;
 use App\Helpers\YoutubeHelper;
 use App\Http\Controllers\Controller;
 use App\Services\ListService;
+use App\Model\RecordModel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Carbon;
 
 class ListController extends Controller
 {
@@ -112,6 +112,45 @@ class ListController extends Controller
         return response()->json( $ret_data );
     }
 
+    /**
+     * 設定播放起訖時間
+     * @param Request $request
+     * @param ListService $listService
+     * @return Response
+     */
+    public function setRange(Request $request, ListService $listService)
+    {
+        $result = [
+            'status' => false,
+            'msg' => __('web.msg.SetRange Error'),
+        ];
+
+        try
+        {
+            $list_id = $request->post('list_id');
+            $max = $request->post('max');
+            $min = $request->post('min');
+
+            $list = $listService->getPlaying($list_id);
+            if ($min < $max && $max <= $list->duration) {
+                $ret = $listService->setSongRange($list_id, $min, $max);
+                if ($ret) {
+                    $result = [
+                        'status' => true,
+                        'msg' => __('web.msg.Success'),
+                    ];
+                }
+            }
+        }
+        catch (\Exception $e)
+        {
+            $result = [
+                'status' => false,
+                'msg' => $e->getMessage(),
+            ];
+        }
+        return response()->json($result);
+    }
 
     /**
      * 點播歷程
@@ -159,12 +198,20 @@ class ListController extends Controller
             {
                 if( $this_video = $listService->getSongByVideoId( $youtubeHelper->getVideoId() )->first() )
                 {
-                    throw new \LogicException( __('web.msg.Dibbling Exist',['title' => $this_video['title'], 'user' => $listService->getDibblingUser($this_video['id'])->name]) );
+                    // 已被刪除的點播人歌曲，直接賦予給最新點播的使用者
+                    $dibblingUser = $listService->getDibblingUser($this_video['id']);
+                    if ($dibblingUser->trashed()) {
+                        $listService->reDibbling($this_video['id'], RecordModel::DIBBLING);
+                        $returnJson['msg'] = __('web.msg.Dibbling Success').PHP_EOL.PHP_EOL.$youtubeHelper->getTitle();
+                        $returnJson['title'] = $youtubeHelper->getTitle();
+                    } else {
+                        throw new \LogicException( __('web.msg.Dibbling Exist',['title' => $this_video['title'], 'user' => $dibblingUser->name]) );
+                    }
+                } else {
+                    $listService->dibbling( $youtubeHelper);
+                    $returnJson['msg'] = __('web.msg.Dibbling Success').PHP_EOL.PHP_EOL.$youtubeHelper->getTitle();
+                    $returnJson['title'] = $youtubeHelper->getTitle();
                 }
-
-                $listService->dibbling( $youtubeHelper);
-                $returnJson['msg'] = __('web.msg.Dibbling Success').PHP_EOL.PHP_EOL.$youtubeHelper->getTitle();
-                $returnJson['title'] = $youtubeHelper->getTitle();
             }
             else
             {
@@ -191,13 +238,14 @@ class ListController extends Controller
      * 再點播
      * @param ListService $listService
      * @param $id
+     * @param $recordType
      * @return \Illuminate\Http\JsonResponse
      */
-    public function redibbling(ListService $listService, $id)
+    public function redibbling(ListService $listService, $id, $recordType = RecordModel::RE_DIBBLING)
     {
         try
         {
-            $result = $listService->reDibbling($id);
+            $result = $listService->reDibbling($id, $recordType);
         }
         catch (\Exception $e)
         {

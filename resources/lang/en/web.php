@@ -68,6 +68,8 @@ return [
         'LikedName' => "Liked's Name",
         'Choose' => 'Please choose',
         'SongName' => 'Song Name',
+        'SetRange' => 'Set Range',
+        'Pending' => 'Standby for playback',
     ],
     'timeline' => [
         'Startdate' => 'Start Date',
@@ -129,5 +131,7 @@ return [
         'SelectorDate' => "Start date can't be greater than end date.",
         'Dibbling Success' => 'Dibbling Success',
         'Dibbling Exist' => 'This video :title has been demanded by :user.'.PHP_EOL.PHP_EOL.'Do you want to dibbling again?',
+        'SetRange Error' => 'Please set the correct start/end time for playback.',
+        'Success' => 'Success',
     ]
 ];

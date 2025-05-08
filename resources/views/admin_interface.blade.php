@@ -52,10 +52,12 @@
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->created_at }}</td>
                             <td>
-                                @if ($user->id != Auth::user()->id)
+                                @if ($user->id != Auth::user()->id && is_null($user->deleted_at))
                                     <button type="button" class="btn btn-sm btn-danger delete" value="{{ $user->id }}">
                                         {{ __('web.admin.Delete') }}
                                     </button>
+                                @elseif (!is_null($user->deleted_at))
+                                    {{ $user->deleted_at->format('Y-m-d') }}
                                 @endif
                             </td>
                         </tr>

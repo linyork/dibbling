@@ -47,6 +47,8 @@ class ListService extends Service
         $this->listModel->video_id = $ytHelper->getVideoId();
         $this->listModel->title = $ytHelper->getTitle();
         $this->listModel->seal = $ytHelper->getSeal();
+        $this->listModel->min = $ytHelper->getMin();
+        $this->listModel->max = $ytHelper->getMax();
         $this->listModel->duration = $ytHelper->getDuration();
         $this->listModel->ip = request()->ip();
         $this->listModel->created_at = now();
@@ -71,14 +73,15 @@ class ListService extends Service
 
     /**
      * @param int $id
+     * @param int $recordType
      * @return bool|null
      */
-    public function reDibbling(int $id)
+    public function reDibbling(int $id, $recordType = RecordModel::RE_DIBBLING)
     {
         $result = $this->listModel::onlyTrashed()->find($id)->restore();
         $this->recordModel->user_id = Auth::user()->id;
         $this->recordModel->list_id = $id;
-        $this->recordModel->record_type = RecordModel::RE_DIBBLING;
+        $this->recordModel->record_type = $recordType;
         $this->recordModel->save();
         return $result;
     }
@@ -145,7 +148,7 @@ class ListService extends Service
      */
     public function getDibblingUser(int $listId) : UserModel
     {
-        $listModel = $this->listModel->withTrashed()->with( [ 'records' => function( $query ) {
+        $listModel = $this->listModel->withTrashed()->latest()->with( [ 'records' => function( $query ) {
             $query->dibbling();
         } ] )->find( $listId );
 
@@ -201,14 +204,20 @@ class ListService extends Service
         $offset = ($page - 1) * $limit;
 
         return DB::table('record')
-            ->select('users.*', 'list.*', DB::raw('count(like.list_id) as likes'))
+            ->select(['users.*', 'list.*', DB::raw('COUNT(`like`.list_id) as likes')])
+            ->joinSub(
+                DB::table('record')
+                    ->select('list_id', DB::raw('MAX(id) as record_id'))
+                    ->where('record_type', RecordModel::DIBBLING)
+                    ->groupBy('list_id'),
+                'latest', 'record.id', '=', 'latest.record_id'
+            )
             ->join('users', 'record.user_id', '=', 'users.id')
             ->join('list', 'record.list_id', '=', 'list.id')
             ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
-            ->where('record.record_type', '=', RecordModel::DIBBLING)
-            ->where('list.deleted_at', '=', null)
+            ->whereNull('list.deleted_at')
+            ->groupBy('list.id', 'users.id', 'record_id')
             ->orderBy($this->getOrder($order))
-            ->groupBy('record.id')
             ->limit($limit)
             ->offset($offset)
             ->get();
@@ -229,7 +238,14 @@ class ListService extends Service
         $reDibbling_query = $this->recordModel->select('list_id', DB::raw('count(id) as count'))->where('record_type', '=', DB::raw(RecordModel::RE_DIBBLING))->groupBy('list_id');
 
         return DB::table('record')
-            ->select(DB::raw('users.id as user_id'), 'users.*', 'list.*', DB::raw('count(like.list_id) as likes'), DB::raw('MAX(reDib.count) as reDib_count'))
+            ->select(DB::raw('users.id as user_id'), 'users.*', 'list.*', DB::raw('users.deleted_at as deleted_user'), DB::raw('count(like.list_id) as likes'), DB::raw('MAX(reDib.count) as reDib_count'))
+            ->joinSub(
+                DB::table('record')
+                    ->select('list_id', DB::raw('MAX(id) as record_id'))
+                    ->where('record_type', 1)
+                    ->groupBy('list_id'),
+                'latest', 'record.id', '=', 'latest.record_id'
+            )
             ->join('users', 'record.user_id', '=', 'users.id')
             ->join('list', 'record.list_id', '=', 'list.id')
             ->leftJoin('like', 'record.list_id', '=', 'like.list_id')
@@ -268,7 +284,15 @@ class ListService extends Service
         $likes_query = $this->likeModel->select('list_id')->where('user_id', DB::raw($userId))->groupBy('list_id');
 
         return DB::table('record')
-            ->select(DB::raw('users.id as user_id'), 'users.*', 'list.*', DB::raw('count(like.list_id) as likes'), DB::raw('MAX(reDib.count) as reDib_count'))
+            ->select(DB::raw('users.id as user_id'), 'users.*', 'list.*', DB::raw('users.deleted_at as deleted_user'), DB::raw('count(like.list_id) as likes'), DB::raw('MAX(reDib.count) as reDib_count'))
+            ->joinSub(
+                DB::table('record')
+                    ->select('list_id', DB::raw('MAX(id) as record_id'))
+                    ->where('record_type', RecordModel::DIBBLING)
+                    ->whereIn('record.list_id', $likes_query->pluck('list_id')->toArray())
+                    ->groupBy('list_id'),
+                'latest', 'record.id', '=', 'latest.record_id'
+            )
             ->join('users', 'record.user_id', '=', 'users.id')
             ->join('list', 'record.list_id', '=', 'list.id')
             ->join('like', 'record.list_id', '=', 'like.list_id')
@@ -278,11 +302,9 @@ class ListService extends Service
             ->when($songName, function ($query, $song_name) {
                 return $query->where('list.title', 'like', "%$song_name%");
             })
-            ->whereIn('record.list_id', $likes_query->pluck('list_id')->toArray())
-            ->where('record.record_type', '=', DB::raw(RecordModel::DIBBLING))
             ->orderBy($this->getOrder($order), 'DESC')
             ->orderBy('list.updated_at', 'DESC')
-            ->groupBy('record.id')
+            ->groupBy(['record.list_id', 'users.id'])
             ->limit($limit)
             ->offset($offset)
             ->get();
@@ -307,7 +329,14 @@ class ListService extends Service
             $likes_array = $this->likeModel
                 ->select(DB::raw('like.updated_at as time_at'), DB::raw('5 as record_type'), DB::raw('like.user_id as record_user_id'), DB::raw('user.name as record_user_name'), DB::raw('users.id as user_id'), DB::raw('users.name'), DB::raw('list.title'), DB::raw('list.video_id'), DB::raw('list.seal'))
                 ->join('users as user', 'user.id', 'like.user_id')
-                ->join('record', ['record.list_id' => 'like.list_id', 'record_type' => DB::raw(RecordModel::DIBBLING)])
+                ->joinSub(
+                    DB::table('record')
+                        ->select('list_id', DB::raw('MAX(id) as record_id'))
+                        ->where('record_type', RecordModel::DIBBLING)
+                        ->groupBy(['list_id']),
+                    'latest', 'like.list_id', '=', 'latest.list_id'
+                )
+                ->join('record', 'record.id', 'latest.record_id')
                 ->join('list', 'record.list_id', 'list.id')
                 ->join('users', 'record.user_id', '=', 'users.id')
                 ->where(function($query) use($params) {
@@ -323,7 +352,14 @@ class ListService extends Service
             ->select(DB::raw('(CASE WHEN record.record_type = 1 then record.created_at else record.updated_at END) as time_at'), DB::raw('record.record_type'), DB::raw('record.user_id as record_user_id'), DB::raw('user.name as record_user_name'), DB::raw('users.id as user_id'), DB::raw('users.name'), DB::raw('list.title'), DB::raw('list.video_id'), DB::raw('list.seal'))
             ->join('users as user', 'user.id', 'record.user_id')
             ->join('list', 'list_id', '=', 'list.id')
-            ->join('record as list_record', ['list_record.list_id' => 'list.id', 'list_record.record_type' => DB::raw(RecordModel::DIBBLING)])
+            ->joinSub(
+                DB::table('record')
+                    ->select('list_id', DB::raw('MAX(id) as record_id'))
+                    ->where('record_type', RecordModel::DIBBLING)
+                    ->groupBy('list_id'),
+                'latest', 'list.id', '=', 'latest.list_id'
+            )
+            ->join('record AS list_record', 'list_record.id', '=', 'latest.record_id')
             ->join('users', 'list_record.user_id', 'users.id')
             ->where(function($query) use($params) {
                 $query->whereBetween('record.created_at',[date('Y-m-d 00:00:00', strtotime($params['start_date'])), date('Y-m-d 23:59:59', strtotime($params['end_date']))]);
@@ -351,7 +387,7 @@ class ListService extends Service
             ->get();
 
         foreach($union_array as $row) {
-            if (($row['record_type'] == '1' && (Auth::user()->id != $row['record_user_id']))) {
+            if (($row['record_type'] == RecordModel::DIBBLING && (Auth::user()->id != $row['record_user_id']))) {
                 continue;
             }
             $data[] = [
@@ -400,6 +436,21 @@ class ListService extends Service
             ->groupBy('like.id')
             ->get();
     }
+
+    /**
+     * @param  int $list_id
+     * @param  int $min
+     * @param  int $max
+     * @return bool
+     */
+    public function setSongRange(int $list_id, int $min, int $max)
+    {
+        return $this->listModel::withTrashed()->where('id', $list_id)->update([
+            'min' => $min,
+            'max' => $max,
+        ]);
+    }
+
     /**
      * @param string $order
      * @return string

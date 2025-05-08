@@ -37,7 +37,7 @@ Route::group(['prefix' => 'v2'], function ()
         // 點播
         Route::post('list', [Controllers\v2\ListController::class, 'insert']);
         // 重新點歌
-        Route::put('list/{id}', [Controllers\v2\ListController::class, 'redibbling']);
+        Route::put('list/{id}/{type?}', [Controllers\v2\ListController::class, 'redibbling']);
         // 切歌 & 移除
         Route::delete('list/{id}', [Controllers\v2\ListController::class, 'destroy']);
         // 控制器指令
@@ -54,6 +54,8 @@ Route::group(['prefix' => 'v2'], function ()
         Route::post('like', [Controllers\v2\LikeController::class, 'like']);
         // 資訊
         Route::post('info', [Controllers\v2\ListController::class, 'info']);
+        // 設定播放起訖時間
+        Route::post('setRange', [Controllers\v2\ListController::class, 'setRange']);
         // 點播歷程
         Route::post('timeline', [Controllers\v2\ListController::class, 'timeline']);
 

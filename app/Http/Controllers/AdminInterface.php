@@ -31,7 +31,7 @@ class AdminInterface extends Controller
             ->where( 'record_type', '=', RecordModel::DIBBLING )
             ->groupBy( 'record.user_id' );
 
-        $users = UserModel::select( 'users.*', 'rd.dibbling_count', 'rd.dibbling_count', 're.re_count', 'lk.like_count', 'tot.list_liked_count' )
+        $users = UserModel::select( 'users.*', 'rd.dibbling_count', 'rd.dibbling_count', 're.re_count', 'lk.like_count', 'tot.list_liked_count' )->withTrashed()
             ->leftJoin( DB::raw( "({$record_dibbling_query->toSql()}) as rd" ), function( $join ) use ( $record_dibbling_query )
             {
                 $join->on('users.id', '=', 'rd.user_id')->addBinding( $record_dibbling_query->getBindings() );
@@ -48,8 +48,10 @@ class AdminInterface extends Controller
             {
                 $join->on('users.id', '=', 'tot.user_id')->addBinding( $user_list_likes->getBindings() );
             } )
+            ->orderBy('users.deleted_at')
+            ->orderBy('users.id')
             ->get();
-            
+
         return view( 'admin_interface', [ 'users' => $users ] );
     }
 }

@@ -68,6 +68,8 @@ return [
         'LikedName' => '按讚者',
         'Choose' => '請選擇',
         'SongName' => '歌曲名稱',
+        'SetRange' => '設定播放起訖時間',
+        'Pending' => '待播區域',
     ],
     'timeline' => [
         'Startdate' => '開始日期',
@@ -129,5 +131,7 @@ return [
         'SelectorDate' => '開始日期不得大於結束日期',
         'Dibbling Success' => '點播成功',
         'Dibbling Exist' => '此影片 :title'.PHP_EOL.PHP_EOL.':user已經點過了，確定要再點一次嗎？',
+        'SetRange Error' => '請設定正確的播放起訖時間',
+        'Success' => '設定成功',
     ]
 ];

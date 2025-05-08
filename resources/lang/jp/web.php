@@ -68,6 +68,8 @@ return [
         'LikedName' => 'いいねのユーザー名',
         'Choose' => 'お選びください',
         'SongName' => '曲名',
+        'SetRange' => '再生開始・終了時間の設定',
+        'Pending' => '再生準備中',
     ],
     'timeline' => [
         'Startdate' => '開始日',
@@ -129,5 +131,7 @@ return [
         'SelectorDate' => '開始日は終了日より大きくすることはできません',
         'Dibbling Success' => 'リクエストの成功',
         'Dibbling Exist' => 'このビデオ :title'.PHP_EOL.PHP_EOL.':userはすでにリクエストされていますが、もう一度リクエストしますか？',
+        'SetRange Error' => '再生開始/終了時間を正しく設定してください。',
+        'Success' => '設定成功',
     ]
 ];
