@@ -106,6 +106,16 @@ var list = function () {
         if ($(document).height() - $(this).scrollTop() - $(this).height() < 100) ajaxContainer();
     })
 
+    function dibbling(id, obj) {
+        $.ajax({
+            url: apiPath + 'list/' + id + '/1',
+            headers: headers,
+            type: "PUT",
+            dataType: "json"
+        }).done(function (result) {
+            removeContain(obj)
+        })
+    }
 
     function reDibbling(id, obj) {
         $.ajax({
@@ -183,6 +193,86 @@ var list = function () {
             }
             modal.modal('show')
         })
+    }
+
+    function setRange(id) {
+        let minVal = parseInt($("#minRange").val());
+        let maxVal = parseInt($("#maxRange").val());
+        $.ajax({
+            url: apiPath + 'setRange',
+            headers: headers,
+            method: "POST",
+            dataType: "json",
+            data: {
+                'list_id': id,
+                'min' : minVal,
+                'max' : maxVal,
+            },
+        }).done(function (result) {
+            if (result['status'] || result['msg']) {
+                if (result['status']) {
+                    $('button[data-id="' + id + '"]').data('min', minVal).data('max', maxVal)
+                }
+                alert(result['msg'])
+            } else {
+                alert('設定失敗')
+            }
+            $('#infoModal').modal('hide')
+        })
+    }
+
+    function range(id, obj) {
+        var modal = $('#infoModal')
+
+        var title = '<span style="font-size:1.2rem"> ' + obj.attr('title') + ' </span>'
+        var html = '<iframe width="465" height="261" src="https://www.youtube.com/embed/' + obj.data('video_id') + ';start=' + obj.data('min') + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
+        + '<div class="slider-container">'
+        + '<div class="slider-bar" id="sliderBar"></div>'
+        + '<div class="slider">'
+        + '<input type="range" id="minRange" min="0" max="' + (obj.data('duration') - 1) + '" value="' + obj.data('min') + '">'
+        + '<input type="range" id="maxRange" min="1" max="' + obj.data('duration') + '" duration="' + obj.data('duration') + '" value="' + obj.data('max') + '">'
+        + '</div></div>'
+        + '<div class="range-values">'
+        + '<div>播放起訖時間：<span id="minValue">0:0</span> / <span id="maxValue">0:0</span></div>'
+        + '<button type="button" class="btn btn-primary btn-sm" onclick="javascript:list.setRange(\'' + id + '\', this)">儲存設定</button>'
+        + '</div>'
+        modal.find('.modal-title').html(title)
+        modal.find('.modal-body').html(html)
+        modal.find('.modal-footer div').addClass('hidden')
+        modal.modal('show')
+
+        $("#minRange, #maxRange").on("input", updateRange);
+        updateRange();
+    }
+
+    function formatTime(value) {
+        let hours = Math.floor(value / 60);
+        let minutes = value % 60;
+        return `${hours}:${minutes.toString().padStart(2, '0')}`;
+    }
+
+    function updateRange(e) {
+        let duration = $("#maxRange").attr("duration");
+        let minVal = parseInt($("#minRange").val());
+        let maxVal = parseInt($("#maxRange").val());
+
+        if (maxVal - minVal <= 1) {
+            if ($(e.target).attr("id") === "minRange") {
+                $("#minRange").val(maxVal);
+            } else {
+                $("#maxRange").val(minVal);
+            }
+            minVal = parseInt($("#minRange").val());
+            maxVal = parseInt($("#maxRange").val());
+        }
+
+        $("#minValue").text(formatTime(minVal));
+        $("#maxValue").text(formatTime(maxVal));
+
+        // 更新滑桿背景範圍顏色
+        const minPercent = (minVal / duration) * 100;
+        const maxPercent = (maxVal / duration) * 100;
+        $("#sliderBar").css({ left: minPercent + "%", width: (maxPercent - minPercent) + "%" });
     }
 
 
@@ -323,6 +413,9 @@ var list = function () {
             initEndDate = $(".end-date").val()
         },
         //trigger
+        dibbling: function(id, obj){
+            dibbling(id, $(obj))
+        },
         reDibbling: function(id, obj){
             reDibbling(id, $(obj))
         },
@@ -337,6 +430,12 @@ var list = function () {
         },
         info: function(id, obj){
             info(id, $(obj))
+        },
+        range: function(id, obj) {
+            range(id, $(obj))
+        },
+        setRange: function(id, obj) {
+            setRange(id, $(obj))
         }
     }
 }()

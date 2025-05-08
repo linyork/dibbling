@@ -1,8 +1,13 @@
 @foreach($records as $record)
-    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
         <div class="card css-record">
             <div class="css-record-img-group">
                 <a href="{{ App\Helpers\YoutubeHelper::YOUTUBE_LINK . $record->video_id }}" target="_blank"><img src="{{ $record->seal }}" class="card-img-top"></a>
+                @if ($record->user_id === Auth::user()->id || Auth::user()->role === 'admin')
+                <button type="button" class="css-record-duration left btn btn-sm" data-video_id="{{ $record->video_id }}" data-id="{{ $record->id }}" data-min="{{ $record->min }}" data-max="{{ $record->max }}" data-duration="{{ $record->duration }}" onclick="javascript:list.range('{{ $record->id }}', this)" title='{{ __('web.record.SetRange') }}' >
+                    <i class="fa fa-clock"></i>
+                </button>
+                @endif
                 <span class="css-record-duration">{{ floor((($record->duration%86400)%3600)/60).":".str_pad(floor((($record->duration%86400)%3600)%60),2,'0',STR_PAD_LEFT) }}</span>
             </div>
             <div class="card-body container">
@@ -13,10 +18,10 @@
                 <button data-title="{{ $record->title }}" data-played="{{ $record->deleted_at }}" onclick="javascript:list.info('{{ $record->id }}',this)" type="button" class="btn btn-sm btn-outline-info css-record-btn">
                     <i class="fa fa-info"></i>
                 </button>
-                <button  onclick="javascript:list.reDibbling('{{ $record->id }}',this)" type="button" class="btn btn-sm btn-outline-warning css-record-btn">
+                <button onclick="javascript:list.{{ !is_null($record->deleted_user) ? 'dibbling' : 'reDibbling' }}('{{ $record->id }}',this)" type="button" class="btn btn-sm btn-outline-warning css-record-btn">
                     {{ __('web.record.Dibbling') }}
                 </button>
-                <button  onclick="javascript:list.remove('{{ $record->id }}',this,true)" type="button" class="btn btn-sm btn-outline-danger css-record-btn">
+                <button onclick="javascript:list.remove('{{ $record->id }}',this,true)" type="button" class="btn btn-sm btn-outline-danger css-record-btn">
                     {{ __('web.record.Remove') }}
                 </button>
                 <button onclick="javascript:list.like('{{ $record->id }}',this)"

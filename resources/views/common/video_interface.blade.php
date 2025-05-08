@@ -7,7 +7,7 @@
                     <div class="row justify-content-center css-video-interface-seal">
                         <div class="css-video-img-group">
                             <img src="{{ $playing->seal }}" style="margin-top: -32px; max-width: 336px;">
-                            <span class="css-video-duration"><output id='duration'></output>{{ floor((($playing->duration%86400)%3600)/60).":".str_pad(floor((($playing->duration%86400)%3600)%60),2,'0',STR_PAD_LEFT) }}</span>
+                            <span class="css-video-duration"><output id='duration'></output> {{ floor((($playing->duration%86400)%3600)/60).":".str_pad(floor((($playing->duration%86400)%3600)%60),2,'0',STR_PAD_LEFT) }}</span>
                         </div>
                     </div>
                     <div class="row justify-content-center css-video-interface-title">

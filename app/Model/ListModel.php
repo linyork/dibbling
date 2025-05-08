@@ -22,6 +22,11 @@ class ListModel extends Model
         return $this->hasMany(LikeModel::class, 'list_id', 'id');
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(UserModel::class, 'record', 'list_id', 'user_id');
+    }
+
     /**
      * @param $query
      * @return mixed

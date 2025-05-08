@@ -86,14 +86,24 @@ function onYouTubeIframeAPIReady() {
 }
 
 function syncDibbling() {
-    if(!player_ref || 
-        (init_volume == parseInt(player_ref.getVolume()) && 
+    if (!player_ref ||
+        (init_volume == parseInt(player_ref.getVolume()) &&
         init_speed == player_ref.getPlaybackRate()) &&
         duration == parseInt(player_ref.getCurrentTime())) return
     //sync data
     init_volume = parseInt(player_ref.getVolume())
     init_speed = player_ref.getPlaybackRate()
-    duration = parseInt(player_ref.getCurrentTime())
+    if (init_play && duration > 0) {
+        player_ref.seekTo(duration, true)
+        setTimeout(function() {
+            init_play = false
+        }, 500)
+    } else {
+        duration = parseInt(player_ref.getCurrentTime())
+    }
+    if (duration > duration_max) {
+        player_ref.seekTo(99999, true);
+    }
     //set data
     var sync_data = {
         volume: init_volume,
@@ -108,6 +118,8 @@ var player_ref;
 var init_volume = 50;
 var init_speed = 1;
 var duration = 0;
+var duration_max = 999;
+var init_play = false;
 function onPlayerReady(event) {
     player_ref = event.target;
     player_ref.setVolume(init_volume);
@@ -139,6 +151,9 @@ function playNext(event) {
             $("#list").append("<li class='list-group-item'>" + next.title + "</li>");
             // youtube
             event.target.loadVideoById(next.video_id);
+            duration = parseInt(next.min);
+            duration_max = parseInt(next.max);
+            init_play = true;
         } else {
             // no video list
             $("#list").empty();

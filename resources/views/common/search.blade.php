@@ -12,11 +12,31 @@
                         <label class="input-group-text" for="user_id">{{ isset($likePage) ? __('web.record.LikedName') : __('web.record.UserName') }}</label>
                     </div>
                     <select class="custom-select" id="user_id">
-                        @if(!isset($likePage))
+                        @php $disabled_line = false; @endphp
+                        @if(isset($likePage))
+                            @php
+                                $users = \App\Model\UserModel::withTrashed()
+                                    ->select('users.*', \DB::raw('COUNT(like.id) as count'))
+                                    ->join('like', 'users.id', '=', 'like.user_id', 'left')
+                                    ->whereNotNull('email_verified_at')->groupBy('users.id')->orderBy('deleted_at')->orderBy('name')->get();
+                            @endphp
+                        @else
                             <option selected value="0">{{ __('web.record.Choose') }}...</option>
+                            @php
+                                $users = \App\Model\UserModel::withTrashed()
+                                    ->select('users.*', \DB::raw('COUNT(record.id) as count'))
+                                    ->join('record', 'users.id', '=', 'record.user_id', 'left')
+                                    ->where('record_type', 1)->whereNotNull('email_verified_at')->groupBy('users.id')->orderBy('deleted_at')->orderBy('name')->get();
+                            @endphp
                         @endif
-                        @foreach(\App\Model\UserModel::withTrashed()->whereNotNull('email_verified_at')->orderBy('name')->get() as $user)
-                            <option {{ (isset($likePage) && Auth::user()->id == $user->id) || (isset($user_id) && $user_id == $user->id) ? 'selected' : '' }} value="{{ $user->id }}">{{ $user->name }}</option>
+                        @foreach($users as $user)
+                            @if (!$disabled_line && $user->deleted_at)
+                                @php $disabled_line = true; @endphp
+                                <option disabled>---------- {{__('web.record.Pending')}} ----------</option>
+                            @endif
+                            @if (is_null($user->deleted_at) || ($user->deleted_at && $user->count > 0))
+                                <option {{ (isset($likePage) && Auth::user()->id == $user->id) || (isset($user_id) && $user_id == $user->id) ? 'selected' : '' }} value="{{ $user->id }}">{{ $user->name }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>

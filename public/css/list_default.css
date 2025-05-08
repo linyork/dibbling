@@ -42,6 +42,13 @@
     padding-left: 0.5rem;
 }
 
+.css-list-duration.left,
+.css-record-duration.left {
+    float: left;
+    left: 0;
+    right: auto;
+}
+
 .card-body {
     padding: 0.5rem;
 }
@@ -108,6 +115,53 @@
 .modal-footer .hidden {
     visibility: hidden;
 }
+
+/* range modal */
+.slider-container {
+    position: relative;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+.slider-bar {
+    position: absolute;
+    height: 5px;
+    background: #007bff;
+    border-radius: 5px;
+    z-index: 1;
+}
+.slider {
+    position: absolute;
+    height: 3px;
+    border-radius: 5px;
+    width: 100%;
+    background: rgba(222, 222, 222, 0.5);
+}
+.slider input {
+    position: absolute;
+    width: 100%;
+    pointer-events: none;
+    appearance: none;
+    background: transparent;
+    z-index: 2;
+}
+.slider input::-webkit-slider-thumb {
+    pointer-events: auto;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -6px;
+}
+.range-values {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
 
 li {
     padding: 6px 0;
