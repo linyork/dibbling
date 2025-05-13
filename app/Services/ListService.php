@@ -304,7 +304,7 @@ class ListService extends Service
             })
             ->orderBy($this->getOrder($order), 'DESC')
             ->orderBy('list.updated_at', 'DESC')
-            ->groupBy(['record.list_id', 'users.id'])
+            ->groupBy(['record.id', 'users.id'])
             ->limit($limit)
             ->offset($offset)
             ->get();
@@ -412,7 +412,7 @@ class ListService extends Service
     public function getRecordInfo(int $list_id)
     {
         return DB::table('record')
-            ->select('record.created_at', DB::raw('users.name'), DB::raw('record.record_type'), DB::raw("case record.record_type when 1 then '{$this->record_type[1]}' when 2 then '{$this->record_type[2]}' when 3 then '{$this->record_type[3]}' when 4 then '{$this->record_type[4]}' END as type_txt"))
+            ->select('record.created_at', 'list.duration', DB::raw('users.name'), DB::raw('users.id AS user_id'), DB::raw('record.record_type'), DB::raw("case record.record_type when 1 then '{$this->record_type[1]}' when 2 then '{$this->record_type[2]}' when 3 then '{$this->record_type[3]}' when 4 then '{$this->record_type[4]}' END as type_txt"))
             ->join('users', 'record.user_id', '=', 'users.id')
             ->join('list', 'record.list_id', '=', 'list.id')
             ->where('record.list_id', DB::raw($list_id))
@@ -464,7 +464,7 @@ class ListService extends Service
             case 'likes':
                 return 'likes';
             case 'record':
-                return 'list.updated_at';
+                return 'record.id';
             case 'played':
             case 'default':
             default:

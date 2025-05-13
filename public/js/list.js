@@ -439,3 +439,9 @@ var list = function () {
         }
     }
 }()
+
+$(function () {
+    $('#infoModal').on('hidden.bs.modal', function () {
+        $('#infoModal').find('.modal-body').html('');
+    });
+});

@@ -8,6 +8,7 @@ use App\Services\ListService;
 use App\Model\RecordModel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class ListController extends Controller
 {
@@ -131,15 +132,22 @@ class ListController extends Controller
             $max = $request->post('max');
             $min = $request->post('min');
 
-            $list = $listService->getPlaying($list_id);
-            if ($min < $max && $max <= $list->duration) {
-                $ret = $listService->setSongRange($list_id, $min, $max);
-                if ($ret) {
-                    $result = [
-                        'status' => true,
-                        'msg' => __('web.msg.Success'),
-                    ];
+            $list = $listService->getRecordInfo($list_id)->first();
+
+            // 只有 admin 或自己可以操作
+            $user = Auth::user();
+            if ($user->id == $list->user_id || $user->role === 'admin') {
+                if ($min < $max && $max <= $list->duration) {
+                    $ret = $listService->setSongRange($list_id, $min, $max);
+                    if ($ret) {
+                        $result = [
+                            'status' => true,
+                            'msg' => __('web.msg.Success'),
+                        ];
+                    }
                 }
+            } else {
+                $result['msg'] = __('web.msg.Access Denied');
             }
         }
         catch (\Exception $e)
