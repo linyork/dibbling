@@ -133,5 +133,6 @@ return [
         'Dibbling Exist' => 'このビデオ :title'.PHP_EOL.PHP_EOL.':userはすでにリクエストされていますが、もう一度リクエストしますか？',
         'SetRange Error' => '再生開始/終了時間を正しく設定してください。',
         'Success' => '設定成功',
+        'Access Denied' => 'アクセス拒否',
     ]
 ];

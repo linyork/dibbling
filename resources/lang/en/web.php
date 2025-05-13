@@ -133,5 +133,6 @@ return [
         'Dibbling Exist' => 'This video :title has been demanded by :user.'.PHP_EOL.PHP_EOL.'Do you want to dibbling again?',
         'SetRange Error' => 'Please set the correct start/end time for playback.',
         'Success' => 'Success',
+        'Access Denied' => 'Access Denied',
     ]
 ];

@@ -133,5 +133,6 @@ return [
         'Dibbling Exist' => '此影片 :title'.PHP_EOL.PHP_EOL.':user已經點過了，確定要再點一次嗎？',
         'SetRange Error' => '請設定正確的播放起訖時間',
         'Success' => '設定成功',
+        'Access Denied' => '存取被拒',
     ]
 ];
