@@ -204,7 +204,7 @@ class ListService extends Service
         $offset = ($page - 1) * $limit;
 
         return DB::table('record')
-            ->select(['users.*', 'list.*', DB::raw('COUNT(`like`.list_id) as likes')])
+            ->select(['users.*', 'list.*', 'record.user_id', DB::raw('COUNT(`like`.list_id) as likes')])
             ->joinSub(
                 DB::table('record')
                     ->select('list_id', DB::raw('MAX(id) as record_id'))

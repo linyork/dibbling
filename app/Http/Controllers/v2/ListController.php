@@ -132,7 +132,7 @@ class ListController extends Controller
             $max = $request->post('max');
             $min = $request->post('min');
 
-            $list = $listService->getRecordInfo($list_id)->first();
+            $list = $listService->getRecordInfo($list_id)->last();
 
             // 只有 admin 或自己可以操作
             $user = Auth::user();

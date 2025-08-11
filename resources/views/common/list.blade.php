@@ -3,6 +3,11 @@
         <div class="card css-list">
             <div class="css-list-img-group">
                 <a href="{{ App\Helpers\YoutubeHelper::YOUTUBE_LINK . $video->video_id }}" target="_blank"><img src="{{ $video->seal }}" class="card-img-top"></a>
+                @if ($video->user_id === Auth::user()->id || Auth::user()->role === 'admin')
+                <button type="button" class="css-list-duration left btn btn-sm" data-video_id="{{ $video->video_id }}" data-id="{{ $video->id }}" data-min="{{ $video->min }}" data-max="{{ $video->max }}" data-duration="{{ $video->duration }}" onclick="javascript:list.range('{{ $video->id }}', this)" title='{{ __('web.record.SetRange') }}' >
+                    <i class="fa fa-clock"></i>
+                </button>
+                @endif
                 <span class="css-list-duration">{{ floor((($video->duration%86400)%3600)/60).":".str_pad(floor((($video->duration%86400)%3600)%60),2,'0',STR_PAD_LEFT) }}</span>
             </div>
             <div class="card-body container">
