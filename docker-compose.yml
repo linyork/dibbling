@@ -5,6 +5,7 @@ networks:
 services:
   web-server:
     container_name: nginx
+    platform: linux/amd64
     networks:
       - frontend
       - backend
@@ -19,6 +20,7 @@ services:
       - './:/var/www/html/dibbling'
   node:
     container_name: node
+    platform: linux/amd64
     networks:
       - frontend
       - backend
@@ -33,6 +35,7 @@ services:
       - './:/var/www/html'
   php-fpm:
     container_name: php
+    platform: linux/amd64
     networks:
       - backend
     image: 'tinayork/php:8.0-fpm'
@@ -47,13 +50,14 @@ services:
       - './:/var/www/html/dibbling'
   database:
     container_name: mysql
+    platform: linux/amd64
     networks:
       - backend
     ports:
       - '${DOCKER_DB_PORT}:3306'
-    image: 'mysql:8'
+    image: 'mysql:8.0.42'
     environment:
-      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: '${DB_ROOT_PASSWORD}'
       MYSQL_DATABASE: '${DB_DATABASE}'
       MYSQL_USER: '${DB_USERNAME}'
       MYSQL_PASSWORD: '${DB_PASSWORD}'
