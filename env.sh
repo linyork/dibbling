@@ -3,6 +3,18 @@ BASEDIR=$(dirname "$0")
 cd "$BASEDIR"
 clear
 
+# Function to detect the correct docker-compose command
+detect_docker_compose() {
+  if docker compose version >/dev/null 2>&1; then
+    DOCKER_COMPOSE_CMD="docker compose"
+  else
+    DOCKER_COMPOSE_CMD="docker-compose"
+  fi
+}
+
+# Detect the docker-compose command to use
+detect_docker_compose
+
 while :
 do
     echo "Choose the option you want:"
@@ -21,12 +33,12 @@ do
     case $input in
         a)
             # 啟動
-            docker-compose up -d
+            $DOCKER_COMPOSE_CMD up -d
             ;;
         r)
             # 重啟
             docker rm -f $(docker ps -a -q) | awk '{print "移除 \""$1"\" Container"}'
-            docker-compose up -d
+            $DOCKER_COMPOSE_CMD up -d
             ;;
         l)
             # 查看
