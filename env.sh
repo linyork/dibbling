@@ -24,6 +24,7 @@ do
     echo -e "l.\t\t查看所有 containers"
     echo -e "c.\t\t關閉所有 containers"
     echo -e "i.\t\t進入 container"
+    echo -e "db.\t\t執行 Laravel migrate & seed"
     echo -e "qa. \t\t使用 phpstan 進行測試"
     echo -e "q.\t\tExit"
     read -p "Input:" input
@@ -58,6 +59,10 @@ do
                 docker exec -it ${containerName} bash
             fi
             echo "----------------------------------------"
+            ;;
+        db)
+            # 執行 Laravel migration 和 seed
+            docker exec -it php bash -c "cd /var/www/html/dibbling && php artisan migrate && php artisan db:seed"
             ;;
         qa)
             ./vendor/bin/phpstan analyse --memory-limit=2G

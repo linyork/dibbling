@@ -28,7 +28,7 @@ services:
     image: 'node:13'
     ports:
       - '${DOCKER_NODE_PORT}:${DOCKER_NODE_PORT}'
-    command: node /var/www/html/websocket.js
+    command: sh -c "npm install --prefix /var/www/html --omit=dev && node /var/www/html/websocket.js"
     volumes:
       - './docker/log/node:/var/log/node'
       - './docker/ssl:/etc/ssl'
@@ -39,6 +39,7 @@ services:
     networks:
       - backend
     image: 'tinayork/php:8.0-fpm'
+    command: sh -c "composer install --working-dir=/var/www/html/dibbling && php-fpm"
     expose:
       - 9000
     tty: true
